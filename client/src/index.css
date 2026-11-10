@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme {
+    --color-app-green: #0f5132;
+    --color-app-green-light: #15803d;
+    --color-app-green-lighter: #22c55e;
+    --color-app-orange: #16a34a;
+    --color-app-orange-dark: #15803d;
+    --color-app-gold: #eab308;
+    --color-app-gold-light: #fef9c3;
+    --color-app-cream: #f4fbf7;
+    --color-app-cream-dark: #e6f5ec;
+    --color-app-text: #0f291e;
+    --color-app-text-light: #526b5f;
+    --color-app-border: #dcf0e4;
+    --color-app-success: #16a34a;
+    --color-app-error: #ef4444;
+    --color-app-warning: #eab308;
+
+    --font-sans: "Be Vietnam Pro", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-serif: "Be Vietnam Pro", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-app-text);
+    background-color: #f8fcfa;
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, .font-serif {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-app-cream);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-app-green-lighter);
+    border-radius: 3px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Smooth transitions globally */
+a,
+button {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+input:focus {
+    outline: none;
+}
+
+.flex-center {
+    @apply flex items-center justify-center;
+}
+
+.dropdown-link {
+    @apply flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-500 hover:bg-emerald-50/80 hover:text-zinc-900 transition-colors;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse-soft {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out forwards;
+}
+
+.animate-slide-in-up {
+    animation: slideInUp 0.4s ease-out forwards;
+}
+
+.animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+}
+
+@keyframes marqueeSlide {
+    0% {
+        transform: translateX(0%);
+    }
+    50% {
+        transform: translateX(-45%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.animate-product-slide {
+    animation: marqueeSlide 26s ease-in-out infinite;
+}
+
+.animate-product-slide:hover {
+    animation-play-state: paused;
+}
