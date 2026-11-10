@@ -1,0 +1,9 @@
+{
+  "name": "poppin-mart",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix client install --include=dev && npm --prefix client run build && npm --prefix sever install --include=dev && npm --prefix sever run build",
+    "start": "npm --prefix sever run start"
+  }
+}
