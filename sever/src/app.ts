@@ -14,6 +14,9 @@ import { storeRouter } from "./routes/store.routes.js";
 export const app = express();
 
 app.disable("x-powered-by");
+// Tin cậy Reverse Proxy trên Render / Vercel / Cloudflare để phân biệt đúng IP từng người dùng
+app.set("trust proxy", 1);
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
@@ -45,17 +48,17 @@ app.use(
   }),
 );
 app.use(express.json({ limit: "1mb" }));
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    limit: 300,
-    standardHeaders: "draft-8",
-    legacyHeaders: false,
-  }),
-);
+
+// Chỉ giới hạn tần suất trên các route /api với ngưỡng cao (2000 req / 15 phút mỗi IP)
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 2000,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+});
 
 app.use("/api/health", healthRouter);
-app.use("/api", storeRouter);
+app.use("/api", apiLimiter, storeRouter);
 
 // Tự động phục vụ bản build Frontend (client/dist) nếu triển khai gộp chung 1 Web Service
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
