@@ -67,8 +67,8 @@ const Products = () => {
     selectedCategory ? getCategoryNameVi(selectedCategory) : "Tất cả sản phẩm";
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
-      <nav aria-label="Điều hướng" className="mb-6 flex items-center gap-2 text-sm text-app-text-light">
+    <div className="mx-auto max-w-7xl px-3.5 pb-12 pt-4 sm:px-6 sm:pb-16 sm:pt-6 lg:px-8">
+      <nav aria-label="Điều hướng" className="mb-4 flex items-center gap-2 text-xs text-app-text-light sm:mb-6 sm:text-sm">
         <Link to="/" aria-label="Trang chủ" className="hover:text-app-green">
           <Home size={15} />
         </Link>
@@ -76,14 +76,14 @@ const Products = () => {
         <span className="font-medium text-app-green">{selectedCategoryName}</span>
       </nav>
 
-      <div className="grid gap-7 lg:grid-cols-[230px_minmax(0,1fr)]">
-        <aside className="h-fit rounded-2xl border border-app-border bg-white p-5 lg:sticky lg:top-6">
-          <div className="mb-4 flex items-center gap-2">
+      <div className="grid gap-5 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-7">
+        <aside className="h-fit rounded-2xl border border-app-border bg-white p-4 sm:p-5 lg:sticky lg:top-24">
+          <div className="mb-3 flex items-center gap-2 sm:mb-4">
             <SlidersHorizontal size={17} className="text-app-green" />
             <h2 className="font-semibold text-app-green">Danh mục</h2>
           </div>
 
-          <div className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
+          <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
             <button
               type="button"
               onClick={() => selectCategory("")}
@@ -176,7 +176,7 @@ const Products = () => {
           </div>
 
           {visibleProducts.length > 0 ? (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
               {visibleProducts.map((product) => (
                 <article
                   key={product._id}

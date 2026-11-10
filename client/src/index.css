@@ -21,15 +21,31 @@
     --font-serif: "Be Vietnam Pro", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+html,
 body {
     font-family: var(--font-sans);
     color: var(--color-app-text);
     background-color: #f8fcfa;
     line-height: 1.6;
     letter-spacing: -0.005em;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+}
+
+/* Tối ưu thao tác cảm ứng trên màn hình điện thoại 6.9 inches (iPhone Pro Max / Ultra ~430px) */
+@media (max-width: 640px) {
+    input,
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+}
+
+.pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0.5rem);
 }
 
 h1, h2, h3, .font-serif {

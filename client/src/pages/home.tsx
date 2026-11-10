@@ -99,10 +99,10 @@ const Home = () => {
 
   return (
     <div className="space-y-14 pb-8">
-      {/* MÀN HÌNH POP-UP BANNER KHUYẾN MÃI GIỚI THIỆU SẢN PHẨM MỚI (CÓ THỂ TẮT ĐƯỢC) */}
+      {/* MÀN HÌNH POP-UP BANNER KHUYẾN MÃI GIỚI THIỆU SẢN PHẨM MỚI (CÓ THỂ TẮT ĐƯỢC, TỐI ƯU MÀN 6.9 INCHES) */}
       {isPromoBannerOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 backdrop-blur-xs animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-3 sm:p-4 backdrop-blur-xs animate-fade-in"
           role="dialog"
           aria-modal="true"
           aria-labelledby="new-product-promo-title"
@@ -112,99 +112,99 @@ const Home = () => {
             }
           }}
         >
-          <div className="relative w-full max-w-3xl overflow-hidden rounded-3xl border border-emerald-200 bg-white shadow-[0_25px_70px_-15px_rgba(15,81,50,0.45)]">
+          <div className="relative max-h-[88dvh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-emerald-200 bg-white shadow-[0_25px_70px_-15px_rgba(15,81,50,0.45)]">
             {/* Nút Tắt (X) góc phải trên */}
             <button
               type="button"
               onClick={() => setIsPromoBannerOpen(false)}
               aria-label="Đóng banner khuyến mãi"
-              className="absolute right-4 top-4 z-20 flex size-9 items-center justify-center rounded-full border border-emerald-200 bg-white/90 text-app-green shadow-md transition hover:scale-105 hover:bg-emerald-50"
+              className="sticky float-right right-3 top-3 z-20 m-3 flex size-9 items-center justify-center rounded-full border border-emerald-200 bg-white/95 text-app-green shadow-md transition hover:scale-105 hover:bg-emerald-50"
             >
               <X size={18} />
             </button>
 
-            <div className="grid md:grid-cols-[46%_54%]">
+            <div className="clear-both grid md:grid-cols-[46%_54%]">
               {/* Cột Trái: Poster hình ảnh Sữa Rửa Mặt POPPIN MART */}
-              <div className="relative min-h-[280px] overflow-hidden bg-[#e0f4f7] md:min-h-[440px]">
+              <div className="relative -mt-12 h-60 overflow-hidden bg-[#e0f4f7] sm:h-72 md:mt-0 md:h-auto md:min-h-[440px]">
                 <img
                   src="/poppin-cleanser.jpg"
                   alt="Sữa Rửa Mặt Dịu Nhẹ POPPIN MART - The Gentle Cleanser"
                   className="h-full w-full object-cover object-top"
                 />
-                <span className="absolute bottom-3 left-3 rounded-full bg-amber-400 px-3 py-1 text-xs font-extrabold text-[#0f5132] shadow-md ring-1 ring-amber-200">
+                <span className="absolute bottom-3 left-3 rounded-full bg-amber-400 px-3 py-1 text-[11px] font-extrabold text-[#0f5132] shadow-md ring-1 ring-amber-200 sm:text-xs">
                   MỚI RA MẮT • GIẢM {cleanserProduct.discount}%
                 </span>
               </div>
 
               {/* Cột Phải: Nội dung khuyến mãi & Nút hành động */}
-              <div className="flex flex-col justify-between bg-gradient-to-br from-white via-[#f8fcfa] to-amber-50/40 p-6 sm:p-8">
+              <div className="flex flex-col justify-between bg-gradient-to-br from-white via-[#f8fcfa] to-amber-50/40 p-5 sm:p-8">
                 <div>
-                  <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/80 bg-amber-50 px-3 py-1 text-xs font-bold text-[#0f5132]">
-                    <Gift size={14} className="text-amber-600" />
+                  <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/80 bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-[#0f5132] sm:px-3 sm:text-xs">
+                    <Gift size={13} className="text-amber-600" />
                     ƯU ĐÃI ĐỘC QUYỀN TẠI POPPIN MART
                   </div>
 
                   <h2
                     id="new-product-promo-title"
-                    className="mt-3 font-serif text-2xl leading-snug font-extrabold text-app-green sm:text-[26px]"
+                    className="mt-2.5 font-serif text-xl leading-snug font-extrabold text-app-green sm:mt-3 sm:text-[26px]"
                   >
                     Sữa Rửa Mặt Dịu Nhẹ POPPIN MART
-                    <span className="mt-0.5 block text-base font-semibold text-[#16a34a]">
+                    <span className="mt-0.5 block text-sm font-semibold text-[#16a34a] sm:text-base">
                       The Gentle Cleanser • Your Daily Freshness
                     </span>
                   </h2>
 
-                  <p className="mt-3 text-sm leading-6 text-app-text-light">
+                  <p className="mt-2 text-xs leading-5 text-app-text-light sm:mt-3 sm:text-sm sm:leading-6">
                     Dòng chăm sóc da hằng ngày độc quyền từ{" "}
                     <strong className="text-app-green">POPPIN MART</strong>. Lớp bọt kem siêu mịn giúp làm sạch sâu bụi bẩn, giữ trọn độ ẩm tự nhiên và mang lại cảm giác tươi mát tức thì.
                   </p>
 
-                  <ul className="mt-4 space-y-2 text-xs font-medium text-app-text">
+                  <ul className="mt-3 space-y-1.5 text-xs font-medium text-app-text sm:mt-4 sm:space-y-2">
                     <li className="flex items-center gap-2">
-                      <CheckCircle2 size={15} className="shrink-0 text-[#16a34a]" />
+                      <CheckCircle2 size={14} className="shrink-0 text-[#16a34a]" />
                       Công thức dịu nhẹ chuẩn Hàn Quốc, an toàn cho mọi loại da
                     </li>
                     <li className="flex items-center gap-2">
-                      <CheckCircle2 size={15} className="shrink-0 text-[#16a34a]" />
+                      <CheckCircle2 size={14} className="shrink-0 text-[#16a34a]" />
                       Dung tích 80ml (2.7 oz) nhỏ gọn, tiện lợi mang theo mỗi ngày
                     </li>
                     <li className="flex items-center gap-2">
-                      <CheckCircle2 size={15} className="shrink-0 text-amber-500" />
+                      <CheckCircle2 size={14} className="shrink-0 text-amber-500" />
                       Tặng ngay ưu đãi mở bán giảm{" "}
                       <strong className="text-amber-700">{cleanserProduct.discount}%</strong> duy nhất hôm nay!
                     </li>
                   </ul>
                 </div>
 
-                <div className="mt-6 border-t border-emerald-100 pt-4">
+                <div className="mt-4 border-t border-emerald-100 pt-3.5 sm:mt-6 sm:pt-4">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <div>
-                      <span className="text-xs font-medium text-app-text-light">
+                      <span className="text-[11px] font-medium text-app-text-light sm:text-xs">
                         Giá ưu đãi ra mắt:
                       </span>
                       <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-extrabold text-[#0f5132]">
+                        <span className="text-xl font-extrabold text-[#0f5132] sm:text-2xl">
                           {formatVnd(cleanserProduct.price)}
                         </span>
-                        <span className="text-sm text-app-text-light line-through">
+                        <span className="text-xs text-app-text-light line-through sm:text-sm">
                           {formatVnd(cleanserProduct.originalPrice)}
                         </span>
                       </div>
                     </div>
-                    <span className="rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-[#16a34a] ring-1 ring-emerald-200">
+                    <span className="rounded-lg bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-[#16a34a] ring-1 ring-emerald-200 sm:text-xs">
                       Tiết kiệm{" "}
                       {formatVnd(cleanserProduct.originalPrice - cleanserProduct.price)}
                     </span>
                   </div>
 
-                  <div className="mt-4 flex flex-wrap items-center gap-2.5">
+                  <div className="mt-3.5 flex flex-wrap items-center gap-2 sm:mt-4 sm:gap-2.5">
                     <button
                       type="button"
                       onClick={() => {
                         addItem(cleanserProduct, 1);
                         setIsPromoBannerOpen(false);
                       }}
-                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0f5132] to-[#16a34a] px-5 py-3 text-sm font-bold text-white shadow-md hover:from-[#15803d] hover:to-[#16a34a]"
+                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0f5132] to-[#16a34a] px-4 py-3 text-xs font-bold text-white shadow-md hover:from-[#15803d] hover:to-[#16a34a] sm:px-5 sm:text-sm"
                     >
                       <ShoppingBag size={16} className="text-amber-300" />
                       Thêm vào giỏ & Nhận ưu đãi
@@ -213,7 +213,7 @@ const Home = () => {
                     <Link
                       to={`/products/${cleanserProduct._id}`}
                       onClick={() => setIsPromoBannerOpen(false)}
-                      className="inline-flex items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50/70 px-4 py-3 text-sm font-semibold text-app-green hover:border-amber-300 hover:bg-amber-50"
+                      className="inline-flex items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50/70 px-3.5 py-3 text-xs font-semibold text-app-green hover:border-amber-300 hover:bg-amber-50 sm:px-4 sm:text-sm"
                     >
                       Xem chi tiết
                     </Link>
@@ -233,52 +233,52 @@ const Home = () => {
         </div>
       )}
 
-      <section className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-3.5 pt-4 sm:px-6 sm:pt-6 lg:px-8">
         <div
-          className="relative overflow-hidden rounded-3xl border border-emerald-200/80 bg-cover bg-center shadow-[0_20px_50px_-18px_rgba(15,81,50,0.25)]"
+          className="relative overflow-hidden rounded-2xl border border-emerald-200/80 bg-cover bg-center shadow-[0_20px_50px_-18px_rgba(15,81,50,0.25)] sm:rounded-3xl"
           style={{ backgroundImage: `url(${heroSectionData.hero_image})` }}
         >
           {/* LỚP PHỦ MÀU XANH LÁ & ÁNH VÀNG NẮNG HIỆN ĐẠI */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#072e1b]/95 via-[#0f5132]/85 to-amber-500/25" />
           <div className="pointer-events-none absolute -top-24 -right-24 size-96 rounded-full bg-amber-400/20 blur-3xl" />
 
-          <div className="relative z-10 grid items-center gap-8 px-6 pt-10 pb-6 sm:px-10 lg:grid-cols-[1.15fr_0.85fr] lg:px-12">
+          <div className="relative z-10 grid items-center gap-6 px-4 pt-6 pb-5 sm:gap-8 sm:px-10 sm:pt-10 sm:pb-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-12">
             {/* CỘT TRÁI: THÔNG ĐIỆP CHÍNH */}
             <div className="flex flex-col items-start justify-center text-white">
-              <div className="mb-4 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-2 rounded-full border border-amber-300/45 bg-amber-400/20 px-4 py-1.5 text-xs font-semibold tracking-wide text-amber-100 uppercase backdrop-blur-md">
-                  <Leaf size={14} className="text-amber-300" /> POPPIN MART • Tươi sạch mỗi ngày
+              <div className="mb-3 flex flex-wrap items-center gap-2 sm:mb-4">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/45 bg-amber-400/20 px-3 py-1 text-[11px] font-semibold tracking-wide text-amber-100 uppercase backdrop-blur-md sm:px-4 sm:py-1.5 sm:text-xs">
+                  <Leaf size={13} className="text-amber-300" /> POPPIN MART • Tươi sạch
                 </span>
                 <button
                   type="button"
                   onClick={() => setIsPromoBannerOpen(true)}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3.5 py-1.5 text-xs font-semibold text-amber-200 backdrop-blur-md hover:bg-white/25"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[11px] font-semibold text-amber-200 backdrop-blur-md hover:bg-white/25 sm:px-3.5 sm:py-1.5 sm:text-xs"
                 >
-                  <Gift size={13} className="text-amber-300" />
-                  Mới: Sữa rửa mặt POPPIN MART (-29%)
+                  <Gift size={12} className="text-amber-300" />
+                  Mới: Sữa rửa mặt (-29%)
                 </button>
               </div>
 
-              <h1 className="font-serif text-3xl leading-tight font-extrabold sm:text-5xl lg:text-[50px]">
+              <h1 className="font-serif text-2xl leading-snug font-extrabold sm:text-5xl sm:leading-tight lg:text-[50px]">
                 Không gian mua sắm <span className="text-amber-300">xanh tươi</span> cho bữa ăn lành mạnh.
               </h1>
 
-              <p className="mt-4 max-w-xl text-sm leading-7 text-emerald-50/90 sm:text-base">
+              <p className="mt-2.5 max-w-xl text-xs leading-6 text-emerald-50/90 sm:mt-4 sm:text-base sm:leading-7">
                 Thực phẩm tươi sạch, rau củ hữu cơ và sản phẩm chăm sóc cá nhân chất lượng cao được POPPIN MART tuyển chọn kỹ lưỡng và giao tận tay bạn.
               </p>
 
-              <div className="mt-7 flex flex-wrap items-center gap-3.5">
+              <div className="mt-5 flex w-full flex-wrap items-center gap-2.5 sm:mt-7 sm:w-auto sm:gap-3.5">
                 <Link
                   to="/products"
-                  className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-6 py-3.5 text-sm font-bold text-[#0f5132] shadow-md hover:bg-amber-300"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-amber-400 px-5 py-3 text-xs font-bold text-[#0f5132] shadow-md hover:bg-amber-300 sm:flex-initial sm:px-6 sm:py-3.5 sm:text-sm"
                 >
-                  Khám phá ngay <ArrowRight size={18} />
+                  Khám phá ngay <ArrowRight size={16} />
                 </Link>
                 <Link
                   to="/deals"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-5 py-3.5 text-sm font-semibold text-white backdrop-blur-xs hover:bg-white/25"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/15 px-4 py-3 text-xs font-semibold text-white backdrop-blur-xs hover:bg-white/25 sm:flex-initial sm:px-5 sm:py-3.5 sm:text-sm"
                 >
-                  <Sparkles size={16} className="text-amber-300" />
+                  <Sparkles size={15} className="text-amber-300" />
                   Ưu đãi trong ngày
                 </Link>
               </div>
@@ -452,30 +452,30 @@ const Home = () => {
       </section>
 
       {/* DANH MỤC GIAN HÀNG */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-7 flex items-end justify-between gap-4">
+      <section className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8">
+        <div className="mb-5 flex items-end justify-between gap-3 sm:mb-7">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#16a34a]">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-[#16a34a] sm:text-xs">
               Danh mục sản phẩm
             </p>
-            <h2 className="mt-1 font-serif text-2xl font-bold text-app-green sm:text-3xl">
+            <h2 className="mt-1 font-serif text-xl font-bold text-app-green sm:text-3xl">
               Mua sắm theo nhóm hàng
             </h2>
           </div>
           <Link
             to="/products"
-            className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-4 py-2 text-xs font-semibold text-app-green hover:bg-emerald-100"
+            className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-app-green hover:bg-emerald-100 sm:px-4 sm:py-2"
           >
-            Xem tất cả <ArrowRight size={15} />
+            Xem tất cả <ArrowRight size={14} />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-5 lg:grid-cols-5">
           {categoriesData.map((category) => (
             <Link
               key={category.slug}
               to={`/products?category=${category.slug}`}
-              className="group overflow-hidden rounded-2xl border border-emerald-100 bg-white p-2.5 shadow-[0_2px_12px_-4px_rgba(15,81,50,0.06)] transition hover:-translate-y-1 hover:border-emerald-300 hover:shadow-md"
+              className="group overflow-hidden rounded-2xl border border-emerald-100 bg-white p-2 shadow-[0_2px_12px_-4px_rgba(15,81,50,0.06)] transition hover:-translate-y-1 hover:border-emerald-300 hover:shadow-md sm:p-2.5"
             >
               <div className="overflow-hidden rounded-xl bg-[#f4fbf7]">
                 <img
@@ -484,7 +484,7 @@ const Home = () => {
                   className="aspect-square w-full object-cover transition duration-300 group-hover:scale-105"
                 />
               </div>
-              <h3 className="px-2 pt-3 pb-1 text-center text-sm font-semibold text-app-green group-hover:text-[#16a34a]">
+              <h3 className="px-1.5 pt-2.5 pb-1 text-center text-xs font-semibold text-app-green group-hover:text-[#16a34a] sm:px-2 sm:pt-3 sm:text-sm">
                 {getCategoryNameVi(category.slug)}
               </h3>
             </Link>
@@ -493,26 +493,26 @@ const Home = () => {
       </section>
 
       {/* SẢN PHẨM NỔI BẬT */}
-      <section className="border-y border-emerald-100/80 bg-white py-14">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-7 flex items-end justify-between gap-4">
+      <section className="border-y border-emerald-100/80 bg-white py-10 sm:py-14">
+        <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8">
+          <div className="mb-5 flex items-end justify-between gap-3 sm:mb-7">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#16a34a]">
+              <p className="text-[11px] font-bold uppercase tracking-widest text-[#16a34a] sm:text-xs">
                 Tuyển chọn mỗi ngày
               </p>
-              <h2 className="mt-1 font-serif text-2xl font-bold text-app-green sm:text-3xl">
+              <h2 className="mt-1 font-serif text-xl font-bold text-app-green sm:text-3xl">
                 Sản phẩm nổi bật tại POPPIN MART
               </h2>
             </div>
             <Link
               to="/products"
-              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-4 py-2 text-xs font-semibold text-app-green hover:bg-emerald-100"
+              className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-app-green hover:bg-emerald-100 sm:px-4 sm:py-2"
             >
-              Tất cả sản phẩm <ArrowRight size={15} />
+              Tất cả <ArrowRight size={14} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
             {products.slice(0, 8).map((product) => (
               <Link
                 key={product._id}
@@ -520,13 +520,13 @@ const Home = () => {
                 className="group relative overflow-hidden rounded-2xl border border-emerald-100 bg-white transition hover:-translate-y-1 hover:border-emerald-300 hover:shadow-[0_12px_30px_-10px_rgba(15,81,50,0.14)]"
               >
                 {product.discount > 0 && (
-                  <span className="absolute left-3 top-3 z-10 rounded-full bg-amber-400 px-2.5 py-0.5 text-[10px] font-extrabold text-[#0f5132] shadow-2xs ring-1 ring-amber-300">
+                  <span className="absolute left-2.5 top-2.5 z-10 rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-extrabold text-[#0f5132] shadow-2xs ring-1 ring-amber-300 sm:left-3 sm:top-3 sm:px-2.5">
                     -{product.discount}%
                   </span>
                 )}
                 {isAdmin && (
                   <span
-                    className={`absolute right-3 top-3 z-10 rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
+                    className={`absolute right-2.5 top-2.5 z-10 rounded-full px-2 py-0.5 text-[9px] font-semibold sm:right-3 sm:top-3 sm:px-2.5 sm:text-[10px] ${
                       product.stock <= 0
                         ? "bg-red-600 text-white"
                         : product.stock <= 10
@@ -541,7 +541,7 @@ const Home = () => {
                         : `Kho: ${product.stock}`}
                   </span>
                 )}
-                <div className="flex aspect-square items-center justify-center bg-[#f6fcf8] p-6">
+                <div className="flex aspect-square items-center justify-center bg-[#f6fcf8] p-4 sm:p-6">
                   <img
                     src={product.image}
                     alt={getProductNameVi(product)}
@@ -549,18 +549,18 @@ const Home = () => {
                     loading="lazy"
                   />
                 </div>
-                <div className="border-t border-emerald-50 p-4">
-                  <p className="text-xs font-medium text-emerald-700/75">
+                <div className="border-t border-emerald-50 p-3 sm:p-4">
+                  <p className="truncate text-[11px] font-medium text-emerald-700/75 sm:text-xs">
                     {getCategoryNameVi(product.category)}
                   </p>
-                  <h3 className="mt-1 line-clamp-2 min-h-10 text-sm font-semibold text-app-green group-hover:text-[#16a34a]">
+                  <h3 className="mt-1 line-clamp-2 min-h-9 text-xs font-semibold leading-4.5 text-app-green group-hover:text-[#16a34a] sm:min-h-10 sm:text-sm sm:leading-5">
                     {getProductNameVi(product)}
                   </h3>
-                  <div className="mt-3 flex items-baseline justify-between gap-2">
-                    <span className="text-base font-bold text-[#0f5132]">
+                  <div className="mt-2.5 flex flex-wrap items-baseline justify-between gap-1 sm:mt-3">
+                    <span className="text-sm font-bold text-[#0f5132] sm:text-base">
                       {formatVnd(product.price)}
                     </span>
-                    <span className="text-xs text-app-text-light">
+                    <span className="text-[11px] text-app-text-light sm:text-xs">
                       /{formatUnitVi(product.unit)}
                     </span>
                   </div>
@@ -572,7 +572,7 @@ const Home = () => {
       </section>
 
       {/* CAM KẾT DỊCH VỤ */}
-      <section className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
+      <section className="mx-auto grid max-w-7xl gap-3 px-3.5 sm:grid-cols-3 sm:gap-4 sm:px-6 lg:px-8">
         {[
           {
             icon: Truck,

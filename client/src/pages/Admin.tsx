@@ -515,20 +515,23 @@ const Admin = () => {
               <p className="text-xs font-medium text-app-orange">Quyền: ADMIN</p>
             </div>
           </div>
-          <nav aria-label="Điều hướng quản trị" className="mt-3 space-y-1">
+          <nav
+            aria-label="Điều hướng quản trị"
+            className="no-scrollbar mt-3 flex gap-1.5 overflow-x-auto pb-1 lg:flex-col lg:space-y-1 lg:overflow-visible lg:pb-0"
+          >
             {tabs.map(({ id, label, icon: Icon }) => (
               <button
                 type="button"
                 key={id}
                 onClick={() => setActiveTab(id)}
                 aria-current={activeTab === id ? "page" : undefined}
-                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium ${
+                className={`flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-medium lg:w-full lg:gap-3 lg:py-2.5 lg:text-sm ${
                   activeTab === id
                     ? "bg-app-green text-white"
                     : "text-app-text-light hover:bg-app-cream hover:text-app-green"
                 }`}
               >
-                <Icon size={17} />
+                <Icon size={16} />
                 {label}
               </button>
             ))}
