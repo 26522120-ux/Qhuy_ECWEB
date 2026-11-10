@@ -59,7 +59,15 @@ app.use("/api", storeRouter);
 
 // Tự động phục vụ bản build Frontend (client/dist) nếu triển khai gộp chung 1 Web Service
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
-const clientDistPath = path.resolve(currentDir, "../../client/dist");
+const candidateDistPaths = [
+  path.resolve(currentDir, "../../client/dist"),
+  path.resolve(currentDir, "../../../client/dist"),
+  path.resolve(process.cwd(), "../client/dist"),
+  path.resolve(process.cwd(), "client/dist"),
+];
+const clientDistPath =
+  candidateDistPaths.find((dir) => fs.existsSync(path.join(dir, "index.html"))) ??
+  candidateDistPaths[0];
 const clientIndexHtml = path.join(clientDistPath, "index.html");
 
 if (fs.existsSync(clientIndexHtml)) {
