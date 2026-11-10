@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: poppin-mart
+    runtime: node
+    plan: free
+    buildCommand: cd client && npm install --include=dev && npm run build && cd ../sever && npm install --include=dev && npm run build
+    startCommand: cd sever && npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEON_AUTH_BASE_URL
+        value: https://ep-damp-hat-b3titb8g.neonauth.c-4.ap-southeast-1.aws.neon.tech/neondb/auth
+      - key: NEON_AUTH_JWKS_URL
+        value: https://ep-damp-hat-b3titb8g.neonauth.c-4.ap-southeast-1.aws.neon.tech/neondb/auth/.well-known/jwks.json
+      - key: VITE_NEON_AUTH_URL
+        value: https://ep-damp-hat-b3titb8g.neonauth.c-4.ap-southeast-1.aws.neon.tech/neondb/auth
+      - key: ADMIN_AUTH_SUBJECT
+        value: b3b0e02f-4b00-425a-bdcb-b8d8814472c6
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_URL_UNPOOLED
+        sync: false
