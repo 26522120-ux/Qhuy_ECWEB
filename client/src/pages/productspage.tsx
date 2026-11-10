@@ -39,8 +39,8 @@ const ProductPage = () => {
   };
 
   return (
-    <main className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
-      <nav aria-label="Điều hướng" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-app-text-light">
+    <main className="mx-auto w-full max-w-7xl overflow-x-hidden px-3.5 pb-12 pt-4 sm:px-6 sm:pb-16 sm:pt-6 lg:px-8">
+      <nav aria-label="Điều hướng" className="mb-3 flex flex-wrap items-center gap-1.5 text-xs text-app-text-light sm:mb-5 sm:gap-2 sm:text-sm">
         <Link to="/" aria-label="Trang chủ" className="hover:text-app-green">
           <Home size={15} />
         </Link>
@@ -56,39 +56,39 @@ const ProductPage = () => {
           {getCategoryNameVi(product.category)}
         </Link>
         <span>/</span>
-        <span className="font-medium text-app-green">{getProductNameVi(product)}</span>
+        <span className="truncate font-medium text-app-green">{getProductNameVi(product)}</span>
       </nav>
 
       <Link
         to="/products"
-        className="mb-5 inline-flex items-center gap-2 text-sm font-medium text-app-text-light hover:text-app-green"
+        className="mb-4 inline-flex items-center gap-2 text-xs font-medium text-app-text-light hover:text-app-green sm:mb-5 sm:text-sm"
       >
         <ArrowLeft size={16} />
         Quay lại danh sách
       </Link>
 
-      <section className="grid overflow-hidden rounded-3xl border border-app-border bg-white md:grid-cols-2">
-        <div className="relative flex min-h-72 items-center justify-center bg-white p-8 sm:p-12 md:min-h-[440px]">
+      <section className="grid overflow-hidden rounded-2xl border border-app-border bg-white sm:rounded-3xl md:grid-cols-2">
+        <div className="relative flex min-h-60 items-center justify-center bg-[#f6fcf8] p-6 sm:min-h-72 sm:p-12 md:min-h-[440px]">
           {product.discount > 0 && (
-            <span className="absolute left-5 top-5 rounded-full bg-amber-400 px-3 py-1.5 text-xs font-extrabold text-[#0f5132] shadow-2xs ring-1 ring-amber-300">
+            <span className="absolute left-4 top-4 rounded-full bg-amber-400 px-3 py-1 text-xs font-extrabold text-[#0f5132] shadow-2xs ring-1 ring-amber-300 sm:left-5 sm:top-5 sm:py-1.5">
               Giảm {product.discount}%
             </span>
           )}
           <img
             src={product.image}
             alt={getProductNameVi(product)}
-            className="max-h-[360px] w-full object-contain"
+            className="max-h-64 w-full object-contain sm:max-h-[360px]"
           />
         </div>
 
-        <div className="flex flex-col justify-center p-6 sm:p-10">
+        <div className="flex flex-col justify-center p-5 sm:p-10">
           <Link
             to={`/products?category=${product.category}`}
-            className="text-sm font-medium text-app-text-light hover:text-app-orange"
+            className="text-xs font-semibold text-[#16a34a] hover:text-app-green sm:text-sm"
           >
             {getCategoryNameVi(product.category)}
           </Link>
-          <h1 className="mt-2 font-serif text-3xl text-app-green sm:text-4xl">
+          <h1 className="mt-1.5 font-serif text-2xl font-bold text-app-green sm:mt-2 sm:text-4xl">
             {getProductNameVi(product)}
           </h1>
 
