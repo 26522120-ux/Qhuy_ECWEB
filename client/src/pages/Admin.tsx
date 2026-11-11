@@ -4,7 +4,6 @@ import {
   BarChart3,
   CheckCircle2,
   ClipboardList,
-  Dices,
   LayoutDashboard,
   Package,
   Plus,
@@ -87,7 +86,6 @@ const Admin = () => {
     updateProduct,
     quickUpdateStock,
     removeProduct,
-    randomizeProducts,
     addProduct,
     setTaxRate,
     updateOrderStatus,
@@ -104,7 +102,6 @@ const Admin = () => {
   const [adminUserName, setAdminUserName] = useState<string>("Quản trị viên");
   const [accessChecked, setAccessChecked] = useState(false);
   const [accessError, setAccessError] = useState<string | null>(null);
-  const [isRandomizing, setIsRandomizing] = useState(false);
   const [usersList, setUsersList] = useState<AdminUserRecord[]>([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
 
@@ -164,30 +161,6 @@ const Admin = () => {
       toast.error(
         error instanceof Error ? error.message : "Không thể cập nhật đơn hàng.",
       );
-    }
-  };
-
-  const handleRandomizeInventory = async () => {
-    setIsRandomizing(true);
-    try {
-      const res = await randomizeProducts({
-        minStock: 12,
-        maxStock: 120,
-        includeLowStockAlerts: true,
-        randomizeDiscounts: true,
-      });
-      toast.success(
-        `Đã ngẫu nhiên hóa ${res.summary.updatedCount} sản phẩm (Tổng tồn kho: ${res.summary.totalUnitsInStock}, ${res.summary.lowStockCount} sắp hết, ${res.summary.outOfStockCount} hết hàng) và cập nhật lên CSDL Neon!`,
-        { duration: 4500 },
-      );
-    } catch (error) {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Không thể ngẫu nhiên hóa tồn kho sản phẩm.",
-      );
-    } finally {
-      setIsRandomizing(false);
     }
   };
 
@@ -436,18 +409,6 @@ const Admin = () => {
             Bảng điều khiển — {adminUserName}
           </h1>
         </div>
-
-        <button
-          type="button"
-          disabled={isRandomizing}
-          onClick={() => void handleRandomizeInventory()}
-          className="inline-flex items-center gap-2 rounded-xl bg-app-green px-4 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-app-green-light disabled:opacity-50"
-        >
-          <Dices size={18} className={isRandomizing ? "animate-spin" : ""} />
-          {isRandomizing
-            ? "Đang ngẫu nhiên & đồng bộ Neon..."
-            : "Ngẫu nhiên tồn kho & sản phẩm (Neon DB)"}
-        </button>
       </div>
 
       {/* BANNER THÔNG BÁO TỒN KHO THỜI GIAN THỰC */}
@@ -632,12 +593,14 @@ const Admin = () => {
                   </p>
                   <button
                     type="button"
-                    disabled={isRandomizing}
-                    onClick={() => void handleRandomizeInventory()}
-                    className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-app-orange px-4 py-2.5 text-xs font-semibold text-white hover:bg-app-orange-dark disabled:opacity-50"
+                    onClick={() => {
+                      setActiveTab("products");
+                      openNewProductForm();
+                    }}
+                    className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-app-orange px-4 py-2.5 text-xs font-semibold text-white hover:bg-app-orange-dark"
                   >
-                    <Dices size={16} />
-                    Ngẫu nhiên tồn kho & sản phẩm
+                    <Plus size={16} />
+                    Thêm sản phẩm mới
                   </button>
                   <div className="mt-4 border-t border-app-border pt-4">
                     <p className="text-sm text-app-text-light">
@@ -696,15 +659,6 @@ const Admin = () => {
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <button
-                    type="button"
-                    disabled={isRandomizing}
-                    onClick={() => void handleRandomizeInventory()}
-                    className="inline-flex items-center gap-2 rounded-xl border border-app-green bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-app-green hover:bg-emerald-100 disabled:opacity-50"
-                  >
-                    <Dices size={17} className={isRandomizing ? "animate-spin" : ""} />
-                    {isRandomizing ? "Đang cập nhật..." : "Ngẫu nhiên số lượng tồn kho"}
-                  </button>
                   <button
                     type="button"
                     onClick={openNewProductForm}
