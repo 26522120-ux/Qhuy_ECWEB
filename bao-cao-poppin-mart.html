@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Báo Cáo Đề Tài - POPPIN MART</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap");
+
+      @page {
+        size: A4;
+        margin: 15mm 15mm 15mm 15mm;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Be Vietnam Pro", "Segoe UI", Arial, sans-serif;
+        color: #0f291e;
+        line-height: 1.52;
+        font-size: 10.5pt;
+        margin: 0;
+        padding: 0;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2.5px solid #16a34a;
+        padding-bottom: 10px;
+        margin-bottom: 14px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand img {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+        border-radius: 12px;
+        border: 1.5px solid #dcf0e4;
+        padding: 2px;
+      }
+
+      .brand-title {
+        font-size: 18pt;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-title .poppin {
+        color: #16a34a;
+      }
+
+      .brand-title .mart {
+        color: #0f5132;
+      }
+
+      .brand-sub {
+        margin: 2px 0 0 0;
+        font-size: 8.5pt;
+        color: #526b5f;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .doc-badge {
+        background: #f2fbf6;
+        border: 1px solid #bbf7d0;
+        color: #0f5132;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 9pt;
+        font-weight: 700;
+        text-align: right;
+      }
+
+      .topic-box {
+        background: linear-gradient(135deg, #f4fbf7 0%, #fefce8 100%);
+        border: 1.5px solid #bbf7d0;
+        border-left: 5px solid #16a34a;
+        border-radius: 12px;
+        padding: 12px 15px;
+        margin-bottom: 14px;
+      }
+
+      .topic-box h1 {
+        font-size: 13pt;
+        color: #0f5132;
+        margin: 0 0 5px 0;
+        line-height: 1.35;
+      }
+
+      .topic-box p {
+        margin: 3px 0;
+        font-size: 9.8pt;
+      }
+
+      .topic-box a {
+        color: #15803d;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      h2 {
+        font-size: 11.8pt;
+        color: #0f5132;
+        background: #f2fbf6;
+        border-left: 4px solid #eab308;
+        padding: 5px 12px;
+        border-radius: 0 8px 8px 0;
+        margin: 13px 0 8px 0;
+      }
+
+      ul,
+      ol {
+        margin: 5px 0 8px 0;
+        padding-left: 20px;
+      }
+
+      li {
+        margin-bottom: 4px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 6px 0 12px 0;
+        font-size: 9.5pt;
+      }
+
+      th,
+      td {
+        border: 1px solid #cfe8d9;
+        padding: 7px 9px;
+        vertical-align: top;
+        text-align: left;
+      }
+
+      th {
+        background-color: #0f5132;
+        color: #ffffff;
+        font-weight: 700;
+      }
+
+      tr:nth-child(even) td {
+        background-color: #f9fdfb;
+      }
+
+      .survey-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      .survey-card {
+        border: 1px solid #dcf0e4;
+        border-radius: 10px;
+        padding: 8px 12px;
+        background: #ffffff;
+      }
+
+      .survey-card h3 {
+        margin: 0 0 3px 0;
+        font-size: 10.2pt;
+        color: #15803d;
+      }
+
+      .survey-card p {
+        margin: 2px 0;
+        font-size: 9.5pt;
+      }
+
+      .tech-box {
+        border: 1.5px solid #dcf0e4;
+        border-radius: 12px;
+        padding: 10px 14px;
+        background: #ffffff;
+      }
+
+      .footer {
+        margin-top: 14px;
+        padding-top: 6px;
+        border-top: 1px solid #dcf0e4;
+        display: flex;
+        justify-content: space-between;
+        font-size: 8.5pt;
+        color: #526b5f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="brand">
+        <img src="client/public/poppin-mart-logo.jpg" alt="POPPIN MART Logo" />
+        <div>
+          <p class="brand-title">
+            <span class="poppin">POPPIN</span> <span class="mart">MART</span>
+          </p>
+          <p class="brand-sub">Fresh • Clean • Sunny E-Commerce</p>
+        </div>
+      </div>
+      <div class="doc-badge">
+        BÁO CÁO ĐỀ TÀI MÔN HỌC (LMS)<br />
+        Thương Mại Điện Tử
+      </div>
+    </div>
+
+    <div class="topic-box">
+      <h1>
+        1. TÊN ĐỀ TÀI: Xây dựng Website Thương mại điện tử Siêu thị Thực phẩm Tươi sạch &amp;
+        Chăm sóc Cá nhân trực tuyến POPPIN MART
+      </h1>
+      <p>
+        <strong>Tên tiếng Anh:</strong>
+        <em
+          >Building POPPIN MART – An Online Fresh Grocery &amp; Personal Care E-Commerce Platform
+          with Cloud PostgreSQL and Secure QR-OTP Checkout.</em
+        >
+      </p>
+      <p>
+        <strong>Link Website thực tế (Live):</strong>
+        <a href="https://qhuy-ecweb.onrender.com">https://qhuy-ecweb.onrender.com</a>
+        &nbsp;|&nbsp;
+        <strong>GitHub:</strong>
+        <a href="https://github.com/26522120-ux/Qhuy_ECWEB"
+          >https://github.com/26522120-ux/Qhuy_ECWEB</a
+        >
+      </p>
+    </div>
+
+    <h2>2. LÝ DO CHỌN ĐỀ TÀI</h2>
+    <ul>
+      <li>
+        <strong>Xu hướng tiêu dùng xanh &amp; mua sắm nhanh (Quick-Commerce):</strong> Người tiêu
+        dùng đô thị ngày càng ưu tiên đặt mua thực phẩm tươi sạch, hữu cơ và sản phẩm chăm sóc cá
+        nhân lành tính trực tuyến để tiết kiệm thời gian.
+      </li>
+      <li>
+        <strong>Bài toán đồng bộ tồn kho thời gian thực:</strong> Ngành hàng tươi sống đòi hỏi kiểm
+        soát tồn kho chính xác trên CSDL đám mây và cảnh báo kịp thời cho Quản trị viên (Admin) nhằm
+        tránh bán vượt số lượng tồn kho.
+      </li>
+      <li>
+        <strong>Bảo mật định danh khách hàng &amp; giao dịch:</strong> Cần cơ chế ràng buộc chặt
+        chẽ 1 tài khoản khách hàng chỉ sử dụng duy nhất 1 Email &amp; 1 Số điện thoại, kết hợp xác
+        thực mã OTP 6 số khi thanh toán để chống gian lận và xung đột đơn hàng.
+      </li>
+    </ul>
+
+    <h2>3. XÁC ĐỊNH TỆP KHÁCH HÀNG MỤC TIÊU</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 24%">Nhóm khách hàng</th>
+          <th style="width: 26%">Đặc điểm nhân khẩu học</th>
+          <th style="width: 25%">Hành vi &amp; Nhu cầu</th>
+          <th style="width: 25%">Đáp ứng từ POPPIN MART</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Sinh viên &amp; Giới trẻ (Gen Z, Millennials)</strong></td>
+          <td>18 – 30 tuổi, mua sắm chủ yếu trên điện thoại màn hình lớn (6.1 – 6.9 inches).</td>
+          <td>Thích giao diện hiện đại, săn Flash Deals, chuộng sản phẩm chăm sóc cá nhân mới.</td>
+          <td>Thanh điều hướng đáy Mobile App Bar, Pop-up ưu đãi sản phẩm mới, thanh toán QR-OTP.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Gia đình trẻ &amp; Nội trợ hiện đại</strong></td>
+          <td>25 – 45 tuổi, thu nhập ổn định, ưu tiên thực phẩm sạch và rõ nguồn gốc.</td>
+          <td>Mua sắm định kỳ theo nhóm hàng (Rau củ, Thịt cá, Sữa trứng), cần ưu đãi phí giao hàng.</td>
+          <td>10 nhóm gian hàng trực quan, miễn phí giao hàng cho đơn từ 300.000 ₫.</td>
+        </tr>
+        <tr>
+          <td><strong>3. Dân văn phòng bận rộn</strong></td>
+          <td>24 – 40 tuổi, ít thời gian đi chợ hoặc siêu thị giờ cao điểm.</td>
+          <td>Cần tìm kiếm nhanh, lọc theo mức giá và theo dõi đơn hàng minh bạch.</td>
+          <td>Tìm kiếm &amp; lọc giá tức thì, lưu lịch sử đơn hàng đồng bộ trên CSDL Neon.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. KHẢO SÁT 3 WEBSITE CÙNG LĨNH VỰC</h2>
+    <div class="survey-grid">
+      <div class="survey-card">
+        <h3>4.1. Bách Hóa Xanh (bachhoaxanh.com)</h3>
+        <p>
+          <strong>Ưu/Nhược điểm:</strong> Danh mục hàng phong phú, sắc xanh – vàng nhận diện mạnh;
+          tuy nhiên mật độ thông tin dày đặc dễ gây rối mắt trên màn hình di động.
+        </p>
+        <p>
+          <strong>Học hỏi cho POPPIN MART:</strong> Kế thừa tông màu
+          <strong>Trắng – Xanh lá – Vàng nắng</strong> tươi mới nhưng thiết kế theo phong cách tối
+          giản, thoáng đãng (Clean &amp; Modern UI).
+        </p>
+      </div>
+      <div class="survey-card">
+        <h3>4.2. WinMart Online (winmart.vn)</h3>
+        <p>
+          <strong>Ưu/Nhược điểm:</strong> Phân nhóm gian hàng chuẩn mực, quản lý hội viên theo SĐT;
+          nhưng thao tác chuyển trang trên di động còn nhiều bước.
+        </p>
+        <p>
+          <strong>Học hỏi cho POPPIN MART:</strong> Xây dựng luồng định danh
+          <strong>1 Khách hàng = 1 Email + 1 SĐT duy nhất</strong> và tích hợp
+          <strong>Bottom App Bar</strong> giúp thao tác một tay trên màn hình 6.9 inches.
+        </p>
+      </div>
+      <div class="survey-card">
+        <h3>4.3. Organica (organica.vn)</h3>
+        <p>
+          <strong>Ưu/Nhược điểm:</strong> Định vị tốt dòng sản phẩm hữu cơ và chăm sóc tự nhiên;
+          nhưng ít hiệu ứng trình chiếu sản phẩm mới và xác thực OTP trực tiếp.
+        </p>
+        <p>
+          <strong>Học hỏi cho POPPIN MART:</strong> Bổ sung
+          <strong>Pop-up giới thiệu sản phẩm mới</strong>, <strong>Slider sản phẩm tự động</strong>
+          trên Banner và quy trình <strong>Thanh toán QR kèm mã OTP 6 chữ số</strong>.
+        </p>
+      </div>
+    </div>
+
+    <h2>5. TÓM TẮT HỆ THỐNG &amp; YẾU TỐ KỸ THUẬT CHÍNH</h2>
+    <div class="tech-box">
+      <ul>
+        <li>
+          <strong>Công nghệ sử dụng (Tech Stack):</strong>
+          <ul>
+            <li>
+              <strong>Frontend:</strong> React 19, TypeScript, Vite, Tailwind CSS v4 (tối ưu chuẩn
+              màn hình điện thoại 6.9 inches, hỗ trợ Bottom App Bar, Pop-up khuyến mãi, Slider sản
+              phẩm).
+            </li>
+            <li>
+              <strong>Backend:</strong> Node.js, Express 5, TypeScript, kiểm duyệt dữ liệu với
+              <strong>Zod</strong>, bảo mật bằng <strong>Helmet &amp; Rate Limit</strong>.
+            </li>
+            <li>
+              <strong>Cơ sở dữ liệu:</strong> <strong>Neon Serverless PostgreSQL</strong> kết nối
+              qua <strong>Prisma ORM</strong>.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Các điểm nhấn kỹ thuật đã hoàn thiện:</strong>
+          <ol>
+            <li>
+              <strong>Đăng nhập &amp; Tự động sao lưu CSDL:</strong> Tích hợp
+              <strong>Neon Auth</strong> kết hợp <strong>PostgreSQL Trigger</strong> tự động đồng bộ
+              tài khoản về bảng <code>User</code> trên Neon DB.
+            </li>
+            <li>
+              <strong>Quản lý tài khoản 1 Email – 1 SĐT duy nhất:</strong> Ràng buộc
+              <code>@unique</code> trong CSDL; tự động phát hiện trùng lặp và chuyển hướng về trang
+              Đăng nhập (<code>/login</code>).
+            </li>
+            <li>
+              <strong>Phân quyền Admin (RBAC) &amp; Tồn kho thời gian thực:</strong> Số lượng tồn
+              kho và cảnh báo hết hàng chỉ hiển thị riêng cho <strong>Admin</strong>; hỗ trợ thêm,
+              sửa, xóa và ngẫu nhiên hóa tồn kho đồng bộ trực tiếp lên CSDL Neon &amp; Web.
+            </li>
+            <li>
+              <strong>Thanh toán QR &amp; OTP 6 số chống xung đột:</strong> Sinh mã OTP có thời hạn
+              5 phút trong CSDL, dùng <strong>Database Transaction</strong> trừ tồn kho nguyên tử và
+              chống trùng lặp đơn hàng (Idempotency).
+            </li>
+            <li>
+              <strong>Triển khai Cloud (CI/CD):</strong> Đóng gói Full-stack trên
+              <strong>GitHub</strong> và tự động triển khai (Auto-Deploy) lên
+              <strong>Render Cloud</strong>.
+            </li>
+          </ol>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <span>Dự án: POPPIN MART — E-Commerce Web Application</span>
+      <span>Live URL: https://qhuy-ecweb.onrender.com</span>
+    </div>
+  </body>
+</html>
