@@ -5,9 +5,7 @@ import {
   LockKeyhole,
   Mail,
   Phone,
-  ShieldCheck,
   UserRound,
-  Zap,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import {
@@ -151,33 +149,6 @@ const LogIn = () => {
             BỨT PHÁ GIỚI HẠN CÙNG{" "}
             <span className="text-[#b8f927]">nutraGO</span>
           </h1>
-
-          <p className="mt-5 text-sm leading-7 text-zinc-300 sm:text-base">
-            Hệ sinh thái Thực phẩm bổ sung thể hình, Whey Protein, Pre-Workout
-            và Thiết bị tập luyện chính hãng — đồng bộ đơn hàng theo thời gian
-            thực.
-          </p>
-
-          <div className="mt-8 grid grid-cols-2 gap-3.5">
-            <div className="rounded-xs border border-zinc-800 bg-[#121614]/90 p-3.5 backdrop-blur-xs">
-              <Zap size={18} className="text-[#b8f927]" />
-              <p className="mt-2 font-display text-sm font-bold tracking-wider text-white uppercase">
-                1 Tài khoản duy nhất
-              </p>
-              <p className="mt-0.5 text-xs text-zinc-400">
-                1 Email &amp; 1 SĐT bảo mật tuyệt đối trên Neon DB
-              </p>
-            </div>
-            <div className="rounded-xs border border-zinc-800 bg-[#121614]/90 p-3.5 backdrop-blur-xs">
-              <ShieldCheck size={18} className="text-[#b8f927]" />
-              <p className="mt-2 font-display text-sm font-bold tracking-wider text-white uppercase">
-                Thanh toán QR-OTP
-              </p>
-              <p className="mt-0.5 text-xs text-zinc-400">
-                Xác thực 6 chữ số nhanh chóng &amp; chống trùng đơn
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
