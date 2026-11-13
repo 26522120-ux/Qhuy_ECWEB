@@ -223,7 +223,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     description:
       "Phần ăn Keto giàu đạm (~48g Protein) gồm ức gà áp chảo, 3 trứng ốp la, bơ tươi và rau xà lách xanh, ít tinh bột hỗ trợ siết mỡ.",
     price: 300,
-    originalPrice: 350,
+    originalPrice: 300,
     priceVnd: 90_000,
     image: "/meal-assets/meal_01.jpg",
     category: "healthy-meal",
@@ -232,7 +232,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     isOrganic: true,
     rating: 4.9,
     reviewCount: 142,
-    discount: 14,
+    discount: 0,
     createdAt: "2026-11-13T09:20:00.000Z",
   },
   {
@@ -242,7 +242,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     description:
       "Thăn bò áp chảo vừa chín tới (~52g Protein) kết hợp 2 trứng ốp la, bơ lát và cà chua bi tươi mát, nạp năng lượng phục hồi cơ.",
     price: 450,
-    originalPrice: 520,
+    originalPrice: 450,
     priceVnd: 135_000,
     image: "/meal-assets/meal_02.jpg",
     category: "healthy-meal",
@@ -251,7 +251,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     isOrganic: true,
     rating: 4.9,
     reviewCount: 168,
-    discount: 13,
+    discount: 0,
     createdAt: "2026-11-13T09:15:00.000Z",
   },
   {
@@ -261,7 +261,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     description:
       "Sữa chua Hy Lạp ít béo (~22g Protein) phủ granola yến mạch giòn, chuối, dâu tây, mâm xôi và việt quất giàu chất chống oxy hóa.",
     price: 250,
-    originalPrice: 300,
+    originalPrice: 250,
     priceVnd: 75_000,
     image: "/meal-assets/meal_03.jpg",
     category: "healthy-meal",
@@ -270,7 +270,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     isOrganic: true,
     rating: 4.8,
     reviewCount: 115,
-    discount: 17,
+    discount: 0,
     createdAt: "2026-11-13T09:10:00.000Z",
   },
   {
@@ -280,7 +280,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     description:
       "Combo High-Protein (~56g Protein) với thăn bò nướng mềm ngọt, 3 trứng luộc lòng đào và bơ tươi rắc tiêu đen chuẩn người tập gym.",
     price: 480,
-    originalPrice: 560,
+    originalPrice: 480,
     priceVnd: 144_000,
     image: "/meal-assets/meal_04.jpg",
     category: "healthy-meal",
@@ -289,7 +289,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     isOrganic: true,
     rating: 5.0,
     reviewCount: 129,
-    discount: 14,
+    discount: 0,
     createdAt: "2026-11-13T09:05:00.000Z",
   },
   {
@@ -299,7 +299,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     description:
       "Phi lê cá hồi Nauy áp chảo thảo mộc (~42g Protein, giàu Omega-3) kèm bông cải xanh, bí ngòi nướng và cà chua tươi thanh đạm.",
     price: 460,
-    originalPrice: 540,
+    originalPrice: 460,
     priceVnd: 138_000,
     image: "/meal-assets/meal_05.jpg",
     category: "healthy-meal",
@@ -308,7 +308,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     isOrganic: true,
     rating: 4.9,
     reviewCount: 154,
-    discount: 15,
+    discount: 0,
     createdAt: "2026-11-13T09:00:00.000Z",
   },
   {
@@ -318,7 +318,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     description:
       "Bữa phụ Clean Eating (~24g Protein) kết hợp sữa chua Hy Lạp không đường, việt quất tươi, hạt chia và hạnh nhân rang giòn.",
     price: 240,
-    originalPrice: 290,
+    originalPrice: 240,
     priceVnd: 72_000,
     image: "/meal-assets/meal_06.jpg",
     category: "healthy-meal",
@@ -327,7 +327,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     isOrganic: true,
     rating: 4.8,
     reviewCount: 98,
-    discount: 17,
+    discount: 0,
     createdAt: "2026-11-13T08:55:00.000Z",
   },
   {
@@ -337,7 +337,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     description:
       "Thực đơn Eat Clean ít dầu mỡ (~44g Protein) với ức gà hấp thảo mộc mềm mọng, bí đỏ hấp bùi ngọt và bông cải xanh luộc.",
     price: 260,
-    originalPrice: 310,
+    originalPrice: 260,
     priceVnd: 78_000,
     image: "/meal-assets/meal_07.jpg",
     category: "healthy-meal",
@@ -346,7 +346,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     isOrganic: true,
     rating: 4.8,
     reviewCount: 136,
-    discount: 16,
+    discount: 0,
     createdAt: "2026-11-13T08:50:00.000Z",
   },
   {
@@ -356,7 +356,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     description:
       "4 quả trứng gà ta luộc lòng đào chuẩn độ béo mịn (~26g Protein tinh khiết), rắc tiêu đen & ngò tây, tiện lợi nạp đạm nhanh.",
     price: 120,
-    originalPrice: 150,
+    originalPrice: 120,
     priceVnd: 36_000,
     image: "/meal-assets/meal_08.jpg",
     category: "healthy-meal",
@@ -365,7 +365,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     isOrganic: true,
     rating: 4.7,
     reviewCount: 91,
-    discount: 20,
+    discount: 0,
     createdAt: "2026-11-13T08:45:00.000Z",
   },
   {
@@ -375,7 +375,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     description:
       "Đĩa cơm Eat Clean đầy đủ vi chất (~50g Protein): ức gà nướng tiêu đen, nấm mỡ áp chảo, trứng luộc, bông cải xanh và cà chua bi.",
     price: 320,
-    originalPrice: 380,
+    originalPrice: 320,
     priceVnd: 96_000,
     image: "/meal-assets/meal_09.jpg",
     category: "healthy-meal",
@@ -384,7 +384,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     isOrganic: true,
     rating: 4.9,
     reviewCount: 175,
-    discount: 16,
+    discount: 0,
     createdAt: "2026-11-13T08:40:00.000Z",
   },
 ];

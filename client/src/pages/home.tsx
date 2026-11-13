@@ -32,6 +32,7 @@ const Home = () => {
 
   const shockDealProducts = useMemo(() => {
     return [...catalogProducts]
+      .filter((p) => p.discount > 0 && p.category !== "healthy-meal")
       .sort((a, b) => {
         if (b.discount !== a.discount) return b.discount - a.discount;
         return b.originalPrice - b.price - (a.originalPrice - a.price);
