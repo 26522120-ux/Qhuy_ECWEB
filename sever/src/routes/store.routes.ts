@@ -1178,7 +1178,7 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
       "Ultra Premium Whey Protein với 26g Protein tinh khiết, chỉ 130 Calories và 55 lần dùng mỗi hũ. Hỗ trợ phục hồi và phát triển cơ bắp nạc tối đa.",
     price: 4600,
     originalPrice: 6150,
-    image: "/whey-promo-popup.jpg",
+    image: "/gym-assets/gym_giant_whey.jpg",
     category: "whey-protein",
     unit: "hũ 2kg (55 lần dùng)",
     stock: 38,

@@ -43,7 +43,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
     price: 4600,
     originalPrice: 6150,
     priceVnd: 1_380_000,
-    image: "/whey-promo-popup.jpg",
+    image: "/gym-assets/gym_giant_whey.jpg",
     category: "whey-protein",
     unit: "hũ 2kg (55 lần dùng)",
     stock: 38,
