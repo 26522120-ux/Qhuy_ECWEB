@@ -7,7 +7,6 @@ import {
   Flame,
   Plus,
   RotateCcw,
-  Sparkles,
   Utensils,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -518,7 +517,6 @@ const MacroCalculator = () => {
                   onClick={() => void handleCalculate()}
                   className="inline-flex items-center gap-2 rounded-xs bg-[#b8f927] px-6 py-3 text-xs font-black tracking-wider text-[#08100a] uppercase transition hover:bg-[#cbff4d] disabled:opacity-50"
                 >
-                  <Sparkles size={15} />
                   {isLoading ? "Đang tính & gợi ý..." : "Xem kết quả & Gợi ý món"}
                 </button>
               )}
