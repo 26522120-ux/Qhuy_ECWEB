@@ -33,7 +33,26 @@ export const gymCategoriesData: GymCategoryItem[] = [
  * 18 Sản phẩm thực tế từ bộ ảnh đã tải lên (Quy đổi INR_TO_VND = 300 sang VND)
  */
 export const gymSupplementProducts: Array<Product & { id: string; priceVnd: number }> = [
-  // ==================== 1. WHEY & MASS GAINER (6 SẢN PHẨM) ====================
+  // ==================== 1. WHEY & MASS GAINER (7 SẢN PHẨM) ====================
+  {
+    _id: "gym_prod_giant_whey",
+    id: "gym_prod_giant_whey",
+    name: "GIANT Performance Whey Protein 2kg (55 Servings) - Cookies & Cream",
+    description:
+      "Ultra Premium Whey Protein với 26g Protein tinh khiết, chỉ 130 Calories và 55 lần dùng mỗi hũ. Hỗ trợ phục hồi và phát triển cơ bắp nạc tối đa.",
+    price: 4600,
+    originalPrice: 6150,
+    priceVnd: 1_380_000,
+    image: "/whey-promo-popup.jpg",
+    category: "whey-protein",
+    unit: "hũ 2kg (55 lần dùng)",
+    stock: 38,
+    isOrganic: false,
+    rating: 4.9,
+    reviewCount: 312,
+    discount: 25,
+    createdAt: "2026-11-13T10:05:00.000Z",
+  },
   {
     _id: "gym_prod_15",
     id: "gym_prod_15",

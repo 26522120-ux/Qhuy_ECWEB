@@ -1170,7 +1170,23 @@ storeRouter.delete(
 );
 
 export const NUTRAGO_CATALOG_PRODUCTS = [
-  // 1. WHEY & MASS GAINER (6 SẢN PHẨM)
+  // 1. WHEY & MASS GAINER (7 SẢN PHẨM)
+  {
+    id: "gym_prod_giant_whey",
+    name: "GIANT Performance Whey Protein 2kg (55 Servings) - Cookies & Cream",
+    description:
+      "Ultra Premium Whey Protein với 26g Protein tinh khiết, chỉ 130 Calories và 55 lần dùng mỗi hũ. Hỗ trợ phục hồi và phát triển cơ bắp nạc tối đa.",
+    price: 4600,
+    originalPrice: 6150,
+    image: "/whey-promo-popup.jpg",
+    category: "whey-protein",
+    unit: "hũ 2kg (55 lần dùng)",
+    stock: 38,
+    isOrganic: false,
+    rating: 4.9,
+    reviewCount: 312,
+    discount: 25,
+  },
   {
     id: "gym_prod_15",
     name: "Dymatize Elite 100% Whey Protein 2.3kg (5 LB) - Gourmet Vanilla",

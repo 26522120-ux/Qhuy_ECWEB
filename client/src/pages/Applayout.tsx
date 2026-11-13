@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useStore } from "../context/StoreContext";
+import WheyPromoModal from "../components/WheyPromoModal";
 
 const AppLayout = () => {
   const [search, setSearch] = useState("");
@@ -359,6 +360,7 @@ const AppLayout = () => {
           )}
         </NavLink>
       </nav>
+      <WheyPromoModal />
     </div>
   );
 };
