@@ -105,20 +105,6 @@ const AppLayout = () => {
             <NavLink to="/products" className={desktopNavLinkClass}>
               SẢN PHẨM
             </NavLink>
-            <a
-              href="/#ca-nhan-hoa"
-              onClick={(event) => {
-                if (location.pathname === "/") {
-                  event.preventDefault();
-                  document
-                    .getElementById("ca-nhan-hoa")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-              className="relative inline-flex h-16 items-center px-1 text-xs font-bold tracking-[0.14em] text-zinc-400 uppercase transition-colors hover:text-white"
-            >
-              CÁ NHÂN HÓA
-            </a>
             <NavLink to="/deals" className={desktopNavLinkClass}>
               ƯU ĐÃI
             </NavLink>
@@ -299,7 +285,7 @@ const AppLayout = () => {
               >
                 <Flame size={18} />
               </span>
-              <span>Cá nhân hóa</span>
+              <span>Ưu đãi</span>
             </>
           )}
         </NavLink>

@@ -5,9 +5,7 @@ export const INR_TO_VND = 300;
 const categoryNames: Record<string, string> = {
   "whey-protein": "Whey & Mass Gainer",
   "pre-workout-creatine": "Pre-Workout & Creatine",
-  "weights-barbells": "Tạ Đòn, Bánh Tạ & Tạ Ấm",
-  "gym-machines": "Máy Tập & Khung Gánh Tạ",
-  "boxing-accessories": "Boxing & Phụ Kiện Gym",
+  "healthy-meal": "Healthy Meal",
 };
 
 export const getCategoryNameVi = (slug: string) => categoryNames[slug] ?? slug;

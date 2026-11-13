@@ -39,6 +39,10 @@ const Home = () => {
       .slice(0, 8);
   }, [catalogProducts]);
 
+  const healthyMealProducts = useMemo(() => {
+    return catalogProducts.filter((p) => p.category === "healthy-meal").slice(0, 8);
+  }, [catalogProducts]);
+
   const displayedCatalogProducts: Product[] = useMemo(() => {
     const list =
       activeCatalogFilter === "all"
@@ -208,20 +212,23 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ==================== 5 DANH MỤC CHUYÊN BIỆT ==================== */}
-      <section className="border-t border-white/10 bg-[#0e1210] py-14 sm:py-20">
+      {/* ==================== HEALTHY MEAL — BỮA ĂN DINH DƯỠNG ==================== */}
+      <section
+        id="healthy-meal"
+        className="border-t border-white/10 bg-[#0e1210] py-14 sm:py-20"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 flex items-end justify-between gap-4">
             <div>
               <p className="text-xs font-bold tracking-[0.22em] text-[#b8f927] uppercase">
-                // HỆ SINH THÁI GYM &amp; SUPPLEMENT
+                // EAT CLEAN &bull; HIGH PROTEIN &bull; KETO
               </p>
               <h2 className="mt-1.5 font-display text-3xl font-black text-white uppercase sm:text-5xl">
-                5 DANH MỤC CHUYÊN BIỆT
+                HEALTHY MEAL
               </h2>
             </div>
             <Link
-              to="/products"
+              to="/products?category=healthy-meal"
               className="inline-flex shrink-0 items-center gap-1.5 border border-zinc-700 bg-[#141816] px-4 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition hover:border-[#b8f927] hover:text-[#b8f927]"
             >
               <span>XEM TẤT CẢ</span>
@@ -229,27 +236,61 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
-            {categoriesData.map((category) => (
-              <Link
-                key={category.slug}
-                to={`/products?category=${category.slug}`}
-                className="group relative flex flex-col overflow-hidden rounded-xs border border-zinc-800 bg-[#131816] transition hover:-translate-y-1 hover:border-[#b8f927]"
+          <div className="grid grid-cols-2 gap-3.5 sm:gap-4 lg:grid-cols-4">
+            {healthyMealProducts.map((meal) => (
+              <div
+                key={meal._id}
+                className="group flex min-w-0 flex-col justify-between overflow-hidden rounded-xs border border-zinc-800 bg-[#131816] transition hover:-translate-y-1 hover:border-[#b8f927]"
               >
-                <div className="flex aspect-square items-center justify-center bg-white p-4">
-                  <img
-                    src={category.image}
-                    alt={getCategoryNameVi(category.slug)}
-                    className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
-                    loading="lazy"
-                  />
+                <div>
+                  <Link
+                    to={`/products/${meal._id}`}
+                    className="relative block aspect-square overflow-hidden bg-[#0b0d0c]"
+                  >
+                    {meal.discount > 0 && (
+                      <span className="absolute left-2.5 top-2.5 z-10 rounded-xs bg-[#b8f927] px-2 py-0.5 text-[10px] font-black text-black shadow-xs">
+                        -{meal.discount}%
+                      </span>
+                    )}
+                    <img
+                      src={meal.image}
+                      alt={getProductNameVi(meal)}
+                      className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </Link>
+                  <div className="p-3.5">
+                    <p className="truncate text-[10px] font-bold tracking-wider text-[#b8f927] uppercase">
+                      {getCategoryNameVi(meal.category)}
+                    </p>
+                    <Link
+                      to={`/products/${meal._id}`}
+                      className="mt-1 line-clamp-2 min-h-9 text-xs font-bold text-white transition group-hover:text-[#b8f927] sm:text-sm"
+                    >
+                      {getProductNameVi(meal)}
+                    </Link>
+                  </div>
                 </div>
-                <div className="p-3 text-center">
-                  <h3 className="font-display text-sm font-bold tracking-wider text-white uppercase transition group-hover:text-[#b8f927] sm:text-base">
-                    {getCategoryNameVi(category.slug)}
-                  </h3>
+
+                <div className="flex items-center justify-between gap-2 border-t border-zinc-800/90 px-3.5 py-3">
+                  <div className="min-w-0">
+                    <p className="truncate font-display text-base font-extrabold text-[#b8f927] sm:text-lg">
+                      {formatVnd(meal.price)}
+                    </p>
+                    <p className="truncate text-[10px] text-zinc-400">
+                      /{formatUnitVi(meal.unit)}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => addItem(meal, 1)}
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-xs bg-[#b8f927] px-3 py-2 text-[11px] font-extrabold text-black uppercase transition hover:bg-[#c9ff4d]"
+                  >
+                    <ShoppingBag size={13} />
+                    <span>Thêm</span>
+                  </button>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
