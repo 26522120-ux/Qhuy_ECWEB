@@ -1,8 +1,6 @@
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
-  CheckCircle2,
-  Dumbbell,
   ShoppingBag,
   Star,
 } from "lucide-react";
@@ -243,54 +241,21 @@ const Home = () => {
           })}
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.45fr]">
-          <div className="flex flex-col justify-between rounded-xs border border-zinc-800 bg-[#111513] p-6 sm:p-8">
-            <div>
-              <span className="inline-flex items-center gap-1.5 rounded-xs bg-[#b8f927]/15 px-3 py-1 text-[11px] font-bold tracking-wider text-[#b8f927] uppercase">
-                <Dumbbell size={13} />
-                {activeGoal.badge}
-              </span>
-              <h3 className="mt-4 font-display text-3xl font-black text-white uppercase sm:text-4xl">
-                {activeGoal.title}
-              </h3>
-              <p className="mt-3 text-sm leading-6 text-zinc-300">
-                {activeGoal.subtitle}
-              </p>
-
-              <div className="mt-5 rounded-xs border border-zinc-800 bg-[#0b0d0c] p-3.5">
-                <p className="text-[11px] font-bold tracking-widest text-zinc-400 uppercase">
-                  THÔNG SỐ CHUYÊN MÔN KHUYẾN NGHỊ
-                </p>
-                <p className="mt-1 text-xs font-semibold text-[#b8f927] sm:text-sm">
-                  {activeGoal.macros}
-                </p>
-              </div>
-
-              <ul className="mt-5 space-y-2.5 text-xs text-zinc-300 sm:text-sm">
-                {activeGoal.highlights.map((point) => (
-                  <li key={point} className="flex items-start gap-2.5">
-                    <CheckCircle2
-                      size={16}
-                      className="mt-0.5 shrink-0 text-[#b8f927]"
-                    />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-6 border-t border-zinc-800 pt-5">
-              <Link
-                to={`/products?category=${activeGoal.categories[0] ?? ""}`}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xs bg-[#b8f927] px-5 py-3.5 text-xs font-extrabold tracking-wider text-black uppercase transition hover:bg-[#c8ff47]"
-              >
-                <span>XEM TRỌN BỘ SẢN PHẨM MỤC TIÊU NÀY</span>
-                <ArrowRight size={15} />
-              </Link>
-            </div>
+        <div className="mt-8">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-xs font-bold tracking-[0.2em] text-[#b8f927] uppercase">
+              // SẢN PHẨM TIÊU BIỂU CHO MỤC TIÊU: {activeGoal.title}
+            </p>
+            <Link
+              to={`/products?category=${activeGoal.categories[0] ?? ""}`}
+              className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wider text-zinc-300 uppercase transition hover:text-[#b8f927]"
+            >
+              <span>Xem trọn bộ mục tiêu này</span>
+              <ArrowRight size={14} />
+            </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-3.5 sm:gap-4">
+          <div className="grid grid-cols-2 gap-3.5 sm:gap-4 lg:grid-cols-4">
             {goalProducts.map((product) => (
               <div
                 key={product._id}
