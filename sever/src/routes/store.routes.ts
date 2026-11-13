@@ -281,17 +281,75 @@ function normalizeUniqueItems(items: Array<{ productId: string; quantity: number
   return uniqueItems;
 }
 
+const NUTRAGO_CATEGORIES = [
+  {
+    slug: "whey-protein",
+    name: "Whey & Mass Gainer",
+    nameVi: "Whey & Mass Gainer",
+    description: "Whey Isolate, Whey Blend & Mass Gainer tăng cơ tăng cân",
+    image: "/gym-assets/gym_15.jpg",
+  },
+  {
+    slug: "pre-workout-creatine",
+    name: "Pre-Workout & Creatine",
+    nameVi: "Pre-Workout & Creatine",
+    description: "Tăng sức mạnh đẩy tạ, bơm cơ & tỉnh táo trước buổi tập",
+    image: "/gym-assets/gym_02.jpg",
+  },
+  {
+    slug: "weights-barbells",
+    name: "Weights & Barbells",
+    nameVi: "Tạ Đòn, Bánh Tạ & Tạ Ấm",
+    description: "Đòn tạ Olympic, Bumper Plates, bánh tạ gang & Kettlebell",
+    image: "/gym-assets/gym_08.jpg",
+  },
+  {
+    slug: "gym-machines",
+    name: "Gym Machines",
+    nameVi: "Máy Tập & Khung Gánh Tạ",
+    description: "Máy chạy bộ điện đa năng & Khung Smith Machine chuyên nghiệp",
+    image: "/gym-assets/gym_06.jpg",
+  },
+  {
+    slug: "boxing-accessories",
+    name: "Boxing & Accessories",
+    nameVi: "Boxing & Phụ Kiện Gym",
+    description: "Bao cát đấm bốc, bóng phản xạ, dây nhảy, kìm tay & giãn cơ",
+    image: "/gym-assets/gym_10.jpg",
+  },
+] as const;
+
 export const storeRouter = Router();
 
-// ==================== PRODUCTS & INVENTORY ALERTS ====================
+// ==================== PRODUCTS, CATEGORIES & INVENTORY ALERTS ====================
+
+storeRouter.get("/categories", (_request, response) => {
+  response.json(NUTRAGO_CATEGORIES);
+});
 
 storeRouter.get("/products", async (request, response) => {
   const db = getDatabase();
   const search = z.string().trim().max(120).optional().parse(request.query.q);
   const category = z.string().trim().max(80).optional().parse(request.query.category);
+  const sort = z
+    .enum(["newest", "price_asc", "price_desc", "rating", "discount"])
+    .optional()
+    .parse(request.query.sort);
+
+  const orderBy: Prisma.ProductOrderByWithRelationInput =
+    sort === "price_asc"
+      ? { price: "asc" }
+      : sort === "price_desc"
+        ? { price: "desc" }
+        : sort === "rating"
+          ? { rating: "desc" }
+          : sort === "discount"
+            ? { discount: "desc" }
+            : { createdAt: "desc" };
+
   const products = await db.product.findMany({
     where: {
-      ...(category ? { category } : {}),
+      ...(category && category !== "all" ? { category } : {}),
       ...(search
         ? {
             OR: [
@@ -301,7 +359,7 @@ storeRouter.get("/products", async (request, response) => {
           }
         : {}),
     },
-    orderBy: { createdAt: "desc" },
+    orderBy,
     take: 200,
   });
   response.json(products.map(productDto));
@@ -1132,129 +1190,354 @@ storeRouter.delete(
   },
 );
 
-const EXTRA_CATALOG_PRODUCTS = [
+export const NUTRAGO_CATALOG_PRODUCTS = [
+  // 1. WHEY & MASS GAINER (6 SẢN PHẨM)
   {
-    name: "Sữa Rửa Mặt Dịu Nhẹ POPPIN MART - The Gentle Cleanser 80ml",
+    id: "gym_prod_15",
+    name: "Dymatize Elite 100% Whey Protein 2.3kg (5 LB) - Gourmet Vanilla",
     description:
-      "Sữa rửa mặt tạo bọt mịn dịu nhẹ chuẩn Hàn Quốc độc quyền từ POPPIN MART (Your Daily Freshness). Làm sạch sâu lỗ chân lông, cân bằng độ ẩm tự nhiên và mang lại làn da tươi mát mỗi ngày.",
-    price: 390,
-    originalPrice: 550,
-    image: "/poppin-cleanser.jpg",
-    category: "personal-care",
-    unit: "1 tuýp (80ml)",
-    isOrganic: true,
-  },
-  {
-    name: "Cá hồi Nauy phi lê 300g",
-    description: "Cá hồi tươi nhập khẩu giàu Omega-3, thích hợp áp chảo hoặc làm sashimi.",
-    price: 450,
-    originalPrice: 500,
-    image: "https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?w=500&auto=format&fit=crop&q=80",
-    category: "meat-seafood",
-    unit: "300g",
+      "25g Whey Protein hấp thụ nhanh, 5.5g BCAAs và 2.7g L-Leucine mỗi muỗng. Hỗ trợ tổng hợp cơ bắp tối ưu cho 67 lần dùng.",
+    price: 5500,
+    originalPrice: 6400,
+    image: "/gym-assets/gym_15.jpg",
+    category: "whey-protein",
+    unit: "hũ 2.3kg (67 lần dùng)",
+    stock: 42,
     isOrganic: false,
+    rating: 4.9,
+    reviewCount: 248,
+    discount: 14,
   },
   {
-    name: "Thịt bò Úc thăn nội 500g",
-    description: "Thịt bò mềm ngọt tự nhiên, thích hợp làm bít tết và các món xào.",
-    price: 480,
-    originalPrice: 540,
-    image: "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=500&auto=format&fit=crop&q=80",
-    category: "meat-seafood",
-    unit: "500g",
+    id: "gym_prod_14",
+    name: "EHPlabs OxyWhey Daily Lean Whey Protein 825g - Strawberry Milkshake",
+    description:
+      "25g Protein nạc tinh khiết, 0g đường bổ sung, 0g chất béo chuyển hóa, chỉ 3g Carbs. Phù hợp cả siết cơ lẫn tăng cơ nạc.",
+    price: 3200,
+    originalPrice: 3800,
+    image: "/gym-assets/gym_14.jpg",
+    category: "whey-protein",
+    unit: "hũ 825g (25 lần dùng)",
+    stock: 36,
     isOrganic: false,
+    rating: 4.9,
+    reviewCount: 164,
+    discount: 16,
   },
   {
-    name: "Tôm sú tươi sống 500g",
-    description: "Tôm sú thịt chắc, ngọt tự nhiên, đánh bắt trong ngày.",
-    price: 350,
-    originalPrice: 390,
-    image: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=500&auto=format&fit=crop&q=80",
-    category: "meat-seafood",
-    unit: "500g",
+    id: "gym_prod_11",
+    name: "360°CUT 360Pro Premium Whey Protein 951g - Chocolate Silk",
+    description:
+      "24g Protein, chỉ 2g Net Carbs và 1g đường kèm enzyme tiêu hóa tự nhiên giúp hấp thụ trọn vẹn không đầy bụng.",
+    price: 3400,
+    originalPrice: 4000,
+    image: "/gym-assets/gym_11.jpg",
+    category: "whey-protein",
+    unit: "hũ 951g (30 lần dùng)",
+    stock: 48,
     isOrganic: false,
+    rating: 4.8,
+    reviewCount: 119,
+    discount: 15,
   },
   {
-    name: "Hạt điều rang muối Bình Phước 250g",
-    description: "Hạt điều nguyên hạt rang củi giòn bùi, giàu dưỡng chất.",
-    price: 220,
-    originalPrice: 250,
-    image: "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=500&auto=format&fit=crop&q=80",
-    category: "snacks",
-    unit: "hộp 250g",
-    isOrganic: true,
-  },
-  {
-    name: "Khoai tây chiên giòn vị truyền thống 150g",
-    description: "Lát khoai tây tự nhiên chiên giòn rụm cho buổi xế chiều.",
-    price: 65,
-    originalPrice: 75,
-    image: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=500&auto=format&fit=crop&q=80",
-    category: "snacks",
-    unit: "gói 150g",
+    id: "gym_prod_17",
+    name: "Nature's Nutrition Power Packed Whey Protein 886g - Double Rich Chocolate",
+    description:
+      "100% Premium Micronized Whey dễ hòa tan, 24g Protein mỗi muỗng giúp phục hồi và xây dựng cơ bắp sau tập.",
+    price: 3100,
+    originalPrice: 3600,
+    image: "/gym-assets/gym_17.jpg",
+    category: "whey-protein",
+    unit: "hũ 886g (24 lần dùng)",
+    stock: 52,
     isOrganic: false,
+    rating: 4.8,
+    reviewCount: 95,
+    discount: 14,
   },
   {
-    name: "Há cảo tôm thịt đông lạnh 400g",
-    description: "Há cảo nhân tôm thịt tươi ngon, chỉ cần hấp 7 phút là dùng ngay.",
-    price: 150,
-    originalPrice: 170,
-    image: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=500&auto=format&fit=crop&q=80",
-    category: "frozen-foods",
-    unit: "gói 400g",
+    id: "gym_prod_13",
+    name: "Nutrimuscle Massive Muscle Mass Gainer 1kg - Choco Treat",
+    description:
+      "Sữa tăng cân tăng cơ hàm lượng cao: 80g Protein, 1365 Calories, 238g Carbs và tích hợp sẵn Creatine Monohydrate.",
+    price: 2500,
+    originalPrice: 2950,
+    image: "/gym-assets/gym_13.jpg",
+    category: "whey-protein",
+    unit: "hũ 1kg",
+    stock: 40,
     isOrganic: false,
+    rating: 4.7,
+    reviewCount: 112,
+    discount: 15,
   },
   {
-    name: "Kem vani sữa tươi cao cấp 500ml",
-    description: "Kem vani mát lạnh làm từ sữa tươi nguyên kem.",
-    price: 180,
-    originalPrice: 210,
-    image: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=500&auto=format&fit=crop&q=80",
-    category: "frozen-foods",
-    unit: "hộp 500ml",
+    id: "gym_prod_18",
+    name: "Nutrición Avanzada Whey Protein 1kg - Túi Chocolate Cao Cấp",
+    description:
+      "Bột Whey Protein đậm vị Socola đóng túi zip tiện lợi, dễ mang theo phòng tập, bổ sung axit amin thiết yếu mỗi ngày.",
+    price: 2400,
+    originalPrice: 2800,
+    image: "/gym-assets/gym_18.png",
+    category: "whey-protein",
+    unit: "túi 1kg",
+    stock: 55,
     isOrganic: false,
+    rating: 4.7,
+    reviewCount: 74,
+    discount: 14,
   },
+  // 2. PRE-WORKOUT & CREATINE (2 SẢN PHẨM)
   {
-    name: "Sữa tắm thảo mộc thiên nhiên 500ml",
-    description: "Chiết xuất trà xanh và nha đam dịu nhẹ, dưỡng ẩm làn da.",
-    price: 260,
-    originalPrice: 300,
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop&q=80",
-    category: "personal-care",
-    unit: "chai 500ml",
-    isOrganic: true,
-  },
-  {
-    name: "Nước rửa tay kháng khuẩn trà xanh 300ml",
-    description: "Bảo vệ da tay sạch khuẩn với hương trà xanh thanh mát.",
-    price: 110,
-    originalPrice: 130,
-    image: "https://images.unsplash.com/photo-1584305574647-0cc949a2bb9f?w=500&auto=format&fit=crop&q=80",
-    category: "personal-care",
-    unit: "chai 300ml",
+    id: "gym_prod_02",
+    name: "Optimum Nutrition Micronised Creatine Powder 317g (93 Servings)",
+    description:
+      "100% Creatine Monohydrate tinh khiết không mùi (3g/muỗng), tái tạo năng lượng ATP giúp bứt phá sức mạnh và độ dày cơ bắp.",
+    price: 2200,
+    originalPrice: 2600,
+    image: "/gym-assets/gym_02.jpg",
+    category: "pre-workout-creatine",
+    unit: "hũ 317g (93 lần dùng)",
+    stock: 68,
     isOrganic: false,
+    rating: 4.9,
+    reviewCount: 286,
+    discount: 15,
   },
   {
-    name: "Khăn ướt em bé không mùi 100 tờ",
-    description: "99% nước tinh khiết, an toàn cho làn da nhạy cảm của bé.",
-    price: 95,
-    originalPrice: 110,
-    image: "/bobby-baby-wipes.png",
-    category: "baby-care",
-    unit: "gói 100 tờ",
-    isOrganic: true,
-  },
-  {
-    name: "Sữa bột dinh dưỡng công thức cho bé 800g",
-    description: "Bổ sung DHA, canxi và lợi khuẩn hỗ trợ tiêu hóa cho bé.",
-    price: 850,
-    originalPrice: 950,
-    image: "/nan-baby-formula.jpg",
-    category: "baby-care",
-    unit: "hộp 800g",
+    id: "gym_prod_03",
+    name: "RAW BUM Essential Pre-Workout 405g - Sour Watermelon (30 Servings)",
+    description:
+      "Công thức Pre-Workout trứ danh từ Chris Bumstead: tăng tập trung cao độ, bơm máu căng cơ và bùng nổ sức bền vị Dưa hấu chua.",
+    price: 2800,
+    originalPrice: 3300,
+    image: "/gym-assets/gym_03.jpg",
+    category: "pre-workout-creatine",
+    unit: "hũ 405g (30 lần dùng)",
+    stock: 44,
     isOrganic: false,
+    rating: 4.9,
+    reviewCount: 205,
+    discount: 15,
   },
-];
+  // 3. TẠ ĐÒN, BÁNH TẠ & TẠ ẤM (3 SẢN PHẨM)
+  {
+    id: "gym_prod_08",
+    name: "Bộ Đòn Tạ Olympic & Bánh Tạ Cao Su Bumper Plates (PT Essentials)",
+    description:
+      "Trọn bộ thanh đòn Olympic 20kg chịu lực cao cùng bộ bánh tạ màu chuẩn thi đấu (5kg, 10kg, 15kg, 20kg, 25kg) kèm khóa chốt.",
+    price: 28000,
+    originalPrice: 32000,
+    image: "/gym-assets/gym_08.jpg",
+    category: "weights-barbells",
+    unit: "bộ đầy đủ",
+    stock: 15,
+    isOrganic: false,
+    rating: 4.9,
+    reviewCount: 89,
+    discount: 13,
+  },
+  {
+    id: "gym_prod_01",
+    name: "Bánh Tạ Gang Đúc Olympic Standard Barbell 45 LB (20.4 KG)",
+    description:
+      "Bánh tạ gang nguyên khối sơn tĩnh điện chống gỉ, lỗ trục 50mm chuẩn Olympic, độ bền vĩnh cửu cho bài Squat & Deadlift.",
+    price: 4200,
+    originalPrice: 4800,
+    image: "/gym-assets/gym_01.jpg",
+    category: "weights-barbells",
+    unit: "1 bánh (20.4kg)",
+    stock: 32,
+    isOrganic: false,
+    rating: 4.8,
+    reviewCount: 141,
+    discount: 13,
+  },
+  {
+    id: "gym_prod_12",
+    name: "Tạ Ấm Gang Đúc Nguyên Khối Kettlebell Đen Nhám 16kg",
+    description:
+      "Tay cầm bo tròn chống trượt, đáy phẳng vững chãi. Lý tưởng cho Kettlebell Swing, Goblet Squat và đốt mỡ toàn thân.",
+    price: 2600,
+    originalPrice: 3100,
+    image: "/gym-assets/gym_12.jpg",
+    category: "weights-barbells",
+    unit: "1 quả (16kg)",
+    stock: 28,
+    isOrganic: false,
+    rating: 4.8,
+    reviewCount: 108,
+    discount: 16,
+  },
+  // 4. MÁY TẬP & KHUNG GÁNH TẠ (2 SẢN PHẨM)
+  {
+    id: "gym_prod_06",
+    name: "Khung Gánh Tạ Đa Năng Smith Machine Pro (Technogym Style)",
+    description:
+      "Khung thép hộp công nghiệp siêu chịu lực, thanh trượt bạc đạn êm ái kèm chốt khóa an toàn đa điểm và giá treo tạ tích hợp.",
+    price: 65000,
+    originalPrice: 74000,
+    image: "/gym-assets/gym_06.jpg",
+    category: "gym-machines",
+    unit: "1 bộ khung",
+    stock: 8,
+    isOrganic: false,
+    rating: 5.0,
+    reviewCount: 47,
+    discount: 12,
+  },
+  {
+    id: "gym_prod_05",
+    name: "Máy Chạy Bộ Điện Đa Năng nutraGO Pro Motor 4.0HP",
+    description:
+      "Màn hình LCD hiển thị nhịp tim & calo, nâng dốc tự động 15 cấp độ, thảm chạy rộng giảm chấn bảo vệ khớp gối.",
+    price: 42000,
+    originalPrice: 49000,
+    image: "/gym-assets/gym_05.jpg",
+    category: "gym-machines",
+    unit: "1 máy",
+    stock: 12,
+    isOrganic: false,
+    rating: 4.9,
+    reviewCount: 64,
+    discount: 14,
+  },
+  // 5. BOXING & PHỤ KIỆN TẬP LUYỆN (5 SẢN PHẨM)
+  {
+    id: "gym_prod_07",
+    name: "Bao Cát Đấm Bốc Boxing Heavy Bag 1.5m Da PU Chịu Lực",
+    description:
+      "Bao cát chuyên nghiệp nhồi sẵn ruột ép mật độ cao, dây đai treo chịu tải nặng, giúp rèn lực đấm, đá và Cardio cường độ cao.",
+    price: 5200,
+    originalPrice: 6000,
+    image: "/gym-assets/gym_07.jpg",
+    category: "boxing-accessories",
+    unit: "1 bao (1.5m)",
+    stock: 20,
+    isOrganic: false,
+    rating: 4.8,
+    reviewCount: 77,
+    discount: 13,
+  },
+  {
+    id: "gym_prod_10",
+    name: "Bóng Đấm Tốc Độ & Phản Xạ Venum Pro Boxing Uppercut Bag",
+    description:
+      "Thiết kế giọt nước chuyên luyện đòn móc (Hook/Uppercut), né đòn và tăng phản xạ tốc độ tay chuẩn võ sĩ chuyên nghiệp.",
+    price: 3800,
+    originalPrice: 4400,
+    image: "/gym-assets/gym_10.jpg",
+    category: "boxing-accessories",
+    unit: "1 quả bóng",
+    stock: 24,
+    isOrganic: false,
+    rating: 4.9,
+    reviewCount: 61,
+    discount: 14,
+  },
+  {
+    id: "gym_prod_09",
+    name: "Dây Nhảy Thể Lực Lõi Thép Tốc Độ Cao Ballistic Speed Rope",
+    description:
+      "Tay cầm nhôm CNC chống trượt tích hợp vòng bi xoay 360°, dây cáp bọc PVC bền bỉ cho bài tập Double-Under & HIIT đốt mỡ.",
+    price: 950,
+    originalPrice: 1200,
+    image: "/gym-assets/gym_09.jpg",
+    category: "boxing-accessories",
+    unit: "1 dây",
+    stock: 75,
+    isOrganic: false,
+    rating: 4.8,
+    reviewCount: 152,
+    discount: 21,
+  },
+  {
+    id: "gym_prod_16",
+    name: "Con Lăn Massage Giãn Cơ Foam Roller Yes4All High-Density",
+    description:
+      "Bề mặt gai 3D giải tỏa căng thẳng mô cơ sâu (Myofascial Release), giảm đau nhức lưng và bắp chân sau buổi tập nặng.",
+    price: 1100,
+    originalPrice: 1400,
+    image: "/gym-assets/gym_16.jpg",
+    category: "boxing-accessories",
+    unit: "1 con lăn",
+    stock: 58,
+    isOrganic: false,
+    rating: 4.8,
+    reviewCount: 134,
+    discount: 21,
+  },
+  {
+    id: "gym_prod_04",
+    name: "Kìm Tập Lực Bóp Tay Điều Chỉnh Kháng Lực 10kg – 60kg",
+    description:
+      "Lò xo thép không gỉ điều chỉnh mượt mà từ 10 đến 60kg, tăng lực nắm cẳng tay (Grip Strength) hỗ trợ kéo xà và Deadlift.",
+    price: 650,
+    originalPrice: 850,
+    image: "/gym-assets/gym_04.jpg",
+    category: "boxing-accessories",
+    unit: "1 cái",
+    stock: 90,
+    isOrganic: false,
+    rating: 4.7,
+    reviewCount: 183,
+    discount: 24,
+  },
+] as const;
+
+export async function syncNutragoCatalogProducts(replaceLegacy = false) {
+  const db = getDatabase();
+  const validCategories = NUTRAGO_CATEGORIES.map((c) => c.slug);
+
+  let deletedLegacyCount = 0;
+  if (replaceLegacy) {
+    const deleted = await db.product.deleteMany({
+      where: {
+        category: { notIn: validCategories },
+      },
+    });
+    deletedLegacyCount = deleted.count;
+  }
+
+  for (const item of NUTRAGO_CATALOG_PRODUCTS) {
+    await db.product.upsert({
+      where: { id: item.id },
+      create: {
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        originalPrice: item.originalPrice,
+        image: item.image,
+        category: item.category,
+        unit: item.unit,
+        stock: item.stock,
+        isOrganic: item.isOrganic,
+        rating: item.rating,
+        reviewCount: item.reviewCount,
+        discount: item.discount,
+      },
+      update: {
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        originalPrice: item.originalPrice,
+        image: item.image,
+        category: item.category,
+        unit: item.unit,
+        isOrganic: item.isOrganic,
+      },
+    });
+  }
+
+  const products = await db.product.findMany({ orderBy: { createdAt: "desc" } });
+  return {
+    deletedLegacyCount,
+    totalProducts: products.length,
+    products: products.map(productDto),
+  };
+}
 
 export async function randomizeAndSyncCatalogProducts(
   options: z.infer<typeof randomizeProductsSchema> = {
@@ -1268,30 +1551,7 @@ export async function randomizeAndSyncCatalogProducts(
   const minStock = Math.min(options.minStock, options.maxStock);
   const maxStock = Math.max(options.minStock, options.maxStock);
 
-  // Đảm bảo các danh mục còn thiếu đều có sản phẩm hiện hữu trên CSDL
-  const currentProducts = await db.product.findMany();
-  const existingNames = new Set(currentProducts.map((p) => p.name.toLowerCase()));
-
-  for (const extra of EXTRA_CATALOG_PRODUCTS) {
-    if (!existingNames.has(extra.name.toLowerCase())) {
-      await db.product.create({
-        data: {
-          name: extra.name,
-          description: extra.description,
-          price: extra.price,
-          originalPrice: extra.originalPrice,
-          image: extra.image,
-          category: extra.category,
-          unit: extra.unit,
-          stock: crypto.randomInt(15, 85),
-          isOrganic: extra.isOrganic,
-          rating: 4.7,
-          reviewCount: crypto.randomInt(12, 65),
-          discount: Math.round(((extra.originalPrice - extra.price) / extra.originalPrice) * 100),
-        },
-      });
-    }
-  }
+  await syncNutragoCatalogProducts(false);
 
   const existingProducts = await db.product.findMany({
     orderBy: { createdAt: "desc" },
@@ -1379,6 +1639,17 @@ storeRouter.post(
   async (request, response) => {
     const options = randomizeProductsSchema.parse(request.body ?? {});
     const result = await randomizeAndSyncCatalogProducts(options);
+    response.json(result);
+  },
+);
+
+storeRouter.post(
+  "/admin/products/sync-nutrago",
+  requireAuth,
+  requireAdmin,
+  async (request, response) => {
+    const replaceLegacy = Boolean(request.body?.replaceLegacy ?? true);
+    const result = await syncNutragoCatalogProducts(replaceLegacy);
     response.json(result);
   },
 );
