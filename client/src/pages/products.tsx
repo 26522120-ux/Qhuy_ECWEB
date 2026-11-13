@@ -305,7 +305,7 @@ const Products = () => {
             </div>
 
             {visibleProducts.length > 0 ? (
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-4">
+              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 xl:grid-cols-4">
                 {visibleProducts.map((product) => (
                   <article
                     key={product._id}
@@ -348,7 +348,7 @@ const Products = () => {
                         />
                       </div>
 
-                      <div className="p-3 pb-2 sm:p-3.5 sm:pb-2">
+                      <div className="p-2.5 pb-2 sm:p-3.5 sm:pb-2">
                         <div className="flex items-center justify-between gap-2">
                           <span className="truncate text-[10px] font-bold tracking-wider text-[#b8f927] uppercase">
                             {getCategoryNameVi(product.category)}
@@ -362,7 +362,7 @@ const Products = () => {
                           </span>
                         </div>
 
-                        <h2 className="mt-1.5 line-clamp-2 min-h-9 text-xs font-bold leading-4.5 text-white transition group-hover:text-[#b8f927] sm:min-h-10 sm:text-sm sm:leading-5">
+                        <h2 className="mt-1.5 text-[13px] font-bold leading-[1.35] break-words text-white transition group-hover:text-[#b8f927] sm:text-sm sm:leading-5">
                           {getProductNameVi(product)}
                         </h2>
 
@@ -377,9 +377,9 @@ const Products = () => {
                     </Link>
 
                     {/* Giá & nút Thêm vào giỏ */}
-                    <div className="mt-auto flex items-center justify-between gap-2 border-t border-zinc-800/80 px-3 py-2.5 sm:px-3.5 sm:py-3">
+                    <div className="mt-auto flex items-center justify-between gap-1.5 border-t border-zinc-800/80 px-2.5 py-2 sm:gap-2 sm:px-3.5 sm:py-3">
                       <div className="min-w-0">
-                        <p className="truncate font-display text-base font-black text-white sm:text-lg">
+                        <p className="truncate font-display text-sm font-black text-white sm:text-lg">
                           {formatVnd(product.price)}
                         </p>
                         {product.originalPrice > product.price && (
@@ -394,9 +394,9 @@ const Products = () => {
                         disabled={product.stock <= 0}
                         onClick={() => addItem(product, 1)}
                         aria-label={`Thêm ${getProductNameVi(product)} vào giỏ`}
-                        className="inline-flex shrink-0 items-center gap-1 rounded-xs bg-[#b8f927] px-2.5 py-2 text-[11px] font-extrabold text-black uppercase transition hover:bg-[#c8ff47] disabled:opacity-40 sm:px-3"
+                        className="inline-flex shrink-0 items-center gap-1 rounded-xs bg-[#b8f927] px-2.5 py-1.5 text-[10px] font-extrabold text-black uppercase transition hover:bg-[#c8ff47] disabled:opacity-40 sm:px-3 sm:py-2 sm:text-[11px]"
                       >
-                        <Plus size={14} strokeWidth={2.5} />
+                        <Plus size={13} strokeWidth={2.5} />
                         <span>Thêm</span>
                       </button>
                     </div>

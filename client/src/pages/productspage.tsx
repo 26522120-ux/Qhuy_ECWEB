@@ -246,8 +246,8 @@ const ProductPage = () => {
                       className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
                     />
                   </div>
-                  <div className="p-3.5">
-                    <h3 className="line-clamp-2 min-h-10 text-xs font-bold text-white group-hover:text-[#b8f927] sm:text-sm">
+                  <div className="p-2.5 sm:p-3.5">
+                    <h3 className="text-[13px] leading-[1.35] font-bold break-words text-white group-hover:text-[#b8f927] sm:text-sm">
                       {getProductNameVi(relatedProduct)}
                     </h3>
                     <p className="mt-2 font-display text-base font-extrabold text-[#b8f927]">

@@ -566,7 +566,7 @@ const Checkout = () => {
                   className="size-12 rounded-lg bg-app-cream object-contain p-1"
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="line-clamp-1 text-sm font-medium text-app-green">
+                  <p className="text-sm font-medium break-words text-app-green">
                     {getProductNameVi(product)}
                   </p>
                   <p className="text-xs text-app-text-light">
