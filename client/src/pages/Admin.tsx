@@ -51,7 +51,7 @@ interface ProductForm {
 const emptyProductForm: ProductForm = {
   name: "",
   description: "",
-  category: categoriesData[0]?.slug ?? "fruits-vegetables",
+  category: categoriesData[0]?.slug ?? "whey-protein",
   image: "",
   price: "",
   originalPrice: "",
@@ -366,7 +366,7 @@ const Admin = () => {
 
   if (!accessChecked) {
     return (
-      <main className="mx-auto max-w-3xl px-4 py-16 text-center text-app-text-light">
+      <main className="min-h-screen bg-[#0b0d0c] px-4 py-20 text-center text-zinc-400">
         Đang kiểm tra quyền quản trị viên từ máy chủ...
       </main>
     );
@@ -374,755 +374,788 @@ const Admin = () => {
 
   if (accessError) {
     return (
-      <main className="mx-auto max-w-2xl px-4 py-16 text-center">
-        <h1 className="font-serif text-3xl text-app-green">
-          Yêu cầu đăng nhập Quản trị viên
-        </h1>
-        <p className="mt-3 text-sm leading-6 text-app-text-light">
-          {accessError}
-        </p>
-        <Link
-          to="/login"
-          className="mt-5 inline-block rounded-xl bg-app-green px-6 py-3 text-sm font-semibold text-white hover:bg-app-green-light"
-        >
-          Đăng nhập ngay
-        </Link>
+      <main className="min-h-screen bg-[#0b0d0c] px-4 py-20 text-center text-white">
+        <div className="mx-auto max-w-lg rounded-xs border border-zinc-800 bg-[#111513] p-8">
+          <p className="text-xs font-bold tracking-[0.22em] text-[#b8f927] uppercase">
+            // XÁC THỰC QUẢN TRỊ
+          </p>
+          <h1 className="mt-2 font-display text-3xl font-black text-white uppercase">
+            Yêu cầu đăng nhập Quản trị viên
+          </h1>
+          <p className="mt-3 text-sm leading-6 text-zinc-400">{accessError}</p>
+          <Link
+            to="/login"
+            className="mt-6 inline-block rounded-xs bg-[#b8f927] px-6 py-3 text-xs font-extrabold tracking-wider text-black uppercase transition hover:bg-[#c9ff4d]"
+          >
+            Đăng nhập ngay
+          </Link>
+        </div>
       </main>
     );
   }
 
   if (adminSubject) {
     return (
-      <main className="mx-auto max-w-xl px-4 py-20 text-center">
-        <h1 className="font-serif text-3xl text-app-green">
-          Khu vực dành riêng cho Quản trị viên
-        </h1>
-        <p className="mt-3 text-sm leading-6 text-app-text-light">
-          Tài khoản hiện tại không có quyền truy cập trang quản trị.
-        </p>
-        <div className="mt-6 flex justify-center gap-3">
-          <Link
-            to="/"
-            className="rounded-xl border border-app-border px-5 py-2.5 text-sm font-semibold text-app-green hover:bg-app-cream"
-          >
-            Về trang chủ
-          </Link>
-          <Link
-            to="/login"
-            className="rounded-xl bg-app-green px-5 py-2.5 text-sm font-semibold text-white hover:bg-app-green-light"
-          >
-            Đổi tài khoản
-          </Link>
+      <main className="min-h-screen bg-[#0b0d0c] px-4 py-20 text-center text-white">
+        <div className="mx-auto max-w-lg rounded-xs border border-zinc-800 bg-[#111513] p-8">
+          <p className="text-xs font-bold tracking-[0.22em] text-red-400 uppercase">
+            // TRUY CẬP BỊ TỪ CHỐI
+          </p>
+          <h1 className="mt-2 font-display text-3xl font-black text-white uppercase">
+            Khu vực dành riêng cho Quản trị viên
+          </h1>
+          <p className="mt-3 text-sm leading-6 text-zinc-400">
+            Tài khoản hiện tại không có quyền truy cập trang quản trị.
+          </p>
+          <div className="mt-6 flex justify-center gap-3">
+            <Link
+              to="/"
+              className="rounded-xs border border-zinc-700 bg-[#0b0d0c] px-5 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition hover:border-[#b8f927] hover:text-[#b8f927]"
+            >
+              Về trang chủ
+            </Link>
+            <Link
+              to="/login"
+              className="rounded-xs bg-[#b8f927] px-5 py-2.5 text-xs font-extrabold tracking-wider text-black uppercase transition hover:bg-[#c9ff4d]"
+            >
+              Đổi tài khoản
+            </Link>
+          </div>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-sm font-semibold text-app-orange">
-            Quản trị cửa hàng
-          </p>
-          <h1 className="mt-1 font-serif text-3xl text-app-green">
-            Bảng điều khiển — {adminUserName}
-          </h1>
+    <main className="min-h-screen bg-[#0b0d0c] text-white">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-6">
+          <div>
+            <p className="text-xs font-bold tracking-[0.22em] text-[#b8f927] uppercase">
+              // QUẢN TRỊ HỆ THỐNG nutraGO
+            </p>
+            <h1 className="mt-1.5 font-display text-3xl font-black tracking-tight text-white uppercase sm:text-5xl">
+              BẢNG ĐIỀU KHIỂN &mdash; {adminUserName}
+            </h1>
+          </div>
+          <span className="inline-flex items-center gap-2 rounded-xs border border-[#b8f927]/35 bg-[#b8f927]/10 px-3.5 py-2 text-xs font-extrabold tracking-wider text-[#b8f927] uppercase">
+            <Shield size={14} />
+            QUYỀN ADMIN
+          </span>
         </div>
-      </div>
 
-      {/* BANNER THÔNG BÁO TỒN KHO THỜI GIAN THỰC */}
-      {(outOfStockProducts.length > 0 || lowStockProducts.length > 0) && (
-        <section className="mb-6 rounded-2xl border border-amber-300 bg-amber-50 p-4 sm:p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5">
-              <AlertTriangle size={20} className="shrink-0 text-amber-700" />
-              <h2 className="font-semibold text-amber-950">
-                Thông báo tồn kho cần chú ý ({outOfStockProducts.length} hết
-                hàng, {lowStockProducts.length} sắp hết hàng)
-              </h2>
-            </div>
-            <button
-              type="button"
-              onClick={() => setActiveTab("products")}
-              className="text-xs font-semibold text-app-green underline underline-offset-2 hover:text-app-orange"
-            >
-              Xem trong Quản lý sản phẩm
-            </button>
-          </div>
-          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {[...outOfStockProducts, ...lowStockProducts]
-              .slice(0, 6)
-              .map((item) => (
-                <div
-                  key={item._id}
-                  className="flex items-center justify-between gap-2 rounded-xl border border-amber-200 bg-white px-3 py-2 text-xs"
-                >
-                  <div className="min-w-0">
-                    <p className="truncate font-semibold text-app-green">
-                      {getProductNameVi(item)}
-                    </p>
-                    <p
-                      className={
-                        item.stock <= 0
-                          ? "font-bold text-red-600"
-                          : "font-medium text-amber-700"
-                      }
-                    >
-                      {item.stock <= 0
-                        ? "Hết hàng (0 sản phẩm)"
-                        : `Sắp hết: chỉ còn ${item.stock} ${item.unit}`}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      void handleQuickStockChange(item, item.stock + 50)
-                    }
-                    className="shrink-0 rounded-lg bg-app-green px-2.5 py-1.5 font-semibold text-white hover:bg-app-green-light"
-                  >
-                    + Nhập 50
-                  </button>
-                </div>
-              ))}
-          </div>
-        </section>
-      )}
-
-      <div className="grid gap-6 lg:grid-cols-[230px_minmax(0,1fr)]">
-        <aside className="h-fit rounded-2xl border border-app-border bg-white p-4 lg:sticky lg:top-6">
-          <div className="flex items-center gap-3 border-b border-app-border px-2 pb-4">
-            <span className="flex size-10 items-center justify-center rounded-xl bg-app-green/10 text-app-green">
-              <Shield size={20} />
-            </span>
-            <div className="min-w-0">
-              <p className="truncate font-semibold text-app-green">
-                {adminUserName}
-              </p>
-              <p className="text-xs font-medium text-app-orange">
-                Quyền: ADMIN
-              </p>
-            </div>
-          </div>
-          <nav
-            aria-label="Điều hướng quản trị"
-            className="no-scrollbar mt-3 flex gap-1.5 overflow-x-auto pb-1 lg:flex-col lg:space-y-1 lg:overflow-visible lg:pb-0"
-          >
-            {tabs.map(({ id, label, icon: Icon }) => (
+        {/* BANNER THÔNG BÁO TỒN KHO THỜI GIAN THỰC */}
+        {(outOfStockProducts.length > 0 || lowStockProducts.length > 0) && (
+          <section className="mb-6 rounded-xs border border-amber-500/40 bg-amber-500/10 p-4 sm:p-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <AlertTriangle size={20} className="shrink-0 text-amber-400" />
+                <h2 className="font-display text-lg font-bold tracking-wide text-amber-200 uppercase">
+                  Thông báo tồn kho cần chú ý ({outOfStockProducts.length} hết
+                  hàng, {lowStockProducts.length} sắp hết hàng)
+                </h2>
+              </div>
               <button
                 type="button"
-                key={id}
-                onClick={() => setActiveTab(id)}
-                aria-current={activeTab === id ? "page" : undefined}
-                className={`flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-medium lg:w-full lg:gap-3 lg:py-2.5 lg:text-sm ${
-                  activeTab === id
-                    ? "bg-app-green text-white"
-                    : "text-app-text-light hover:bg-app-cream hover:text-app-green"
-                }`}
+                onClick={() => setActiveTab("products")}
+                className="text-xs font-bold tracking-wider text-[#b8f927] uppercase underline underline-offset-4 hover:text-white"
               >
-                <Icon size={16} />
-                {label}
+                Xem trong Quản lý sản phẩm
               </button>
-            ))}
-          </nav>
-        </aside>
-
-        <div className="min-w-0">
-          {activeTab === "dashboard" && (
-            <section>
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                {[
-                  {
-                    label: "Tổng sản phẩm hiện hữu",
-                    value: products.length,
-                    sub: `Tổng tồn kho: ${totalStockUnits} đv`,
-                    icon: Package,
-                  },
-                  {
-                    label: "Cảnh báo tồn kho",
-                    value: outOfStockProducts.length + lowStockProducts.length,
-                    sub: `${outOfStockProducts.length} hết hàng • ${lowStockProducts.length} sắp hết`,
-                    icon: BarChart3,
-                  },
-                  {
-                    label: "Tổng đơn hàng",
-                    value: orders.length,
-                    sub: `${pendingOrders} đơn chờ xử lý`,
-                    icon: ClipboardList,
-                  },
-                  {
-                    label: "Tài khoản trên Neon DB",
-                    value: usersList.length,
-                    sub: `${usersList.filter((u) => u.isAdmin).length} Admin được phân quyền`,
-                    icon: Users,
-                  },
-                ].map(({ label, value, sub, icon: Icon }) => (
-                  <article
-                    key={label}
-                    className="rounded-2xl border border-app-border bg-white p-5"
+            </div>
+            <div className="mt-3 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+              {[...outOfStockProducts, ...lowStockProducts]
+                .slice(0, 6)
+                .map((item) => (
+                  <div
+                    key={item._id}
+                    className="flex items-center justify-between gap-2 rounded-xs border border-zinc-800 bg-[#111513] px-3.5 py-2.5 text-xs"
                   >
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm text-app-text-light">{label}</p>
-                      <span className="flex size-10 items-center justify-center rounded-xl bg-emerald-50 text-app-orange">
-                        <Icon size={19} />
-                      </span>
-                    </div>
-                    <p className="mt-3 text-3xl font-semibold text-app-green">
-                      {value}
-                    </p>
-                    <p className="mt-1 text-xs text-app-text-light">{sub}</p>
-                  </article>
-                ))}
-              </div>
-
-              <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_300px]">
-                <section className="rounded-2xl border border-app-border bg-white p-5">
-                  <div className="flex flex-wrap items-end justify-between gap-3">
-                    <div>
-                      <h2 className="text-lg font-semibold text-app-green">
-                        Doanh thu 7 ngày gần nhất
-                      </h2>
-                      <p className="mt-1 text-sm text-app-text-light">
-                        Tổng doanh thu đơn không bị hủy:{" "}
-                        {formatVndAmount(totalRevenue)}
+                    <div className="min-w-0">
+                      <p className="truncate font-semibold text-white">
+                        {getProductNameVi(item)}
+                      </p>
+                      <p
+                        className={
+                          item.stock <= 0
+                            ? "font-bold text-red-400"
+                            : "font-medium text-amber-400"
+                        }
+                      >
+                        {item.stock <= 0
+                          ? "Hết hàng (0 sản phẩm)"
+                          : `Sắp hết: chỉ còn ${item.stock} ${item.unit}`}
                       </p>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        void handleQuickStockChange(item, item.stock + 50)
+                      }
+                      className="shrink-0 rounded-xs bg-[#b8f927] px-2.5 py-1.5 text-[11px] font-extrabold text-black uppercase transition hover:bg-[#c9ff4d]"
+                    >
+                      + Nhập 50
+                    </button>
                   </div>
-                  <div className="mt-6 flex h-48 items-end gap-2 sm:gap-4">
-                    {weeklySales.map((day, index) => (
-                      <div
-                        key={`${day.label}-${index}`}
-                        className="flex h-full flex-1 flex-col items-center justify-end gap-2"
-                      >
-                        <span className="text-center text-[10px] text-app-text-light">
-                          {day.amount > 0 ? formatVndAmount(day.amount) : ""}
-                        </span>
-                        <div
-                          className="w-full max-w-12 rounded-t-lg bg-app-orange transition-all"
-                          style={{
-                            height: `${day.amount ? Math.max((day.amount / maxWeeklySales) * 100, 8) : 2}%`,
-                          }}
-                          title={`${day.label}: ${formatVndAmount(day.amount)}`}
-                        />
-                        <span className="text-xs capitalize text-app-text-light">
-                          {day.label}
+                ))}
+            </div>
+          </section>
+        )}
+
+        <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
+          <aside className="h-fit rounded-xs border border-zinc-800 bg-[#111513] p-4 lg:sticky lg:top-20">
+            <div className="flex items-center gap-3 border-b border-zinc-800 px-2 pb-4">
+              <span className="flex size-10 items-center justify-center rounded-xs border border-[#b8f927]/30 bg-[#b8f927]/10 text-[#b8f927]">
+                <Shield size={18} />
+              </span>
+              <div className="min-w-0">
+                <p className="truncate font-display text-base font-bold tracking-wide text-white uppercase">
+                  {adminUserName}
+                </p>
+                <p className="text-[11px] font-bold tracking-wider text-[#b8f927] uppercase">
+                  Quản trị viên
+                </p>
+              </div>
+            </div>
+            <nav
+              aria-label="Điều hướng quản trị"
+              className="no-scrollbar mt-3 flex gap-1.5 overflow-x-auto pb-1 lg:flex-col lg:space-y-1 lg:overflow-visible lg:pb-0"
+            >
+              {tabs.map(({ id, label, icon: Icon }) => (
+                <button
+                  type="button"
+                  key={id}
+                  onClick={() => setActiveTab(id)}
+                  aria-current={activeTab === id ? "page" : undefined}
+                  className={`flex shrink-0 items-center gap-2 rounded-xs px-3 py-2.5 text-left text-xs font-bold tracking-wider uppercase transition lg:w-full lg:gap-3 ${
+                    activeTab === id
+                      ? "bg-[#b8f927] text-black shadow-[0_0_20px_rgba(184,249,39,0.2)]"
+                      : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                  }`}
+                >
+                  <Icon size={16} />
+                  {label}
+                </button>
+              ))}
+            </nav>
+          </aside>
+
+          <div className="min-w-0">
+            {activeTab === "dashboard" && (
+              <section>
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                  {[
+                    {
+                      label: "Tổng sản phẩm hiện hữu",
+                      value: products.length,
+                      sub: `Tổng tồn kho: ${totalStockUnits} đv`,
+                      icon: Package,
+                    },
+                    {
+                      label: "Cảnh báo tồn kho",
+                      value:
+                        outOfStockProducts.length + lowStockProducts.length,
+                      sub: `${outOfStockProducts.length} hết hàng • ${lowStockProducts.length} sắp hết`,
+                      icon: BarChart3,
+                    },
+                    {
+                      label: "Tổng đơn hàng",
+                      value: orders.length,
+                      sub: `${pendingOrders} đơn chờ xử lý`,
+                      icon: ClipboardList,
+                    },
+                    {
+                      label: "Tài khoản trên Neon DB",
+                      value: usersList.length,
+                      sub: `${usersList.filter((u) => u.isAdmin).length} Admin được phân quyền`,
+                      icon: Users,
+                    },
+                  ].map(({ label, value, sub, icon: Icon }) => (
+                    <article
+                      key={label}
+                      className="rounded-xs border border-zinc-800 bg-[#111513] p-5 transition hover:border-zinc-700"
+                    >
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">
+                          {label}
+                        </p>
+                        <span className="flex size-10 items-center justify-center rounded-xs border border-[#b8f927]/25 bg-[#b8f927]/10 text-[#b8f927]">
+                          <Icon size={18} />
                         </span>
                       </div>
-                    ))}
-                  </div>
-                </section>
+                      <p className="mt-3 font-display text-4xl font-black text-white">
+                        {value}
+                      </p>
+                      <p className="mt-1 text-xs text-zinc-400">{sub}</p>
+                    </article>
+                  ))}
+                </div>
 
-                <section className="rounded-2xl border border-app-border bg-white p-5">
-                  <h2 className="text-lg font-semibold text-app-green">
-                    Tác vụ nhanh Admin
-                  </h2>
-                  <p className="mt-1 text-xs text-app-text-light">
-                    Tổng đơn vị hàng trong kho:{" "}
-                    <strong>{totalStockUnits}</strong>
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActiveTab("products");
-                      openNewProductForm();
-                    }}
-                    className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-app-orange px-4 py-2.5 text-xs font-semibold text-white hover:bg-app-orange-dark"
-                  >
-                    <Plus size={16} />
-                    Thêm sản phẩm mới
-                  </button>
-                  <div className="mt-4 border-t border-app-border pt-4">
-                    <p className="text-sm text-app-text-light">
-                      Đơn hàng đang chờ xử lý
-                    </p>
-                    <p className="mt-1 text-2xl font-semibold text-app-orange">
-                      {pendingOrders}
+                <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_300px]">
+                  <section className="rounded-xs border border-zinc-800 bg-[#111513] p-5">
+                    <div className="flex flex-wrap items-end justify-between gap-3">
+                      <div>
+                        <h2 className="font-display text-xl font-bold tracking-wide text-white uppercase">
+                          Doanh thu 7 ngày gần nhất
+                        </h2>
+                        <p className="mt-1 text-xs text-zinc-400 sm:text-sm">
+                          Tổng doanh thu đơn không bị hủy:{" "}
+                          <span className="font-bold text-[#b8f927]">
+                            {formatVndAmount(totalRevenue)}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-6 flex h-48 items-end gap-2 sm:gap-4">
+                      {weeklySales.map((day, index) => (
+                        <div
+                          key={`${day.label}-${index}`}
+                          className="flex h-full flex-1 flex-col items-center justify-end gap-2"
+                        >
+                          <span className="text-center text-[10px] text-zinc-400">
+                            {day.amount > 0 ? formatVndAmount(day.amount) : ""}
+                          </span>
+                          <div
+                            className="w-full max-w-12 rounded-t-xs bg-[#b8f927] transition-all"
+                            style={{
+                              height: `${day.amount ? Math.max((day.amount / maxWeeklySales) * 100, 8) : 2}%`,
+                            }}
+                            title={`${day.label}: ${formatVndAmount(day.amount)}`}
+                          />
+                          <span className="text-xs text-zinc-400 capitalize">
+                            {day.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="rounded-xs border border-zinc-800 bg-[#111513] p-5">
+                    <h2 className="font-display text-xl font-bold tracking-wide text-white uppercase">
+                      Tác vụ nhanh Admin
+                    </h2>
+                    <p className="mt-1 text-xs text-zinc-400">
+                      Tổng đơn vị hàng trong kho:{" "}
+                      <strong className="text-white">{totalStockUnits}</strong>
                     </p>
                     <button
                       type="button"
-                      onClick={() => setActiveTab("orders")}
-                      className="mt-2 text-xs font-semibold text-app-green underline underline-offset-2"
+                      onClick={() => {
+                        setActiveTab("products");
+                        openNewProductForm();
+                      }}
+                      className="mt-4 flex w-full items-center justify-center gap-2 rounded-xs bg-[#b8f927] px-4 py-3 text-xs font-extrabold tracking-wider text-black uppercase transition hover:bg-[#c9ff4d]"
                     >
-                      Mở danh sách đơn hàng
+                      <Plus size={16} />
+                      Thêm sản phẩm mới
                     </button>
-                  </div>
-                  <div className="mt-4 border-t border-app-border pt-4">
-                    <p className="text-sm text-app-text-light">
-                      Thuế đang áp dụng:{" "}
-                      <strong className="text-app-green">{taxRate}%</strong>
+                    <div className="mt-4 border-t border-zinc-800 pt-4">
+                      <p className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">
+                        Đơn hàng đang chờ xử lý
+                      </p>
+                      <p className="mt-1 font-display text-3xl font-black text-[#b8f927]">
+                        {pendingOrders}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab("orders")}
+                        className="mt-2 text-xs font-bold tracking-wider text-zinc-300 uppercase underline underline-offset-4 hover:text-[#b8f927]"
+                      >
+                        Mở danh sách đơn hàng
+                      </button>
+                    </div>
+                    <div className="mt-4 border-t border-zinc-800 pt-4">
+                      <p className="text-xs text-zinc-400">
+                        Thuế đang áp dụng:{" "}
+                        <strong className="text-white">{taxRate}%</strong>
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab("settings")}
+                        className="mt-1 text-xs font-bold tracking-wider text-zinc-300 uppercase underline underline-offset-4 hover:text-[#b8f927]"
+                      >
+                        Điều chỉnh thuế
+                      </button>
+                    </div>
+                  </section>
+                </div>
+
+                <OrdersTable
+                  orders={orders.slice(0, 5)}
+                  onStatusChange={handleUpdateOrderStatus}
+                  compact
+                />
+              </section>
+            )}
+
+            {activeTab === "products" && (
+              <section className="rounded-xs border border-zinc-800 bg-[#111513]">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 p-5">
+                  <div>
+                    <h2 className="font-display text-xl font-bold tracking-wide text-white uppercase">
+                      Quản lý sản phẩm &amp; Tồn kho (Chỉ dành cho Admin)
+                    </h2>
+                    <p className="mt-1 text-xs text-zinc-400 sm:text-sm">
+                      {products.length} sản phẩm hiện hữu &bull; Tổng kho:{" "}
+                      {totalStockUnits} sản phẩm &bull;{" "}
+                      <span className="font-semibold text-amber-400">
+                        {lowStockProducts.length} sắp hết
+                      </span>{" "}
+                      &bull;{" "}
+                      <span className="font-semibold text-red-400">
+                        {outOfStockProducts.length} hết hàng
+                      </span>
                     </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2.5">
                     <button
                       type="button"
-                      onClick={() => setActiveTab("settings")}
-                      className="mt-1 text-xs font-semibold text-app-green underline underline-offset-2"
+                      onClick={openNewProductForm}
+                      className="inline-flex items-center gap-2 rounded-xs bg-[#b8f927] px-4 py-2.5 text-xs font-extrabold tracking-wider text-black uppercase transition hover:bg-[#c9ff4d]"
                     >
-                      Điều chỉnh thuế
+                      <Plus size={16} />
+                      Thêm sản phẩm
                     </button>
                   </div>
-                </section>
-              </div>
-
-              <OrdersTable
-                orders={orders.slice(0, 5)}
-                onStatusChange={handleUpdateOrderStatus}
-                compact
-              />
-            </section>
-          )}
-
-          {activeTab === "products" && (
-            <section className="rounded-2xl border border-app-border bg-white">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-app-border p-5">
-                <div>
-                  <h2 className="text-lg font-semibold text-app-green">
-                    Quản lý sản phẩm & Tồn kho (Chỉ dành cho Admin)
-                  </h2>
-                  <p className="mt-1 text-sm text-app-text-light">
-                    {products.length} sản phẩm hiện hữu • Tổng kho:{" "}
-                    {totalStockUnits} sản phẩm •{" "}
-                    <span className="font-medium text-amber-700">
-                      {lowStockProducts.length} sắp hết
-                    </span>{" "}
-                    •{" "}
-                    <span className="font-medium text-red-600">
-                      {outOfStockProducts.length} hết hàng
-                    </span>
-                  </p>
                 </div>
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <button
-                    type="button"
-                    onClick={openNewProductForm}
-                    className="inline-flex items-center gap-2 rounded-xl bg-app-orange px-4 py-2.5 text-sm font-semibold text-white hover:bg-app-orange-dark"
-                  >
-                    <Plus size={17} />
-                    Thêm sản phẩm
-                  </button>
-                </div>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[780px] text-left text-sm">
-                  <thead className="bg-app-cream text-xs uppercase text-app-text-light">
-                    <tr>
-                      <th className="px-5 py-3 font-medium">Sản phẩm</th>
-                      <th className="px-5 py-3 font-medium">Danh mục</th>
-                      <th className="px-5 py-3 font-medium">Giá bán</th>
-                      <th className="px-5 py-3 font-medium">
-                        Số lượng tồn kho
-                      </th>
-                      <th className="px-5 py-3 font-medium">Trạng thái kho</th>
-                      <th className="px-5 py-3 font-medium">Giảm giá</th>
-                      <th className="px-5 py-3 font-medium">Thao tác</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-app-border">
-                    {products.map((product) => (
-                      <tr key={product._id}>
-                        <td className="px-5 py-3">
-                          <div className="flex items-center gap-3">
-                            <img
-                              src={product.image}
-                              alt=""
-                              className="size-11 rounded-lg bg-app-cream object-contain p-1"
-                            />
-                            <span className="max-w-48 truncate font-medium text-app-green">
-                              {getProductNameVi(product)}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-5 py-3 text-app-text-light">
-                          {getCategoryNameVi(product.category)}
-                        </td>
-                        <td className="whitespace-nowrap px-5 py-3 font-medium text-app-green">
-                          {formatVnd(product.price)}
-                        </td>
-                        <td className="px-5 py-3">
-                          <div className="inline-flex items-center gap-1.5">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                void handleQuickStockChange(
-                                  product,
-                                  product.stock - 10,
-                                )
-                              }
-                              className="rounded border border-app-border px-2 py-0.5 text-xs font-bold text-app-text hover:bg-app-cream"
-                              title="Giảm 10"
-                            >
-                              -10
-                            </button>
-                            <span className="min-w-10 text-center font-mono font-semibold text-app-text">
-                              {product.stock}
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                void handleQuickStockChange(
-                                  product,
-                                  product.stock + 10,
-                                )
-                              }
-                              className="rounded border border-app-border px-2 py-0.5 text-xs font-bold text-app-green hover:bg-app-cream"
-                              title="Tăng 10"
-                            >
-                              +10
-                            </button>
-                          </div>
-                        </td>
-                        <td className="px-5 py-3">
-                          {product.stock <= 0 ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700">
-                              <AlertTriangle size={12} /> Hết hàng
-                            </span>
-                          ) : product.stock <= 10 ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800">
-                              <AlertTriangle size={12} /> Sắp hết (
-                              {product.stock})
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800">
-                              <CheckCircle2 size={12} /> Còn hàng
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-5 py-3 text-app-text">
-                          {product.discount}%
-                        </td>
-                        <td className="px-5 py-3">
-                          <div className="flex items-center gap-3">
-                            <button
-                              type="button"
-                              onClick={() => openEditProductForm(product)}
-                              className="font-semibold text-app-orange hover:text-app-orange-dark"
-                            >
-                              Chỉnh sửa
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => void handleDeleteProduct(product)}
-                              className="text-app-text-light hover:text-red-600"
-                              title="Xóa sản phẩm"
-                            >
-                              <Trash2 size={15} />
-                            </button>
-                          </div>
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[780px] text-left text-sm">
+                    <thead className="border-b border-zinc-800 bg-[#0b0d0c] text-xs text-zinc-400 uppercase">
+                      <tr>
+                        <th className="px-5 py-3.5 font-bold">Sản phẩm</th>
+                        <th className="px-5 py-3.5 font-bold">Danh mục</th>
+                        <th className="px-5 py-3.5 font-bold">Giá bán</th>
+                        <th className="px-5 py-3.5 font-bold">
+                          Số lượng tồn kho
+                        </th>
+                        <th className="px-5 py-3.5 font-bold">
+                          Trạng thái kho
+                        </th>
+                        <th className="px-5 py-3.5 font-bold">Giảm giá</th>
+                        <th className="px-5 py-3.5 font-bold">Thao tác</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          )}
+                    </thead>
+                    <tbody className="divide-y divide-zinc-800/80">
+                      {products.map((product) => (
+                        <tr
+                          key={product._id}
+                          className="transition hover:bg-zinc-900/50"
+                        >
+                          <td className="px-5 py-3">
+                            <div className="flex items-center gap-3">
+                              <img
+                                src={product.image}
+                                alt=""
+                                className="size-11 rounded-xs bg-white object-contain p-1"
+                              />
+                              <span className="max-w-48 truncate font-semibold text-white">
+                                {getProductNameVi(product)}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-5 py-3 text-xs font-semibold text-[#b8f927] uppercase">
+                            {getCategoryNameVi(product.category)}
+                          </td>
+                          <td className="px-5 py-3 font-display text-base font-bold whitespace-nowrap text-white">
+                            {formatVnd(product.price)}
+                          </td>
+                          <td className="px-5 py-3">
+                            <div className="inline-flex items-center gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  void handleQuickStockChange(
+                                    product,
+                                    product.stock - 10,
+                                  )
+                                }
+                                className="rounded-xs border border-zinc-700 bg-[#0b0d0c] px-2 py-0.5 text-xs font-bold text-zinc-300 transition hover:border-zinc-500 hover:text-white"
+                                title="Giảm 10"
+                              >
+                                -10
+                              </button>
+                              <span className="min-w-10 text-center font-mono font-bold text-white">
+                                {product.stock}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  void handleQuickStockChange(
+                                    product,
+                                    product.stock + 10,
+                                  )
+                                }
+                                className="rounded-xs border border-zinc-700 bg-[#0b0d0c] px-2 py-0.5 text-xs font-bold text-[#b8f927] transition hover:border-[#b8f927]"
+                                title="Tăng 10"
+                              >
+                                +10
+                              </button>
+                            </div>
+                          </td>
+                          <td className="px-5 py-3">
+                            {product.stock <= 0 ? (
+                              <span className="inline-flex items-center gap-1 rounded-xs border border-red-500/30 bg-red-500/15 px-2.5 py-1 text-xs font-bold text-red-400">
+                                <AlertTriangle size={12} /> Hết hàng
+                              </span>
+                            ) : product.stock <= 10 ? (
+                              <span className="inline-flex items-center gap-1 rounded-xs border border-amber-500/30 bg-amber-500/15 px-2.5 py-1 text-xs font-bold text-amber-300">
+                                <AlertTriangle size={12} /> Sắp hết (
+                                {product.stock})
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 rounded-xs border border-[#b8f927]/30 bg-[#b8f927]/15 px-2.5 py-1 text-xs font-bold text-[#b8f927]">
+                                <CheckCircle2 size={12} /> Còn hàng
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-5 py-3 font-semibold text-zinc-300">
+                            {product.discount}%
+                          </td>
+                          <td className="px-5 py-3">
+                            <div className="flex items-center gap-3">
+                              <button
+                                type="button"
+                                onClick={() => openEditProductForm(product)}
+                                className="text-xs font-bold tracking-wider text-[#b8f927] uppercase hover:underline"
+                              >
+                                Chỉnh sửa
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  void handleDeleteProduct(product)
+                                }
+                                className="text-zinc-400 transition hover:text-red-400"
+                                title="Xóa sản phẩm"
+                              >
+                                <Trash2 size={15} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            )}
 
-          {activeTab === "orders" && (
-            <section>
-              <div className="mb-4">
-                <h2 className="text-xl font-semibold text-app-green">
-                  Quản lý đơn hàng
-                </h2>
-                <p className="mt-1 text-sm text-app-text-light">
-                  Danh sách tự động cập nhật khi khách hàng hoàn tất thanh toán
-                  OTP hoặc COD.
-                </p>
-              </div>
-              <OrdersTable
-                orders={orders}
-                onStatusChange={handleUpdateOrderStatus}
-              />
-            </section>
-          )}
-
-          {activeTab === "users" && (
-            <section className="rounded-2xl border border-app-border bg-white">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-app-border p-5">
-                <div>
-                  <h2 className="text-lg font-semibold text-app-green">
-                    Quản lý Tài khoản & Phân quyền
+            {activeTab === "orders" && (
+              <section>
+                <div className="mb-4">
+                  <h2 className="font-display text-2xl font-bold tracking-wide text-white uppercase">
+                    Quản lý đơn hàng
                   </h2>
+                  <p className="mt-1 text-xs text-zinc-400 sm:text-sm">
+                    Danh sách tự động cập nhật khi khách hàng hoàn tất thanh
+                    toán OTP hoặc COD.
+                  </p>
+                </div>
+                <OrdersTable
+                  orders={orders}
+                  onStatusChange={handleUpdateOrderStatus}
+                />
+              </section>
+            )}
+
+            {activeTab === "users" && (
+              <section className="rounded-xs border border-zinc-800 bg-[#111513]">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 p-5">
+                  <div>
+                    <h2 className="font-display text-xl font-bold tracking-wide text-white uppercase">
+                      Quản lý Tài khoản &amp; Phân quyền
+                    </h2>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => void loadUsers()}
+                    disabled={isLoadingUsers}
+                    className="inline-flex items-center gap-1.5 rounded-xs border border-zinc-700 bg-[#0b0d0c] px-3.5 py-2 text-xs font-bold tracking-wider text-white uppercase transition hover:border-[#b8f927] hover:text-[#b8f927]"
+                  >
+                    <RefreshCw
+                      size={14}
+                      className={isLoadingUsers ? "animate-spin" : ""}
+                    />
+                    Làm mới
+                  </button>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[760px] text-left text-sm">
+                    <thead className="border-b border-zinc-800 bg-[#0b0d0c] text-xs text-zinc-400 uppercase">
+                      <tr>
+                        <th className="px-5 py-3.5 font-bold">Họ và tên</th>
+                        <th className="px-5 py-3.5 font-bold">Email duy nhất</th>
+                        <th className="px-5 py-3.5 font-bold">SĐT duy nhất</th>
+                        <th className="px-5 py-3.5 font-bold">
+                          Vai trò hiện tại
+                        </th>
+                        <th className="px-5 py-3.5 font-bold">Số đơn đã đặt</th>
+                        <th className="px-5 py-3.5 font-bold">Ngày tạo</th>
+                        <th className="px-5 py-3.5 font-bold">Phân quyền</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-zinc-800/80">
+                      {usersList.map((u) => (
+                        <tr
+                          key={u.id}
+                          className="transition hover:bg-zinc-900/50"
+                        >
+                          <td className="px-5 py-3.5 font-semibold text-white">
+                            {u.name}
+                          </td>
+                          <td className="px-5 py-3.5 text-zinc-300">
+                            {u.email}
+                          </td>
+                          <td className="px-5 py-3.5 font-mono text-xs text-zinc-300">
+                            {u.phone ?? (
+                              <span className="text-zinc-500 italic">
+                                Chưa cập nhật
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-5 py-3.5">
+                            {u.isAdmin ? (
+                              <span className="inline-flex items-center gap-1 rounded-xs border border-[#b8f927]/30 bg-[#b8f927]/15 px-3 py-1 text-xs font-bold text-[#b8f927]">
+                                <Shield size={12} /> ADMIN (Quản trị viên)
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center rounded-xs border border-zinc-700 bg-zinc-900 px-3 py-1 text-xs font-medium text-zinc-300">
+                                CUSTOMER (Khách hàng)
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-5 py-3.5 text-zinc-400">
+                            {u.orderCount} đơn
+                          </td>
+                          <td className="px-5 py-3.5 text-zinc-400">
+                            {new Date(u.createdAt).toLocaleDateString("vi-VN")}
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <button
+                              type="button"
+                              onClick={() => void handleToggleUserRole(u)}
+                              className={`rounded-xs px-3 py-1.5 text-xs font-bold tracking-wider uppercase transition ${
+                                u.isAdmin
+                                  ? "border border-zinc-700 bg-[#0b0d0c] text-zinc-300 hover:border-zinc-500 hover:text-white"
+                                  : "bg-[#b8f927] text-black hover:bg-[#c9ff4d]"
+                              }`}
+                            >
+                              {u.isAdmin
+                                ? "Chuyển về Khách hàng"
+                                : "Cấp quyền Admin"}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            )}
+
+            {activeTab === "settings" && (
+              <section className="max-w-2xl rounded-xs border border-zinc-800 bg-[#111513] p-5 sm:p-7">
+                <h2 className="font-display text-2xl font-bold tracking-wide text-white uppercase">
+                  Cài đặt cửa hàng
+                </h2>
+                <p className="mt-1 text-xs text-zinc-400 sm:text-sm">
+                  Điều chỉnh thuế để áp dụng cho các giỏ hàng và đơn thanh toán
+                  tiếp theo.
+                </p>
+                <form onSubmit={saveTaxRateForm} className="mt-6">
+                  <label
+                    htmlFor="tax-rate"
+                    className="mb-2 block text-xs font-bold tracking-wider text-zinc-300 uppercase"
+                  >
+                    Thuế (%)
+                  </label>
+                  <div className="flex max-w-sm gap-3">
+                    <input
+                      id="tax-rate"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      required
+                      value={taxInput}
+                      onChange={(event) => setTaxInput(event.target.value)}
+                      className="w-full rounded-xs border border-zinc-700 bg-[#0b0d0c] px-4 py-3 text-sm text-white outline-none focus:border-[#b8f927]"
+                    />
+                    <button
+                      type="submit"
+                      className="inline-flex shrink-0 items-center gap-2 rounded-xs bg-[#b8f927] px-5 py-3 text-xs font-extrabold tracking-wider text-black uppercase transition hover:bg-[#c9ff4d]"
+                    >
+                      <Save size={15} />
+                      Lưu
+                    </button>
+                  </div>
+                  <p className="mt-3 text-xs leading-5 text-zinc-400">
+                    Thuế hiện tại:{" "}
+                    <span className="font-bold text-[#b8f927]">{taxRate}%</span>
+                    . Giá sản phẩm được nhập và hiển thị bằng đồng Việt Nam.
+                  </p>
+                </form>
+              </section>
+            )}
+          </div>
+        </div>
+
+        {isAddingProduct && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-xs"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget)
+                setIsAddingProduct(false);
+            }}
+          >
+            <section
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="product-form-title"
+              className="my-auto w-full max-w-2xl rounded-xs border border-zinc-800 bg-[#111513] p-5 text-white shadow-2xl sm:p-7"
+            >
+              <div className="mb-5 flex items-center justify-between gap-3 border-b border-zinc-800 pb-4">
+                <div>
+                  <h2
+                    id="product-form-title"
+                    className="font-display text-2xl font-black tracking-wide text-white uppercase"
+                  >
+                    {editingProduct ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm"}
+                  </h2>
+                  <p className="mt-1 text-xs text-zinc-400">
+                    Giá nhập bằng VND; ảnh dùng đường dẫn URL. Tự động cập nhật
+                    lên CSDL Neon &amp; Web.
+                  </p>
                 </div>
                 <button
                   type="button"
-                  onClick={() => void loadUsers()}
-                  disabled={isLoadingUsers}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-app-border px-3.5 py-2 text-xs font-semibold text-app-green hover:bg-app-cream"
+                  aria-label="Đóng biểu mẫu"
+                  onClick={() => setIsAddingProduct(false)}
+                  className="rounded-xs border border-zinc-800 p-2 text-zinc-400 transition hover:border-[#b8f927] hover:text-[#b8f927]"
                 >
-                  <RefreshCw
-                    size={14}
-                    className={isLoadingUsers ? "animate-spin" : ""}
-                  />
-                  Làm mới
+                  <X size={18} />
                 </button>
               </div>
-
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[760px] text-left text-sm">
-                  <thead className="bg-app-cream text-xs uppercase text-app-text-light">
-                    <tr>
-                      <th className="px-5 py-3 font-medium">Họ và tên</th>
-                      <th className="px-5 py-3 font-medium">Email duy nhất</th>
-                      <th className="px-5 py-3 font-medium">SĐT duy nhất</th>
-                      <th className="px-5 py-3 font-medium">
-                        Vai trò hiện tại
-                      </th>
-                      <th className="px-5 py-3 font-medium">Số đơn đã đặt</th>
-                      <th className="px-5 py-3 font-medium">Ngày tạo</th>
-                      <th className="px-5 py-3 font-medium">Phân quyền</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-app-border">
-                    {usersList.map((u) => (
-                      <tr key={u.id}>
-                        <td className="px-5 py-3.5 font-medium text-app-green">
-                          {u.name}
-                        </td>
-                        <td className="px-5 py-3.5 text-app-text">{u.email}</td>
-                        <td className="px-5 py-3.5 font-mono text-xs text-app-text">
-                          {u.phone ?? (
-                            <span className="italic text-app-text-light">
-                              Chưa cập nhật
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-5 py-3.5">
-                          {u.isAdmin ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-app-orange/15 px-3 py-1 text-xs font-bold text-app-orange">
-                              <Shield size={12} /> ADMIN (Quản trị viên)
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
-                              CUSTOMER (Khách hàng)
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-5 py-3.5 text-app-text-light">
-                          {u.orderCount} đơn
-                        </td>
-                        <td className="px-5 py-3.5 text-app-text-light">
-                          {new Date(u.createdAt).toLocaleDateString("vi-VN")}
-                        </td>
-                        <td className="px-5 py-3.5">
-                          <button
-                            type="button"
-                            onClick={() => void handleToggleUserRole(u)}
-                            className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                              u.isAdmin
-                                ? "border border-slate-300 text-slate-700 hover:bg-slate-100"
-                                : "bg-app-green text-white hover:bg-app-green-light"
-                            }`}
-                          >
-                            {u.isAdmin
-                              ? "Chuyển về Khách hàng"
-                              : "Cấp quyền Admin"}
-                          </button>
-                        </td>
-                      </tr>
+              <form
+                onSubmit={handleProductSave}
+                className="grid gap-4 sm:grid-cols-2"
+              >
+                <FormField
+                  label="Tên sản phẩm"
+                  value={productForm.name}
+                  onChange={(value) =>
+                    setProductForm((form) => ({ ...form, name: value }))
+                  }
+                  required
+                />
+                <label className="block text-xs font-bold tracking-wider text-zinc-300 uppercase">
+                  Danh mục
+                  <select
+                    value={productForm.category}
+                    onChange={(event) =>
+                      setProductForm((form) => ({
+                        ...form,
+                        category: event.target.value,
+                      }))
+                    }
+                    className="mt-1.5 w-full rounded-xs border border-zinc-700 bg-[#0b0d0c] px-3 py-2.5 text-sm font-normal text-white outline-none focus:border-[#b8f927]"
+                  >
+                    {categoriesData.map((category) => (
+                      <option key={category.slug} value={category.slug}>
+                        {getCategoryNameVi(category.slug)}
+                      </option>
                     ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          )}
-
-          {activeTab === "settings" && (
-            <section className="max-w-2xl rounded-2xl border border-app-border bg-white p-5 sm:p-7">
-              <h2 className="text-xl font-semibold text-app-green">
-                Cài đặt cửa hàng
-              </h2>
-              <p className="mt-1 text-sm text-app-text-light">
-                Điều chỉnh thuế để áp dụng cho các giỏ hàng và đơn thanh toán
-                tiếp theo.
-              </p>
-              <form onSubmit={saveTaxRateForm} className="mt-6">
-                <label
-                  htmlFor="tax-rate"
-                  className="mb-2 block text-sm font-medium text-app-green"
-                >
-                  Thuế (%)
+                  </select>
                 </label>
-                <div className="flex max-w-sm gap-3">
-                  <input
-                    id="tax-rate"
-                    type="number"
-                    min="0"
-                    max="100"
-                    step="0.1"
+                <FormField
+                  label="Giá bán (₫)"
+                  value={productForm.price}
+                  onChange={(value) =>
+                    setProductForm((form) => ({ ...form, price: value }))
+                  }
+                  type="number"
+                  min="1"
+                  required
+                />
+                <FormField
+                  label="Giá gốc (₫)"
+                  value={productForm.originalPrice}
+                  onChange={(value) =>
+                    setProductForm((form) => ({ ...form, originalPrice: value }))
+                  }
+                  type="number"
+                  min="1"
+                  required
+                />
+                <FormField
+                  label="Tồn kho"
+                  value={productForm.stock}
+                  onChange={(value) =>
+                    setProductForm((form) => ({ ...form, stock: value }))
+                  }
+                  type="number"
+                  min="0"
+                  required
+                />
+                <FormField
+                  label="Giảm giá (%)"
+                  value={productForm.discount}
+                  onChange={(value) =>
+                    setProductForm((form) => ({ ...form, discount: value }))
+                  }
+                  type="number"
+                  min="0"
+                  max="100"
+                  required
+                />
+                <div className="sm:col-span-2">
+                  <FormField
+                    label="Đường dẫn hình ảnh"
+                    value={productForm.image}
+                    onChange={(value) =>
+                      setProductForm((form) => ({ ...form, image: value }))
+                    }
+                    type="text"
                     required
-                    value={taxInput}
-                    onChange={(event) => setTaxInput(event.target.value)}
-                    className="w-full rounded-xl border border-app-border px-4 py-3 text-sm outline-none focus:border-app-green"
                   />
+                </div>
+                <label className="block text-xs font-bold tracking-wider text-zinc-300 uppercase sm:col-span-2">
+                  Mô tả sản phẩm
+                  <textarea
+                    value={productForm.description}
+                    onChange={(event) =>
+                      setProductForm((form) => ({
+                        ...form,
+                        description: event.target.value,
+                      }))
+                    }
+                    required
+                    rows={3}
+                    className="mt-1.5 w-full rounded-xs border border-zinc-700 bg-[#0b0d0c] px-3 py-2.5 text-sm font-normal text-white outline-none focus:border-[#b8f927]"
+                  />
+                </label>
+                <div className="flex justify-end gap-3 pt-2 sm:col-span-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingProduct(false)}
+                    className="rounded-xs border border-zinc-700 bg-[#0b0d0c] px-4 py-2.5 text-xs font-bold tracking-wider text-zinc-300 uppercase transition hover:border-zinc-500 hover:text-white"
+                  >
+                    Hủy
+                  </button>
                   <button
                     type="submit"
-                    className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-app-green px-4 py-3 text-sm font-semibold text-white hover:bg-app-green-light"
+                    className="rounded-xs bg-[#b8f927] px-5 py-2.5 text-xs font-extrabold tracking-wider text-black uppercase transition hover:bg-[#c9ff4d]"
                   >
-                    <Save size={16} />
-                    Lưu
+                    Lưu sản phẩm lên CSDL Neon
                   </button>
                 </div>
-                <p className="mt-3 text-xs leading-5 text-app-text-light">
-                  Thuế hiện tại: {taxRate}%. Giá sản phẩm được nhập và hiển thị
-                  bằng đồng Việt Nam.
-                </p>
               </form>
             </section>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-
-      {isAddingProduct && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/50 p-4"
-          role="presentation"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setIsAddingProduct(false);
-          }}
-        >
-          <section
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="product-form-title"
-            className="my-auto w-full max-w-2xl rounded-2xl bg-white p-5 shadow-xl sm:p-7"
-          >
-            <div className="mb-5 flex items-center justify-between gap-3">
-              <div>
-                <h2
-                  id="product-form-title"
-                  className="text-xl font-semibold text-app-green"
-                >
-                  {editingProduct ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm"}
-                </h2>
-                <p className="mt-1 text-sm text-app-text-light">
-                  Giá nhập bằng VND; ảnh dùng đường dẫn URL. Tự động cập nhật
-                  lên CSDL Neon & Web.
-                </p>
-              </div>
-              <button
-                type="button"
-                aria-label="Đóng biểu mẫu"
-                onClick={() => setIsAddingProduct(false)}
-                className="rounded-lg p-2 text-app-text-light hover:bg-app-cream"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <form
-              onSubmit={handleProductSave}
-              className="grid gap-4 sm:grid-cols-2"
-            >
-              <FormField
-                label="Tên sản phẩm"
-                value={productForm.name}
-                onChange={(value) =>
-                  setProductForm((form) => ({ ...form, name: value }))
-                }
-                required
-              />
-              <label className="block text-sm font-medium text-app-green">
-                Danh mục
-                <select
-                  value={productForm.category}
-                  onChange={(event) =>
-                    setProductForm((form) => ({
-                      ...form,
-                      category: event.target.value,
-                    }))
-                  }
-                  className="mt-1.5 w-full rounded-xl border border-app-border bg-white px-3 py-2.5 text-sm font-normal text-app-text outline-none focus:border-app-green"
-                >
-                  {categoriesData.map((category) => (
-                    <option key={category.slug} value={category.slug}>
-                      {getCategoryNameVi(category.slug)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <FormField
-                label="Giá bán (₫)"
-                value={productForm.price}
-                onChange={(value) =>
-                  setProductForm((form) => ({ ...form, price: value }))
-                }
-                type="number"
-                min="1"
-                required
-              />
-              <FormField
-                label="Giá gốc (₫)"
-                value={productForm.originalPrice}
-                onChange={(value) =>
-                  setProductForm((form) => ({ ...form, originalPrice: value }))
-                }
-                type="number"
-                min="1"
-                required
-              />
-              <FormField
-                label="Tồn kho"
-                value={productForm.stock}
-                onChange={(value) =>
-                  setProductForm((form) => ({ ...form, stock: value }))
-                }
-                type="number"
-                min="0"
-                required
-              />
-              <FormField
-                label="Giảm giá (%)"
-                value={productForm.discount}
-                onChange={(value) =>
-                  setProductForm((form) => ({ ...form, discount: value }))
-                }
-                type="number"
-                min="0"
-                max="100"
-                required
-              />
-              <div className="sm:col-span-2">
-                <FormField
-                  label="Đường dẫn hình ảnh"
-                  value={productForm.image}
-                  onChange={(value) =>
-                    setProductForm((form) => ({ ...form, image: value }))
-                  }
-                  type="url"
-                  required
-                />
-              </div>
-              <label className="block text-sm font-medium text-app-green sm:col-span-2">
-                Mô tả sản phẩm
-                <textarea
-                  value={productForm.description}
-                  onChange={(event) =>
-                    setProductForm((form) => ({
-                      ...form,
-                      description: event.target.value,
-                    }))
-                  }
-                  required
-                  rows={3}
-                  className="mt-1.5 w-full rounded-xl border border-app-border px-3 py-2.5 text-sm font-normal text-app-text outline-none focus:border-app-green"
-                />
-              </label>
-              <div className="flex justify-end gap-3 pt-2 sm:col-span-2">
-                <button
-                  type="button"
-                  onClick={() => setIsAddingProduct(false)}
-                  className="rounded-xl border border-app-border px-4 py-2.5 text-sm font-medium text-app-text hover:bg-app-cream"
-                >
-                  Hủy
-                </button>
-                <button
-                  type="submit"
-                  className="rounded-xl bg-app-green px-5 py-2.5 text-sm font-semibold text-white hover:bg-app-green-light"
-                >
-                  Lưu sản phẩm lên CSDL Neon
-                </button>
-              </div>
-            </form>
-          </section>
-        </div>
-      )}
     </main>
   );
 };
@@ -1145,7 +1178,7 @@ function FormField({
   required?: boolean;
 }) {
   return (
-    <label className="block text-sm font-medium text-app-green">
+    <label className="block text-xs font-bold tracking-wider text-zinc-300 uppercase">
       {label}
       <input
         type={type}
@@ -1154,7 +1187,7 @@ function FormField({
         required={required}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1.5 w-full rounded-xl border border-app-border px-3 py-2.5 text-sm font-normal text-app-text outline-none focus:border-app-green"
+        className="mt-1.5 w-full rounded-xs border border-zinc-700 bg-[#0b0d0c] px-3 py-2.5 text-sm font-normal text-white outline-none focus:border-[#b8f927]"
       />
     </label>
   );
@@ -1171,48 +1204,51 @@ function OrdersTable({
 }) {
   return (
     <section
-      className={`overflow-hidden rounded-2xl border border-app-border bg-white ${compact ? "mt-5" : ""}`}
+      className={`overflow-hidden rounded-xs border border-zinc-800 bg-[#111513] ${compact ? "mt-5" : ""}`}
     >
-      <div className="border-b border-app-border p-5">
-        <h2 className="text-lg font-semibold text-app-green">
+      <div className="border-b border-zinc-800 p-5">
+        <h2 className="font-display text-xl font-bold tracking-wide text-white uppercase">
           {compact ? "Đơn hàng gần đây" : "Tất cả đơn hàng"}
         </h2>
       </div>
       {orders.length === 0 ? (
-        <p className="px-5 py-12 text-center text-sm text-app-text-light">
+        <p className="px-5 py-12 text-center text-sm text-zinc-400">
           Chưa có đơn hàng. Đơn hoàn tất thanh toán OTP hoặc COD sẽ xuất hiện
           tại đây.
         </p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full min-w-[760px] text-left text-sm">
-            <thead className="bg-app-cream text-xs uppercase text-app-text-light">
+            <thead className="border-b border-zinc-800 bg-[#0b0d0c] text-xs text-zinc-400 uppercase">
               <tr>
-                <th className="px-5 py-3 font-medium">Mã đơn</th>
-                <th className="px-5 py-3 font-medium">Khách hàng</th>
-                <th className="px-5 py-3 font-medium">Sản phẩm</th>
-                <th className="px-5 py-3 font-medium">Tổng tiền</th>
-                <th className="px-5 py-3 font-medium">Trạng thái</th>
-                <th className="px-5 py-3 font-medium">Ngày đặt</th>
+                <th className="px-5 py-3.5 font-bold">Mã đơn</th>
+                <th className="px-5 py-3.5 font-bold">Khách hàng</th>
+                <th className="px-5 py-3.5 font-bold">Sản phẩm</th>
+                <th className="px-5 py-3.5 font-bold">Tổng tiền</th>
+                <th className="px-5 py-3.5 font-bold">Trạng thái</th>
+                <th className="px-5 py-3.5 font-bold">Ngày đặt</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-app-border">
+            <tbody className="divide-y divide-zinc-800/80">
               {orders.map((order) => (
-                <tr key={order.id}>
-                  <td className="whitespace-nowrap px-5 py-4 font-mono font-medium text-app-green">
+                <tr
+                  key={order.id}
+                  className="transition hover:bg-zinc-900/50"
+                >
+                  <td className="px-5 py-4 font-mono font-bold whitespace-nowrap text-[#b8f927]">
                     {order.id}
                   </td>
                   <td className="px-5 py-4">
-                    <p className="font-medium text-app-text">
+                    <p className="font-semibold text-white">
                       {order.customerName}
                     </p>
-                    <p className="text-xs text-app-text-light">{order.phone}</p>
+                    <p className="text-xs text-zinc-400">{order.phone}</p>
                   </td>
-                  <td className="px-5 py-4 text-app-text-light">
+                  <td className="px-5 py-4 text-zinc-400">
                     {order.items.reduce((sum, item) => sum + item.quantity, 0)}{" "}
                     sản phẩm
                   </td>
-                  <td className="whitespace-nowrap px-5 py-4 font-semibold text-app-green">
+                  <td className="px-5 py-4 font-display text-base font-bold whitespace-nowrap text-white">
                     {formatVndAmount(order.total)}
                   </td>
                   <td className="px-5 py-4">
@@ -1225,7 +1261,7 @@ function OrdersTable({
                           event.target.value as DemoOrder["status"],
                         )
                       }
-                      className="rounded-lg border border-app-border bg-white px-2 py-1.5 text-xs outline-none focus:border-app-green"
+                      className="rounded-xs border border-zinc-700 bg-[#0b0d0c] px-2.5 py-1.5 text-xs font-semibold text-white outline-none focus:border-[#b8f927]"
                     >
                       {statusOptions.map((status) => (
                         <option key={status} value={status}>
@@ -1234,7 +1270,7 @@ function OrdersTable({
                       ))}
                     </select>
                   </td>
-                  <td className="whitespace-nowrap px-5 py-4 text-app-text-light">
+                  <td className="px-5 py-4 whitespace-nowrap text-zinc-400">
                     {new Date(order.createdAt).toLocaleDateString("vi-VN")}
                   </td>
                 </tr>
