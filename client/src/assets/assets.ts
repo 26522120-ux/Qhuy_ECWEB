@@ -12,24 +12,16 @@ import frozen_foods from "./frozen_foods.png";
 import personal_care from "./personal_care.png";
 import baby_care from "./baby_care.png";
 import meat_seafood from "./meat_seafood.png";
+import { gymCategoriesData, gymSupplementProducts } from "./gymSupplementAssets";
+
+export { gymCategoriesData, gymSupplementProducts };
 
 export const assets = {
     delivery_truck,
     hero_bg,
 };
 
-export const categoriesData = [
-    { slug: "fruits-vegetables", name: "Fruits & Vegetables", image: fruits_vegetables },
-    { slug: "personal-care", name: "Personal Care", image: personal_care },
-    { slug: "pantry-staples", name: "Pantry Staples", image: pantry_staples },
-    { slug: "bakery", name: "Bakery", image: bakery },
-    { slug: "beverages", name: "Beverages", image: drinks },
-    { slug: "meat-seafood", name: "Meat & Seafood", image: meat_seafood },
-    { slug: "snacks", name: "Snacks", image: snacks },
-    { slug: "frozen-foods", name: "Frozen Foods", image: frozen_foods },
-    { slug: "baby-care", name: "Baby Care", image: baby_care },
-    { slug: "dairy-eggs", name: "Dairy & Eggs", image: dairy_eggs },
-];
+export const categoriesData = gymCategoriesData;
 
 export const heroSectionData = {
     description: "Fresh, organic groceries delivered from local farms to your doorstep. Quality you can taste, convenience you deserve.",
@@ -110,7 +102,22 @@ export const iconsForLeafpad = {
     destination: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
 };
 
-export const dummyProducts = [
+export const legacyCategoriesData = [
+    { slug: "fruits-vegetables", name: "Fruits & Vegetables", image: fruits_vegetables },
+    { slug: "personal-care", name: "Personal Care", image: personal_care },
+    { slug: "pantry-staples", name: "Pantry Staples", image: pantry_staples },
+    { slug: "bakery", name: "Bakery", image: bakery },
+    { slug: "beverages", name: "Beverages", image: drinks },
+    { slug: "meat-seafood", name: "Meat & Seafood", image: meat_seafood },
+    { slug: "snacks", name: "Snacks", image: snacks },
+    { slug: "frozen-foods", name: "Frozen Foods", image: frozen_foods },
+    { slug: "baby-care", name: "Baby Care", image: baby_care },
+    { slug: "dairy-eggs", name: "Dairy & Eggs", image: dairy_eggs },
+];
+
+export const dummyProducts = gymSupplementProducts;
+
+export const legacyDummyProducts = [
     {
         _id: "69c22613ae75a98c7cd13b3b",
         name: "Butter Croissant 100g",

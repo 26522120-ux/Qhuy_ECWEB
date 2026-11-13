@@ -28,6 +28,7 @@ import {
   type RandomizeProductsResult,
 } from "../api";
 import { authClient, getOptionalAccessToken, signOutAccount } from "../auth";
+import { gymSupplementProducts } from "../assets/gymSupplementAssets";
 import type { Product } from "../types";
 
 export interface DemoOrder {
@@ -92,7 +93,7 @@ interface StoreContextValue {
 const StoreContext = createContext<StoreContextValue | null>(null);
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(gymSupplementProducts);
   const [inventoryAlerts, setInventoryAlerts] = useState<InventoryAlertsResponse | null>(null);
   const [taxRate, setTaxRateState] = useState(5);
   const [orders, setOrders] = useState<DemoOrder[]>([]);
@@ -108,7 +109,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         getProducts(),
         getTaxRate(),
       ]);
-      setProducts(nextProducts);
+      const dbIds = new Set(nextProducts.map((item) => item._id));
+      const mergedProducts = [
+        ...gymSupplementProducts.filter((item) => !dbIds.has(item._id)),
+        ...nextProducts,
+      ];
+      setProducts(mergedProducts);
       setTaxRateState(nextTaxRate);
       setError(null);
     } catch (requestError) {

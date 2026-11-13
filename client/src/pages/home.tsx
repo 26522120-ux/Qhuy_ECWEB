@@ -13,7 +13,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { categoriesData } from "../assets/assets";
+import { categoriesData, gymSupplementProducts } from "../assets/assets";
 import { useCart } from "../context/CartContext";
 import { useStore } from "../context/StoreContext";
 import {
@@ -43,55 +43,55 @@ const FITNESS_GOALS: FitnessGoalPlan[] = [
     badge: "HYPERTROPHY • HIGH PROTEIN",
     title: "TĂNG CƠ & SỨC MẠNH",
     subtitle:
-      "Tối ưu tổng hợp protein cơ bắp với nhóm thực phẩm giàu đạm tinh khiết, axit amin thiết yếu và Omega-3.",
+      "Tối ưu tổng hợp protein cơ bắp với Whey Isolate thủy phân, Creatine Monohydrate tinh khiết và nguồn đạm chất lượng cao.",
     macros: "40% Protein • 40% Carb phức • 20% Chất béo tốt",
-    categories: ["meat-seafood", "dairy-eggs"],
+    categories: ["whey-protein", "creatine-strength", "meat-seafood", "dairy-eggs"],
     highlights: [
-      "Thịt bò thăn nội, cá hồi Nauy, tôm sú & trứng gà tươi giàu đạm",
-      "Sữa tươi & phô mai bổ sung canxi, phục hồi mô cơ sau tập nặng",
-      "Kiểm soát chất lượng & đồng bộ tồn kho trực tiếp từ Neon DB",
+      "Iso-Hydro Whey 100% Isolate, Whey Gold Standard & Creapure® Đức",
+      "Micellar Casein nuôi cơ 8 tiếng ban đêm & Mass Gainer Pro tăng cân",
+      "Phục hồi sợi cơ siêu tốc và gia tăng mức tạ qua từng buổi tập",
     ],
   },
   {
     id: "shred",
-    badge: "LEAN CUT • CLEAN NUTRITION",
+    badge: "LEAN CUT • THERMOGENIC SHRED",
     title: "SIẾT CƠ & GIẢM MỠ",
     subtitle:
-      "Chế độ dinh dưỡng thâm hụt calo khoa học với rau củ hữu cơ, ngũ cốc nguyên cám giàu chất xơ và chỉ số GI thấp.",
+      "Đốt mỡ thừa chuyên sâu với L-Carnitine 3000, CLA, viên sinh nhiệt Thermo Shred kết hợp yến mạch và bánh Protein ít đường.",
     macros: "45% Protein • 30% Chất xơ & Carb chậm • 25% Chất béo tốt",
-    categories: ["fruits-vegetables", "pantry-staples"],
+    categories: ["fat-burner-shred", "healthy-bars-foods", "fruits-vegetables"],
     highlights: [
-      "Hạt diêm mạch (Quinoa), gạo lứt nguyên cám & đại mạch no lâu",
-      "Rau bina, cà rốt, táo, cam tươi cung cấp vitamin & chất chống oxy hóa",
-      "Hỗ trợ đốt mỡ tự nhiên mà vẫn giữ nguyên khối lượng cơ bắp",
+      "L-Carnitine 3000 Liquid, CLA 1250mg & Thermo Shred đốt mỡ",
+      "Thanh bánh Protein Bar 20g đạm, Yến mạch cán dẹt & Bơ đậu phộng",
+      "Giảm tỷ lệ mỡ cơ thể (Body Fat) mà vẫn giữ nguyên khối lượng cơ nạc",
     ],
   },
   {
     id: "energy",
-    badge: "ENDURANCE • PRE-WORKOUT FUEL",
+    badge: "ENDURANCE • EXPLOSIVE PUMP",
     title: "NĂNG LƯỢNG & BỀN BỈ",
     subtitle:
-      "Nguồn năng lượng tức thì trước và trong buổi tập cường độ cao từ các loại hạt dinh dưỡng, bánh nguyên cám và đồ uống.",
-    macros: "30% Protein • 50% Năng lượng nhanh • 20% Khoáng chất",
-    categories: ["snacks", "bakery", "beverages"],
+      "Bùng nổ sức mạnh và độ tỉnh táo cực đại trước giờ tập với Pre-Workout, Citrulline Malate, Beta-Alanine và Gel năng lượng.",
+    macros: "6g Citrulline • 3.2g Beta-Alanine • 200mg Caffeine",
+    categories: ["pre-workout-energy", "gym-gear-accessories", "snacks"],
     highlights: [
-      "Hạt điều rang muối Bình Phước, bánh mì nâu & chuối giàu kali",
-      "Nạp glycogen nhanh chóng trước giờ tập luyện 30 – 45 phút",
-      "Tiện lợi mang theo phòng tập, văn phòng hoặc hoạt động ngoài trời",
+      "Nitro Surge Pre-Workout, Stim-Free Pump & Beta-Alanine CarnoSyn®",
+      "Đai lưng cứng Squat/Deadlift 10mm, Straps kéo lưng & Quấn cổ tay",
+      "Kéo dài sức bền hiệp tập, bơm máu căng phồng cơ bắp tối đa",
     ],
   },
   {
     id: "recovery",
-    badge: "DAILY CARE • REGENERATION",
+    badge: "INTRA-WORKOUT • JOINT & HEALTH",
     title: "CHĂM SÓC & PHỤC HỒI",
     subtitle:
-      "Làm sạch sâu làn da sau giờ tập đổ mồ hôi và chăm sóc sức khỏe toàn diện cho bản thân & gia đình.",
-    macros: "Làm sạch sâu • Cân bằng độ ẩm • An toàn chuẩn chuyên gia",
-    categories: ["personal-care", "baby-care", "frozen-foods"],
+      "Chống dị hóa cơ, bù điện giải tức thì và bảo vệ hệ xương khớp, tim mạch với EAA, BCAA, ZMA, Omega-3 và Glucosamine.",
+    macros: "9g EAA • 7g BCAA 2:1:1 • 1000mg EPA/DHA Omega-3",
+    categories: ["bcaa-amino-recovery", "vitamins-health", "personal-care"],
     highlights: [
-      "Sữa rửa mặt dịu nhẹ, sữa tắm thảo mộc & nước rửa tay kháng khuẩn",
-      "Làm sạch bã nhờn, mồ hôi tức thì sau mỗi buổi tập cường độ cao",
-      "Đầy đủ dòng sản phẩm chăm sóc cá nhân & dinh dưỡng gia đình",
+      "Hydro EAA + Electrolytes, BCAA 2:1:1, L-Glutamine & ZMA ngủ sâu",
+      "Dầu cá Omega-3 Triple Strength, Multivitamin & Glucosamine bảo vệ khớp",
+      "Giảm đau mỏi cơ (DOMS) và phục hồi toàn diện sau tập nặng",
     ],
   },
 ];
@@ -103,21 +103,29 @@ const Home = () => {
 
   const [selectedGoal, setSelectedGoal] = useState<FitnessGoalId>("muscle");
 
+  // Ưu tiên hiển thị bộ 40 sản phẩm Gym & Supplement Fitness mới trên giao diện
+  const catalogProducts = useMemo(() => {
+    const hasGymProductsInStore = products.some((p) =>
+      p.category.includes("whey") || p.category.includes("creatine") || p._id.startsWith("gym_prod_"),
+    );
+    return hasGymProductsInStore ? products : [...gymSupplementProducts, ...products];
+  }, [products]);
+
   const activeGoal = useMemo(
     () => FITNESS_GOALS.find((g) => g.id === selectedGoal) ?? FITNESS_GOALS[0]!,
     [selectedGoal],
   );
 
   const goalProducts = useMemo(() => {
-    const matched = products.filter((item) =>
+    const matched = catalogProducts.filter((item) =>
       activeGoal.categories.includes(item.category),
     );
-    return (matched.length > 0 ? matched : products).slice(0, 4);
-  }, [activeGoal, products]);
+    return (matched.length > 0 ? matched : catalogProducts).slice(0, 4);
+  }, [activeGoal, catalogProducts]);
 
   const featuredProducts: Product[] = useMemo(() => {
-    return products.slice(0, 8);
-  }, [products]);
+    return catalogProducts.slice(0, 8);
+  }, [catalogProducts]);
 
   return (
     <div className="bg-[#0b0d0c] text-white">
