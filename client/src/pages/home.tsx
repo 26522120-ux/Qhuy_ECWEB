@@ -1,16 +1,10 @@
 import { useMemo, useState } from "react";
 import {
-  Activity,
   ArrowRight,
   CheckCircle2,
   Dumbbell,
-  ShieldCheck,
   ShoppingBag,
-  Sparkles,
   Star,
-  Target,
-  Truck,
-  Zap,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { categoriesData, gymSupplementProducts } from "../assets/assets";
@@ -197,49 +191,6 @@ const Home = () => {
               </Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ==================== THANH CHỈ SỐ HIỆU SUẤT ==================== */}
-      <section className="border-b border-white/10 bg-[#0e1110]">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-y divide-white/10 sm:grid-cols-4 sm:divide-y-0">
-          {[
-            {
-              icon: Zap,
-              metric: "100% CHÍNH HÃNG",
-              desc: "Supplement & Thiết bị Gym chuẩn quốc tế",
-            },
-            {
-              icon: Target,
-              metric: "CÁ NHÂN HÓA",
-              desc: "Phân nhóm theo mục tiêu hình thể",
-            },
-            {
-              icon: Truck,
-              metric: "GIAO NHANH 2H",
-              desc: "Miễn phí đơn từ 300.000 ₫",
-            },
-            {
-              icon: ShieldCheck,
-              metric: "QR & OTP 6 SỐ",
-              desc: "Bảo mật giao dịch thời gian thực",
-            },
-          ].map(({ icon: Icon, metric, desc }) => (
-            <div
-              key={metric}
-              className="flex items-center gap-3.5 px-4 py-5 sm:px-6 sm:py-6"
-            >
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-xs border border-[#b8f927]/30 bg-[#b8f927]/10 text-[#b8f927]">
-                <Icon size={18} />
-              </span>
-              <div className="min-w-0">
-                <p className="font-display text-base font-extrabold tracking-wider text-white uppercase sm:text-lg">
-                  {metric}
-                </p>
-                <p className="truncate text-xs text-zinc-400">{desc}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -582,34 +533,6 @@ const Home = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==================== BANNER KỶ LUẬT & HÀNH ĐỘNG ==================== */}
-      <section className="border-t border-white/10 bg-gradient-to-r from-[#0e1311] via-[#131b16] to-[#0e1311] py-14 sm:py-16">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 sm:px-6 md:flex-row md:items-center lg:px-8">
-          <div>
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold tracking-[0.2em] text-[#b8f927] uppercase">
-              <Activity size={15} />
-              SẴN SÀNG BỨT PHÁ MỖI NGÀY
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-black text-white uppercase sm:text-5xl">
-              NẠP ĐÚNG DINH DƯỠNG. CHINH PHỤC MỌI GIỚI HẠN.
-            </h2>
-            <p className="mt-2 max-w-2xl text-xs leading-6 text-zinc-300 sm:text-sm">
-              Toàn bộ sản phẩm, đơn hàng và tài khoản khách hàng đều được đồng bộ
-              thời gian thực trên hệ thống Cơ sở dữ liệu Neon PostgreSQL.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link
-              to="/products"
-              className="inline-flex items-center gap-2 rounded-xs bg-[#b8f927] px-7 py-4 text-xs font-extrabold tracking-wider text-black uppercase transition hover:bg-[#c8ff47] sm:text-sm"
-            >
-              <Sparkles size={16} />
-              <span>MUA SẮM NGAY</span>
-            </Link>
           </div>
         </div>
       </section>
