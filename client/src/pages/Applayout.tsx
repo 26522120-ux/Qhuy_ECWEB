@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
+  Calculator,
   Flame,
   Home,
   LayoutGrid,
@@ -107,6 +108,9 @@ const AppLayout = () => {
             </NavLink>
             <NavLink to="/deals" className={desktopNavLinkClass}>
               ƯU ĐÃI
+            </NavLink>
+            <NavLink to="/macro" className={desktopNavLinkClass}>
+              TÍNH MACRO
             </NavLink>
             {currentUser && (
               <NavLink to="/orders" className={desktopNavLinkClass}>
@@ -286,6 +290,21 @@ const AppLayout = () => {
                 <Flame size={18} />
               </span>
               <span>Ưu đãi</span>
+            </>
+          )}
+        </NavLink>
+
+        <NavLink to="/macro" className={mobileBottomNavClass}>
+          {({ isActive }) => (
+            <>
+              <span
+                className={`flex size-8 items-center justify-center rounded-lg transition ${
+                  isActive ? "bg-[#b8f927]/15 text-[#b8f927]" : ""
+                }`}
+              >
+                <Calculator size={18} />
+              </span>
+              <span>Macro</span>
             </>
           )}
         </NavLink>

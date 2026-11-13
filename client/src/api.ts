@@ -334,3 +334,64 @@ export function saveOrderStatus(orderId: string, status: DemoOrder["status"]) {
     body: JSON.stringify({ status }),
   });
 }
+
+export type MacroGender = "male" | "female";
+export type MacroActivityLevel =
+  | "sedentary"
+  | "light"
+  | "moderate"
+  | "active"
+  | "very_active";
+export type MacroGoal = "cut" | "maintain" | "bulk";
+
+export interface MacroRecommendInput {
+  gender: MacroGender;
+  age: number;
+  weightKg: number;
+  heightCm: number;
+  activityLevel: MacroActivityLevel;
+  goal: MacroGoal;
+  mealsPerDay: number;
+}
+
+export interface MacroMealProfile {
+  calories: number;
+  proteinG: number;
+  carbsG: number;
+  fatG: number;
+  tags: string[];
+}
+
+export interface MacroRecommendationItem {
+  product: Product;
+  macros: MacroMealProfile;
+  matchScore: number;
+  reason: string;
+}
+
+export interface MacroRecommendationResponse {
+  summary: {
+    bmr: number;
+    tdee: number;
+    targetCalories: number;
+    proteinG: number;
+    carbsG: number;
+    fatG: number;
+    mealsPerDay: number;
+    goal: MacroGoal;
+    perMeal: {
+      calories: number;
+      proteinG: number;
+      carbsG: number;
+      fatG: number;
+    };
+  };
+  recommendations: MacroRecommendationItem[];
+}
+
+export function calculateMacrosAndRecommend(input: MacroRecommendInput) {
+  return request<MacroRecommendationResponse>("/macros/recommend", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}

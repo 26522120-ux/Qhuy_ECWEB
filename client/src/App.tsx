@@ -16,6 +16,7 @@ import Admin from "./pages/Admin";
 import MyOrder from "./pages/Myorder";
 import OrderTracking from "./pages/OrderTracking";
 import Addresses from "./pages/Adresses";
+import MacroCalculator from "./pages/MacroCalculator";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="products/:id" element={<ProductPage />} />
             <Route path="search" element={<SearchResult />} />
             <Route path="deals" element={<FlashDeals />} />
+            <Route path="macro" element={<MacroCalculator />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<Checkout />} />
             <Route path="admin" element={<Admin />} />

@@ -1696,3 +1696,159 @@ storeRouter.patch("/admin/settings/tax", requireAuth, requireAdmin, async (reque
   });
   response.json({ taxRate: setting.taxRate });
 });
+
+const macroRecommendSchema = z.object({
+  gender: z.enum(["male", "female"]).default("male"),
+  age: z.coerce.number().int().min(14).max(90),
+  weightKg: z.coerce.number().min(30).max(250),
+  heightCm: z.coerce.number().min(120).max(230),
+  activityLevel: z
+    .enum(["sedentary", "light", "moderate", "active", "very_active"])
+    .default("moderate"),
+  goal: z.enum(["cut", "maintain", "bulk"]).default("maintain"),
+  mealsPerDay: z.coerce.number().int().min(2).max(6).default(3),
+});
+
+const ACTIVITY_MULTIPLIERS = {
+  sedentary: 1.2,
+  light: 1.375,
+  moderate: 1.55,
+  active: 1.725,
+  very_active: 1.9,
+} as const;
+
+interface MealMacroProfile {
+  calories: number;
+  proteinG: number;
+  carbsG: number;
+  fatG: number;
+  tags: string[];
+}
+
+const HEALTHY_MEAL_MACROS: Record<string, MealMacroProfile> = {
+  meal_prod_01: { calories: 560, proteinG: 48, carbsG: 14, fatG: 34, tags: ["Keto", "Ít tinh bột", "Giàu đạm"] },
+  meal_prod_02: { calories: 640, proteinG: 52, carbsG: 16, fatG: 39, tags: ["High-Protein", "Phục hồi cơ"] },
+  meal_prod_03: { calories: 380, proteinG: 22, carbsG: 46, fatG: 11, tags: ["Bữa phụ", "Granola", "Ít béo"] },
+  meal_prod_04: { calories: 660, proteinG: 56, carbsG: 15, fatG: 40, tags: ["High-Protein", "Tăng cơ"] },
+  meal_prod_05: { calories: 490, proteinG: 42, carbsG: 20, fatG: 26, tags: ["Omega-3", "Eat Clean"] },
+  meal_prod_06: { calories: 330, proteinG: 24, carbsG: 28, fatG: 13, tags: ["Clean Eating", "Bữa nhẹ"] },
+  meal_prod_07: { calories: 420, proteinG: 44, carbsG: 36, fatG: 10, tags: ["Ít dầu mỡ", "Siết mỡ"] },
+  meal_prod_08: { calories: 290, proteinG: 26, carbsG: 3, fatG: 19, tags: ["Nạp đạm nhanh", "Low-Carb"] },
+  meal_prod_09: { calories: 530, proteinG: 50, carbsG: 42, fatG: 17, tags: ["Cân bằng Macro", "Eat Clean"] },
+};
+
+function inferMealMacros(id: string, description: string): MealMacroProfile {
+  const preset = HEALTHY_MEAL_MACROS[id];
+  if (preset) return preset;
+
+  const proteinMatch = description.match(/(\d+)\s*g\s*protein/i);
+  const proteinG = proteinMatch ? Number(proteinMatch[1]) : 35;
+  const carbsG = 30;
+  const fatG = 16;
+  return {
+    calories: proteinG * 4 + carbsG * 4 + fatG * 9,
+    proteinG,
+    carbsG,
+    fatG,
+    tags: ["Healthy Meal"],
+  };
+}
+
+storeRouter.post("/macros/recommend", async (request, response) => {
+  const input = macroRecommendSchema.parse(request.body);
+
+  const bmrRaw =
+    10 * input.weightKg +
+    6.25 * input.heightCm -
+    5 * input.age +
+    (input.gender === "male" ? 5 : -161);
+  const bmr = Math.round(bmrRaw);
+  const tdee = Math.round(bmr * ACTIVITY_MULTIPLIERS[input.activityLevel]);
+
+  const targetCalories =
+    input.goal === "cut"
+      ? Math.max(1200, tdee - 450)
+      : input.goal === "bulk"
+        ? tdee + 350
+        : tdee;
+
+  const proteinPerKg = input.goal === "cut" ? 2.2 : input.goal === "bulk" ? 2.0 : 1.8;
+  const fatRatio = input.goal === "cut" ? 0.25 : 0.28;
+
+  const proteinG = Math.round(input.weightKg * proteinPerKg);
+  const fatG = Math.round((targetCalories * fatRatio) / 9);
+  const carbsG = Math.max(30, Math.round((targetCalories - proteinG * 4 - fatG * 9) / 4));
+
+  const perMeal = {
+    calories: Math.round(targetCalories / input.mealsPerDay),
+    proteinG: Math.round(proteinG / input.mealsPerDay),
+    carbsG: Math.round(carbsG / input.mealsPerDay),
+    fatG: Math.round(fatG / input.mealsPerDay),
+  };
+
+  const healthyMeals = await getDatabase().product.findMany({
+    where: { category: "healthy-meal", stock: { gt: 0 } },
+    orderBy: [{ rating: "desc" }, { createdAt: "desc" }],
+  });
+
+  const recommendations = healthyMeals
+    .map((product) => {
+      const macros = inferMealMacros(product.id, product.description);
+
+      const calDiffRatio =
+        Math.abs(macros.calories - perMeal.calories) / Math.max(perMeal.calories, 1);
+      const proteinDiffRatio =
+        Math.abs(macros.proteinG - perMeal.proteinG) / Math.max(perMeal.proteinG, 1);
+
+      let goalBonus = 0;
+      if (input.goal === "cut") {
+        if (macros.calories <= perMeal.calories + 60) goalBonus += 8;
+        if (macros.proteinG >= 38) goalBonus += 6;
+      } else if (input.goal === "bulk") {
+        if (macros.proteinG >= 42) goalBonus += 8;
+        if (macros.calories >= perMeal.calories - 80) goalBonus += 6;
+      } else {
+        if (calDiffRatio <= 0.25) goalBonus += 8;
+      }
+
+      const rawScore = 92 - calDiffRatio * 34 - proteinDiffRatio * 24 + goalBonus;
+      const matchScore = Math.max(55, Math.min(99, Math.round(rawScore)));
+
+      const reasons: string[] = [];
+      if (macros.proteinG >= perMeal.proteinG) {
+        reasons.push(`Đáp ứng tốt ${macros.proteinG}g đạm/bữa`);
+      } else {
+        reasons.push(`Bổ sung ${macros.proteinG}g đạm sạch`);
+      }
+      if (input.goal === "cut" && macros.calories <= perMeal.calories + 50) {
+        reasons.push("Phù hợp mức calo siết mỡ");
+      } else if (input.goal === "bulk" && macros.calories >= 480) {
+        reasons.push("Giàu năng lượng phục hồi & tăng cơ");
+      } else {
+        reasons.push(`Cân đối ~${macros.calories} kcal mỗi khẩu phần`);
+      }
+
+      return {
+        product: productDto(product),
+        macros,
+        matchScore,
+        reason: reasons.join(" • "),
+      };
+    })
+    .sort((a, b) => b.matchScore - a.matchScore);
+
+  response.json({
+    summary: {
+      bmr,
+      tdee,
+      targetCalories,
+      proteinG,
+      carbsG,
+      fatG,
+      mealsPerDay: input.mealsPerDay,
+      goal: input.goal,
+      perMeal,
+    },
+    recommendations,
+  });
+});
