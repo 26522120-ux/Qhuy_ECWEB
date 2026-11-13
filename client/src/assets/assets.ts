@@ -34,7 +34,7 @@ export const heroSectionData = {
 
 export const footerData = {
   brand: {
-    name: "FORM/FWD",
+    name: "nutraGO",
     description:
       "Hiệu Suất • Dinh Dưỡng • Kỷ Luật — Hệ sinh thái Thực phẩm bổ sung & Phụ kiện Gym chuyên nghiệp.",
     socials: [
@@ -64,10 +64,10 @@ export const footerData = {
   contact: [
     { icon: MapPinIcon, text: "TP. Hồ Chí Minh, Việt Nam" },
     { icon: PhoneIcon, text: "1900 6868" },
-    { icon: MailIcon, text: "support@formfwd.vn" },
+    { icon: MailIcon, text: "support@nutrago.vn" },
   ],
   bottom: {
-    copyright: "© 2026 FORM/FWD. All rights reserved.",
+    copyright: "© 2026 nutraGO. All rights reserved.",
     links: [
       { label: "Chính sách bảo mật", href: "#" },
       { label: "Điều khoản dịch vụ", href: "#" },

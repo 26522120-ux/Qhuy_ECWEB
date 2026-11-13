@@ -26,7 +26,7 @@ const FlashDeals = () => {
         <div className="mx-auto max-w-2xl">
           <div className="inline-flex items-center gap-1.5 rounded-xs border border-[#b8f927]/40 bg-[#b8f927]/15 px-3.5 py-1 text-xs font-bold tracking-wider text-[#b8f927] uppercase sm:px-4 sm:py-1.5">
             <Flame size={15} />
-            Ưu đãi hiệu suất FORM/FWD
+            Ưu đãi hiệu suất nutraGO
           </div>
           <h1 className="mt-3 font-display text-3xl font-black text-white uppercase sm:mt-4 sm:text-5xl">
             Săn ưu đãi <span className="text-[#b8f927]">Gym &amp; Supplement</span> mỗi ngày

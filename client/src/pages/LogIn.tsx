@@ -1,9 +1,21 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LockKeyhole, Mail, Phone, UserRound } from "lucide-react";
+import {
+  ArrowRight,
+  LockKeyhole,
+  Mail,
+  Phone,
+  ShieldCheck,
+  UserRound,
+  Zap,
+} from "lucide-react";
 import toast from "react-hot-toast";
-import { ApiError, checkAccountUnique, loginWithBackend, syncAccountToNeon } from "../api";
-import { assets } from "../assets/assets";
+import {
+  ApiError,
+  checkAccountUnique,
+  loginWithBackend,
+  syncAccountToNeon,
+} from "../api";
 import { authClient, signOutAccount } from "../auth";
 import { useStore } from "../context/StoreContext";
 
@@ -82,7 +94,10 @@ const LogIn = () => {
         navigate("/");
       }
     } catch (error) {
-      if (error instanceof ApiError && (error.redirectToLogin || error.statusCode === 409)) {
+      if (
+        error instanceof ApiError &&
+        (error.redirectToLogin || error.statusCode === 409)
+      ) {
         await signOutAccount();
         toast.error(error.message);
         setIsCreatingAccount(false);
@@ -98,65 +113,124 @@ const LogIn = () => {
   };
 
   return (
-    <main className="grid min-h-screen bg-[#f6fcf8] md:grid-cols-[52%_48%]">
+    <main className="grid min-h-screen bg-[#0b0d0c] text-white md:grid-cols-[52%_48%]">
+      {/* CỘT TRÁI: BANNER THƯƠNG HIỆU nutraGO */}
       <section
-        aria-label="Chào mừng đến với POPPIN MART"
-        className="relative hidden min-h-screen items-center justify-center overflow-hidden bg-app-green bg-cover bg-center px-8 text-center md:flex"
-        style={{ backgroundImage: `url(${assets.hero_bg})` }}
+        aria-label="Chào mừng đến với nutraGO"
+        className="relative hidden min-h-screen items-center justify-center overflow-hidden border-r border-white/10 bg-[#0b0d0c] px-10 md:flex"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a3d24]/92 via-[#0f5132]/85 to-[#16a34a]/75" />
-        <div className="relative z-10 max-w-lg text-white">
-          <div className="mx-auto mb-5 flex size-20 items-center justify-center overflow-hidden rounded-3xl border-2 border-white/30 bg-white p-1.5 shadow-lg">
-            <img
-              src="/poppin-mart-logo.jpg"
-              alt="POPPIN MART Logo"
-              className="h-full w-full object-contain"
-            />
-          </div>
-          <div className="mb-4 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-emerald-200">
-            <LeafMark />
-            Tươi sạch từ nông trại
-          </div>
-          <h1 className="font-sans text-3xl font-bold leading-tight lg:text-4xl">
-            Chào mừng bạn đến với POPPIN MART
-          </h1>
-          <p className="mx-auto mt-4 max-w-sm text-base leading-relaxed text-emerald-50/85">
-            Siêu thị thực phẩm tươi sạch và nông sản hữu cơ được giao nhanh tận nhà.
-          </p>
-        </div>
-      </section>
+        <div
+          className="pointer-events-none absolute inset-0 opacity-35"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px)",
+            backgroundSize: "52px 52px",
+          }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0 bg-cover bg-position-[right_top] bg-no-repeat opacity-65"
+          style={{ backgroundImage: "url('/form-fwd-hero.jpg')" }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0d0c] via-[#0b0d0c]/75 to-[#0b0d0c]/65" />
 
-      <section className="flex min-h-screen items-center justify-center px-6 py-12 sm:px-10">
-        <div className="w-full max-w-[410px] rounded-3xl border border-emerald-100 bg-white p-7 shadow-[0_12px_35px_-12px_rgba(15,81,50,0.1)] sm:p-9">
-          <Link
-            to="/"
-            className="mb-6 flex flex-col items-center justify-center gap-2"
-            aria-label="Trang chủ POPPIN MART"
-          >
-            <img
-              src="/poppin-mart-logo.jpg"
-              alt="POPPIN MART Logo"
-              className="size-16 rounded-2xl border border-emerald-200 bg-white object-contain p-1 shadow-xs"
-            />
-            <span className="font-serif text-2xl font-extrabold tracking-tight">
-              <span className="text-[#16a34a]">POPPIN</span>{" "}
-              <span className="text-[#0f5132]">MART</span>
+        <div className="relative z-10 max-w-lg">
+          <Link to="/" className="inline-flex items-center gap-3">
+            <span className="inline-flex h-10 w-10 -skew-x-12 items-center justify-center rounded-xs bg-[#b8f927] font-display text-lg font-black text-black shadow-[0_0_25px_rgba(184,249,39,0.35)]">
+              <span className="skew-x-12">//</span>
+            </span>
+            <span className="font-display text-3xl font-black tracking-wide text-white">
+              nutra<span className="text-[#b8f927]">GO</span>
             </span>
           </Link>
 
-          <div className="mb-7 text-center">
-            <h2 className="text-2xl font-semibold text-app-green">
-              {isCreatingAccount ? "Tạo tài khoản" : "Đăng nhập vào tài khoản"}
+          <p className="mt-7 text-xs font-bold tracking-[0.25em] text-[#b8f927] uppercase">
+            HIỆU SUẤT &bull; DINH DƯỠNG &bull; KỶ LUẬT
+          </p>
+
+          <h1 className="mt-3 font-display text-5xl leading-[0.98] font-black tracking-tight text-white uppercase lg:text-6xl">
+            BỨT PHÁ GIỚI HẠN CÙNG{" "}
+            <span className="text-[#b8f927]">nutraGO</span>
+          </h1>
+
+          <p className="mt-5 text-sm leading-7 text-zinc-300 sm:text-base">
+            Hệ sinh thái Thực phẩm bổ sung thể hình, Whey Protein, Pre-Workout
+            và Thiết bị tập luyện chính hãng — đồng bộ đơn hàng theo thời gian
+            thực.
+          </p>
+
+          <div className="mt-8 grid grid-cols-2 gap-3.5">
+            <div className="rounded-xs border border-zinc-800 bg-[#121614]/90 p-3.5 backdrop-blur-xs">
+              <Zap size={18} className="text-[#b8f927]" />
+              <p className="mt-2 font-display text-sm font-bold tracking-wider text-white uppercase">
+                1 Tài khoản duy nhất
+              </p>
+              <p className="mt-0.5 text-xs text-zinc-400">
+                1 Email &amp; 1 SĐT bảo mật tuyệt đối trên Neon DB
+              </p>
+            </div>
+            <div className="rounded-xs border border-zinc-800 bg-[#121614]/90 p-3.5 backdrop-blur-xs">
+              <ShieldCheck size={18} className="text-[#b8f927]" />
+              <p className="mt-2 font-display text-sm font-bold tracking-wider text-white uppercase">
+                Thanh toán QR-OTP
+              </p>
+              <p className="mt-0.5 text-xs text-zinc-400">
+                Xác thực 6 chữ số nhanh chóng &amp; chống trùng đơn
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CỘT PHẢI: FORM ĐĂNG NHẬP / ĐĂNG KÝ */}
+      <section className="flex min-h-screen items-center justify-center px-4 py-10 sm:px-10">
+        <div className="w-full max-w-[430px] rounded-xs border border-zinc-800 bg-[#111513] p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] sm:p-9">
+          <Link
+            to="/"
+            className="mb-6 flex items-center justify-center gap-2.5"
+            aria-label="Trang chủ nutraGO"
+          >
+            <span className="inline-flex h-9 w-9 -skew-x-12 items-center justify-center rounded-xs bg-[#b8f927] font-display text-base font-black text-black shadow-[0_0_20px_rgba(184,249,39,0.3)]">
+              <span className="skew-x-12">//</span>
+            </span>
+            <span className="font-display text-2xl font-black tracking-wide text-white">
+              nutra<span className="text-[#b8f927]">GO</span>
+            </span>
+          </Link>
+
+          {/* Thanh chuyển đổi nhanh Đăng nhập / Đăng ký */}
+          <div className="mb-6 grid grid-cols-2 rounded-xs border border-zinc-800 bg-[#0b0d0c] p-1">
+            <button
+              type="button"
+              onClick={() => setIsCreatingAccount(false)}
+              className={`rounded-xs py-2 text-xs font-extrabold tracking-wider uppercase transition ${
+                !isCreatingAccount
+                  ? "bg-[#b8f927] text-black"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              Đăng nhập
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsCreatingAccount(true)}
+              className={`rounded-xs py-2 text-xs font-extrabold tracking-wider uppercase transition ${
+                isCreatingAccount
+                  ? "bg-[#b8f927] text-black"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              Tạo tài khoản
+            </button>
+          </div>
+
+          <div className="mb-6 text-center">
+            <h2 className="font-display text-2xl font-black tracking-wide text-white uppercase sm:text-3xl">
+              {isCreatingAccount ? "ĐĂNG KÝ THÀNH VIÊN" : "ĐĂNG NHẬP HỆ THỐNG"}
             </h2>
-            <p className="mt-2 text-xs text-slate-500">
-              {isCreatingAccount ? "Đã có tài khoản?" : "Chưa có tài khoản?"}{" "}
-              <button
-                type="button"
-                onClick={() => setIsCreatingAccount((current) => !current)}
-                className="font-semibold text-app-orange hover:text-app-orange-dark"
-              >
-                {isCreatingAccount ? "Đăng nhập" : "Tạo tài khoản"}
-              </button>
+            <p className="mt-1.5 text-xs text-zinc-400">
+              {isCreatingAccount
+                ? "Mỗi khách hàng sử dụng 1 Email & 1 Số điện thoại duy nhất."
+                : "Truy cập giỏ hàng, lịch sử đơn hàng và lộ trình cá nhân hóa."}
             </p>
           </div>
 
@@ -164,29 +238,35 @@ const LogIn = () => {
             {isCreatingAccount && (
               <>
                 <div>
-                  <label htmlFor="name" className="mb-1 block text-xs font-medium text-app-green">
+                  <label
+                    htmlFor="name"
+                    className="mb-1.5 block text-xs font-bold tracking-wider text-zinc-300 uppercase"
+                  >
                     Họ và tên
                   </label>
-                  <div className="flex h-11 items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-app-green focus-within:ring-2 focus-within:ring-app-green/10">
-                    <UserRound size={16} className="shrink-0 text-slate-500" />
+                  <div className="flex h-11 items-center gap-3 rounded-xs border border-zinc-800 bg-[#0b0d0c] px-3.5 transition focus-within:border-[#b8f927]">
+                    <UserRound size={16} className="shrink-0 text-[#b8f927]" />
                     <input
                       id="name"
                       name="name"
                       type="text"
                       autoComplete="name"
                       required
-                      placeholder="Nhập họ và tên"
-                      className="h-full w-full bg-transparent text-xs text-app-text outline-none placeholder:text-slate-400"
+                      placeholder="Nhập họ và tên của bạn"
+                      className="h-full w-full bg-transparent text-xs text-white outline-none placeholder:text-zinc-500 sm:text-sm"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="mb-1 block text-xs font-medium text-app-green">
-                    Số điện thoại (duy nhất cho 1 tài khoản)
+                  <label
+                    htmlFor="phone"
+                    className="mb-1.5 block text-xs font-bold tracking-wider text-zinc-300 uppercase"
+                  >
+                    Số điện thoại (duy nhất)
                   </label>
-                  <div className="flex h-11 items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-app-green focus-within:ring-2 focus-within:ring-app-green/10">
-                    <Phone size={16} className="shrink-0 text-slate-500" />
+                  <div className="flex h-11 items-center gap-3 rounded-xs border border-zinc-800 bg-[#0b0d0c] px-3.5 transition focus-within:border-[#b8f927]">
+                    <Phone size={16} className="shrink-0 text-[#b8f927]" />
                     <input
                       id="phone"
                       name="phone"
@@ -194,7 +274,7 @@ const LogIn = () => {
                       autoComplete="tel"
                       required
                       placeholder="Ví dụ: 0901234567"
-                      className="h-full w-full bg-transparent text-xs text-app-text outline-none placeholder:text-slate-400"
+                      className="h-full w-full bg-transparent text-xs text-white outline-none placeholder:text-zinc-500 sm:text-sm"
                     />
                   </div>
                 </div>
@@ -202,11 +282,14 @@ const LogIn = () => {
             )}
 
             <div>
-              <label htmlFor="email" className="mb-1 block text-xs font-medium text-app-green">
+              <label
+                htmlFor="email"
+                className="mb-1.5 block text-xs font-bold tracking-wider text-zinc-300 uppercase"
+              >
                 Địa chỉ email
               </label>
-              <div className="flex h-11 items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-app-green focus-within:ring-2 focus-within:ring-app-green/10">
-                <Mail size={16} className="shrink-0 text-slate-500" />
+              <div className="flex h-11 items-center gap-3 rounded-xs border border-zinc-800 bg-[#0b0d0c] px-3.5 transition focus-within:border-[#b8f927]">
+                <Mail size={16} className="shrink-0 text-[#b8f927]" />
                 <input
                   id="email"
                   name="email"
@@ -214,26 +297,31 @@ const LogIn = () => {
                   autoComplete="email"
                   required
                   placeholder="ban@example.com"
-                  className="h-full w-full bg-transparent text-xs text-app-text outline-none placeholder:text-slate-400"
+                  className="h-full w-full bg-transparent text-xs text-white outline-none placeholder:text-zinc-500 sm:text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="mb-1 block text-xs font-medium text-app-green">
+              <label
+                htmlFor="password"
+                className="mb-1.5 block text-xs font-bold tracking-wider text-zinc-300 uppercase"
+              >
                 Mật khẩu
               </label>
-              <div className="flex h-11 items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 focus-within:border-app-green focus-within:ring-2 focus-within:ring-app-green/10">
-                <LockKeyhole size={16} className="shrink-0 text-slate-500" />
+              <div className="flex h-11 items-center gap-3 rounded-xs border border-zinc-800 bg-[#0b0d0c] px-3.5 transition focus-within:border-[#b8f927]">
+                <LockKeyhole size={16} className="shrink-0 text-[#b8f927]" />
                 <input
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete={isCreatingAccount ? "new-password" : "current-password"}
+                  autoComplete={
+                    isCreatingAccount ? "new-password" : "current-password"
+                  }
                   required
                   minLength={6}
                   placeholder="Ít nhất 6 ký tự"
-                  className="h-full w-full bg-transparent text-xs text-app-text outline-none placeholder:text-slate-400"
+                  className="h-full w-full bg-transparent text-xs text-white outline-none placeholder:text-zinc-500 sm:text-sm"
                 />
               </div>
             </div>
@@ -241,19 +329,25 @@ const LogIn = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-1 h-11 w-full rounded-xl bg-[#00351c] text-sm font-semibold text-white hover:bg-app-green-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-app-green"
+              className="mt-2 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xs bg-[#b8f927] text-xs font-extrabold tracking-[0.12em] text-black uppercase shadow-[0_0_25px_rgba(184,249,39,0.22)] transition hover:bg-[#c9ff4d] disabled:opacity-50 sm:text-sm"
             >
-              {isSubmitting
-                ? "Đang xử lý..."
-                : isCreatingAccount
-                  ? "Tạo tài khoản"
-                  : "Đăng nhập"}
+              <span>
+                {isSubmitting
+                  ? "Đang xác thực..."
+                  : isCreatingAccount
+                    ? "Tạo tài khoản ngay"
+                    : "Đăng nhập"}
+              </span>
+              {!isSubmitting && <ArrowRight size={16} strokeWidth={2.5} />}
             </button>
           </form>
 
-          <p className="mt-6 text-center text-xs text-slate-500">
-            <Link to="/" className="font-medium text-app-green hover:text-app-orange">
-              Quay lại trang chủ
+          <p className="mt-6 text-center text-xs text-zinc-400">
+            <Link
+              to="/"
+              className="font-semibold text-zinc-300 underline-offset-4 hover:text-[#b8f927] hover:underline"
+            >
+              ← Quay lại trang chủ nutraGO
             </Link>
           </p>
         </div>
@@ -261,11 +355,5 @@ const LogIn = () => {
     </main>
   );
 };
-
-const LeafMark = () => (
-  <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5 fill-current">
-    <path d="M20.8 3.2c-7.3-.5-13.2 1.3-15.5 5.2-1.6 2.7-.8 5.8 1.5 7.1 2.2 1.2 5 .3 6.5-2.2-1.9.9-3.5.8-4.4-.2 1.8-3.1 5-5.7 9.2-7.2-4.1 2.3-7 5.2-8.8 8.7-1.6 3.2.3 6.3 3.2 6.2 5.8-.2 9.2-8 8.3-17.6Z" />
-  </svg>
-);
 
 export default LogIn;

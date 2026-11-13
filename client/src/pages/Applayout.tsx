@@ -79,17 +79,17 @@ const AppLayout = () => {
       {/* HEADER CHUẨN PHONG CÁCH FORM/FWD */}
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0d0f0e]/95 text-white backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          {/* CỘT TRÁI: LOGO FORM/FWD */}
+          {/* CỘT TRÁI: LOGO nutraGO */}
           <Link
             to="/"
             className="group flex shrink-0 items-center gap-2.5"
-            aria-label="FORM/FWD Trang chủ"
+            aria-label="nutraGO Trang chủ"
           >
             <span className="inline-flex h-8 w-8 -skew-x-12 items-center justify-center rounded-xs bg-[#b8f927] font-display text-base font-black tracking-tighter text-black shadow-[0_0_20px_rgba(184,249,39,0.3)] transition group-hover:scale-105">
               <span className="skew-x-12">//</span>
             </span>
-            <span className="font-display text-xl font-extrabold tracking-[0.08em] text-white uppercase sm:text-2xl">
-              FORM/FWD
+            <span className="font-display text-xl font-extrabold tracking-[0.04em] text-white sm:text-2xl">
+              nutra<span className="text-[#b8f927]">GO</span>
             </span>
           </Link>
 
@@ -239,8 +239,8 @@ const AppLayout = () => {
               <span className="skew-x-12">//</span>
             </span>
             <div className="text-left">
-              <p className="font-display text-lg font-extrabold tracking-wider text-white uppercase">
-                FORM/FWD
+              <p className="font-display text-lg font-extrabold tracking-wider text-white">
+                nutra<span className="text-[#b8f927]">GO</span>
               </p>
               <p className="text-xs text-zinc-500">
                 Hiệu Suất • Dinh Dưỡng • Kỷ Luật — Nền tảng mua sắm & dinh dưỡng hiện đại.
@@ -248,7 +248,7 @@ const AppLayout = () => {
             </div>
           </div>
           <p className="text-xs text-zinc-500">
-            © {new Date().getFullYear()} FORM/FWD. Đồng bộ dữ liệu thời gian thực trên Neon Cloud DB.
+            © {new Date().getFullYear()} nutraGO. Đồng bộ dữ liệu thời gian thực trên Neon Cloud DB.
           </p>
         </div>
       </footer>

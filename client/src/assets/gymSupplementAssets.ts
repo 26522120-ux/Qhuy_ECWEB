@@ -292,7 +292,7 @@ export const gymSupplementProducts: Array<Product & { id: string; priceVnd: numb
   {
     _id: "gym_prod_05",
     id: "gym_prod_05",
-    name: "Máy Chạy Bộ Điện Đa Năng FORM/FWD Pro Motor 4.0HP",
+    name: "Máy Chạy Bộ Điện Đa Năng nutraGO Pro Motor 4.0HP",
     description:
       "Màn hình LCD hiển thị nhịp tim & calo, nâng dốc tự động 15 cấp độ, thảm chạy rộng giảm chấn bảo vệ khớp gối.",
     price: 42000,

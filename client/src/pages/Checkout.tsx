@@ -236,7 +236,7 @@ const Checkout = () => {
         <CheckCircle2 size={64} className="text-app-success" />
         <h1 className="mt-5 font-serif text-3xl text-app-green">Đặt hàng thành công!</h1>
         <p className="mt-3 max-w-lg text-sm leading-6 text-app-text-light">
-          Cảm ơn bạn đã mua sắm tại POPPIN MART. Đơn hàng của bạn đã được ghi nhận.
+          Cảm ơn bạn đã mua sắm tại nutraGO. Đơn hàng của bạn đã được ghi nhận.
         </p>
         <div className="mt-5 w-full max-w-md space-y-2 rounded-2xl border border-app-border bg-white p-5 text-left text-sm">
           <div className="flex justify-between">

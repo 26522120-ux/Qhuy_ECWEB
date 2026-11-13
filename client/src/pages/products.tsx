@@ -272,7 +272,7 @@ const Products = () => {
             <div className="mb-5 flex flex-wrap items-end justify-between gap-3 border-b border-white/10 pb-4">
               <div className="min-w-0">
                 <p className="text-[11px] font-bold tracking-[0.2em] text-[#b8f927] uppercase">
-                  // DANH MỤC HIỆU SUẤT FORM/FWD
+                  // DANH MỤC HIỆU SUẤT nutraGO
                 </p>
                 <h1 className="mt-1 truncate font-display text-2xl font-black text-white uppercase sm:text-4xl">
                   {selectedCategoryName}
