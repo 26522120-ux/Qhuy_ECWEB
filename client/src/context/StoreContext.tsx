@@ -112,9 +112,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const gymCategorySet = new Set([
         "whey-protein",
         "pre-workout-creatine",
-        "weights-barbells",
-        "gym-machines",
-        "boxing-accessories",
       ]);
       const dbGymProducts = nextProducts.filter((item) =>
         gymCategorySet.has(item.category),
