@@ -109,10 +109,23 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         getProducts(),
         getTaxRate(),
       ]);
-      const dbIds = new Set(nextProducts.map((item) => item._id));
+      const gymCategorySet = new Set([
+        "whey-protein",
+        "pre-workout-energy",
+        "creatine-strength",
+        "bcaa-amino-recovery",
+        "fat-burner-shred",
+        "vitamins-health",
+        "healthy-bars-foods",
+        "gym-gear-accessories",
+      ]);
+      const dbGymProducts = nextProducts.filter((item) =>
+        gymCategorySet.has(item.category),
+      );
+      const dbIds = new Set(dbGymProducts.map((item) => item._id));
       const mergedProducts = [
+        ...dbGymProducts,
         ...gymSupplementProducts.filter((item) => !dbIds.has(item._id)),
-        ...nextProducts,
       ];
       setProducts(mergedProducts);
       setTaxRateState(nextTaxRate);
