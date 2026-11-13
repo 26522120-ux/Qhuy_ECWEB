@@ -2,28 +2,19 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Flame, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const PROMO_STORAGE_KEY = "nutrago_whey_promo_dismissed";
 const TARGET_PRODUCT_ID = "gym_prod_giant_whey";
 
 export default function WheyPromoModal() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [isOpen, setIsOpen] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return !window.sessionStorage.getItem(PROMO_STORAGE_KEY);
-  });
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const isHiddenRoute =
     location.pathname === "/login" || location.pathname.startsWith("/admin");
 
   const dismiss = () => {
     setIsOpen(false);
-    try {
-      window.sessionStorage.setItem(PROMO_STORAGE_KEY, "1");
-    } catch {
-      // ignore storage errors
-    }
   };
 
   useEffect(() => {
