@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
   Flame,
@@ -10,120 +10,185 @@ import {
   Search,
   Shield,
   ShoppingBag,
-  Sparkles,
+  User,
   UserCheck,
+  X,
 } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useStore } from "../context/StoreContext";
 
 const AppLayout = () => {
   const [search, setSearch] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { itemCount } = useCart();
   const { currentUser, logout, inventoryAlerts } = useStore();
+
+  const isHomePage = location.pathname === "/";
 
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const query = search.trim();
     if (query) {
       navigate(`/products?q=${encodeURIComponent(query)}`);
+      setIsSearchOpen(false);
     }
   };
 
   const totalAlerts =
     (inventoryAlerts?.outOfStockCount ?? 0) + (inventoryAlerts?.lowStockCount ?? 0);
 
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-medium transition ${
+  const desktopNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `relative inline-flex h-16 items-center px-1 text-xs font-bold uppercase tracking-[0.14em] transition-colors ${
       isActive
-        ? "bg-gradient-to-r from-emerald-50 to-amber-50/90 font-semibold text-app-green shadow-2xs ring-1 ring-amber-300/80"
-        : "text-app-text-light hover:bg-emerald-50/60 hover:text-app-green"
+        ? "text-white after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:bg-[#b8f927]"
+        : "text-zinc-400 hover:text-white"
     }`;
 
   const mobileBottomNavClass = ({ isActive }: { isActive: boolean }) =>
     `relative flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-semibold transition ${
-      isActive ? "text-[#0f5132]" : "text-app-text-light"
+      isActive ? "text-[#b8f927]" : "text-zinc-400"
     }`;
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f8fcfa] pb-16 sm:pb-0">
-      <div className="bg-gradient-to-r from-[#0f5132] via-[#15803d] to-[#ca8a04] px-3 py-1.5 text-center text-[11px] font-medium text-white sm:px-4 sm:py-2 sm:text-sm">
-        <span className="inline-flex items-center gap-1.5">
-          <Sparkles size={12} className="shrink-0 text-amber-300" />
-          <span className="truncate">
-            POPPIN MART — Thực phẩm tươi sạch, giao nhanh tận cửa
+    <div
+      className={`flex min-h-screen flex-col pb-16 sm:pb-0 ${
+        isHomePage ? "bg-[#0b0d0c] text-white" : "bg-[#f8fcfa] text-app-text"
+      }`}
+    >
+      {/* Thanh cảnh báo tồn kho dành riêng cho Admin */}
+      {currentUser?.isAdmin && totalAlerts > 0 && (
+        <div className="border-b border-white/10 bg-[#141917] px-3 py-1.5 text-center text-[11px] font-medium text-zinc-200 sm:px-4">
+          <span className="inline-flex items-center gap-1.5">
+            <AlertTriangle size={12} className="text-[#b8f927]" />
+            <span>
+              Cảnh báo kho Admin: <strong>{inventoryAlerts?.outOfStockCount ?? 0}</strong> hết hàng,{" "}
+              <strong>{inventoryAlerts?.lowStockCount ?? 0}</strong> sắp hết
+            </span>
+            <Link
+              to="/admin"
+              className="ml-2 font-bold text-[#b8f927] underline underline-offset-2"
+            >
+              Kiểm tra ngay
+            </Link>
           </span>
-        </span>
-        {currentUser?.isAdmin && totalAlerts > 0 && (
-          <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-amber-300/25 px-2 py-0.5 text-[10px] font-semibold text-amber-100 ring-1 ring-amber-300/40 backdrop-blur-xs">
-            <AlertTriangle size={11} className="text-amber-200" />
-            Kho: {inventoryAlerts?.outOfStockCount ?? 0} hết,{" "}
-            {inventoryAlerts?.lowStockCount ?? 0} sắp hết
-          </span>
-        )}
-      </div>
+        </div>
+      )}
 
-      <header className="sticky top-0 z-40 border-b border-emerald-100/90 bg-white/95 backdrop-blur-md shadow-[0_4px_20px_-6px_rgba(15,81,50,0.06)]">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-2.5 px-3.5 py-2.5 sm:gap-4 sm:px-6 sm:py-3.5 lg:flex-nowrap lg:px-8">
+      {/* HEADER CHUẨN PHONG CÁCH FORM/FWD */}
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0d0f0e]/95 text-white backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          {/* CỘT TRÁI: LOGO FORM/FWD */}
           <Link
             to="/"
-            className="group flex shrink-0 items-center gap-2.5 sm:gap-3"
-            aria-label="POPPIN MART Trang chủ"
+            className="group flex shrink-0 items-center gap-2.5"
+            aria-label="FORM/FWD Trang chủ"
           >
-            <div className="flex size-9 items-center justify-center overflow-hidden rounded-xl border border-emerald-200/80 bg-white p-0.5 shadow-xs ring-2 ring-amber-200/60 transition group-hover:scale-105 sm:size-11 sm:rounded-2xl">
-              <img
-                src="/poppin-mart-logo.jpg"
-                alt="POPPIN MART Logo"
-                className="h-full w-full object-contain"
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif text-lg font-extrabold tracking-tight sm:text-2xl">
-                <span className="text-[#16a34a]">POPPIN</span>{" "}
-                <span className="text-[#0f5132]">MART</span>
-              </span>
-              <span className="text-[9px] font-semibold uppercase tracking-widest text-amber-600 sm:text-[10px]">
-                Fresh • Clean • Sunny
-              </span>
-            </div>
+            <span className="inline-flex h-8 w-8 -skew-x-12 items-center justify-center rounded-xs bg-[#b8f927] font-display text-base font-black tracking-tighter text-black shadow-[0_0_20px_rgba(184,249,39,0.3)] transition group-hover:scale-105">
+              <span className="skew-x-12">//</span>
+            </span>
+            <span className="font-display text-xl font-extrabold tracking-[0.08em] text-white uppercase sm:text-2xl">
+              FORM/FWD
+            </span>
           </Link>
 
-          <form
-            onSubmit={handleSearch}
-            className="order-3 flex w-full items-center rounded-full border border-emerald-200/90 bg-gradient-to-r from-[#f4fbf7] to-[#fefce8]/60 px-3.5 py-2 transition focus-within:border-amber-400 focus-within:bg-white focus-within:ring-4 focus-within:ring-amber-400/15 sm:px-4 sm:py-2.5 lg:order-none lg:mx-8 lg:max-w-xl lg:flex-1"
+          {/* CỘT GIỮA: ĐIỀU HƯỚNG CHÍNH */}
+          <nav
+            aria-label="Điều hướng chính"
+            className="hidden items-center gap-8 md:flex"
           >
-            <Search size={17} className="shrink-0 text-emerald-700/70" />
-            <input
-              aria-label="Tìm sản phẩm"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Tìm rau củ, sữa rửa mặt, thực phẩm..."
-              className="ml-2.5 w-full bg-transparent text-sm text-app-text outline-none placeholder:text-app-text-light/80"
-            />
-            <button
-              type="submit"
-              className="shrink-0 rounded-full bg-gradient-to-r from-[#16a34a] to-[#ca8a04] px-3 py-1 text-xs font-semibold text-white shadow-2xs hover:from-[#15803d] hover:to-[#a16207]"
+            <NavLink to="/" end className={desktopNavLinkClass}>
+              TRANG CHỦ
+            </NavLink>
+            <NavLink to="/products" className={desktopNavLinkClass}>
+              SẢN PHẨM
+            </NavLink>
+            <a
+              href="/#ca-nhan-hoa"
+              onClick={(event) => {
+                if (location.pathname === "/") {
+                  event.preventDefault();
+                  document
+                    .getElementById("ca-nhan-hoa")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              className="relative inline-flex h-16 items-center px-1 text-xs font-bold tracking-[0.14em] text-zinc-400 uppercase transition-colors hover:text-white"
             >
-              Tìm
-            </button>
-          </form>
+              CÁ NHÂN HÓA
+            </a>
+            <NavLink to="/deals" className={desktopNavLinkClass}>
+              ƯU ĐÃI
+            </NavLink>
+            {currentUser && (
+              <NavLink to="/orders" className={desktopNavLinkClass}>
+                ĐƠN HÀNG
+              </NavLink>
+            )}
+            {currentUser?.isAdmin && (
+              <NavLink to="/admin" className={desktopNavLinkClass}>
+                <span className="inline-flex items-center gap-1.5">
+                  <Shield size={13} className="text-[#b8f927]" />
+                  QUẢN TRỊ
+                </span>
+              </NavLink>
+            )}
+          </nav>
 
-          <div className="ml-auto flex items-center gap-2 sm:gap-3.5">
+          {/* CỘT PHẢI: TÌM KIẾM, ĐĂNG NHẬP & GIỎ HÀNG */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            {/* Nút bật/tắt ô tìm kiếm nhanh */}
+            {isSearchOpen ? (
+              <form
+                onSubmit={handleSearch}
+                className="flex items-center rounded-sm border border-zinc-700 bg-[#151917] px-2.5 py-1.5"
+              >
+                <Search size={15} className="shrink-0 text-[#b8f927]" />
+                <input
+                  autoFocus
+                  aria-label="Tìm sản phẩm"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder="Tìm sản phẩm dinh dưỡng..."
+                  className="ml-2 w-36 bg-transparent text-xs text-white outline-none placeholder:text-zinc-500 sm:w-48"
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsSearchOpen(false)}
+                  aria-label="Đóng tìm kiếm"
+                  className="ml-1 text-zinc-400 hover:text-white"
+                >
+                  <X size={14} />
+                </button>
+              </form>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsSearchOpen(true)}
+                aria-label="Mở tìm kiếm"
+                className="inline-flex size-9 items-center justify-center rounded-sm text-zinc-300 transition hover:bg-white/5 hover:text-[#b8f927]"
+              >
+                <Search size={17} />
+              </button>
+            )}
+
+            {/* Tài khoản / Đăng nhập */}
             {currentUser ? (
-              <div className="flex items-center gap-1.5 sm:gap-2.5">
+              <div className="flex items-center gap-2">
                 <Link
                   to="/addresses"
                   title="Quản lý tài khoản khách hàng"
-                  className="flex items-center gap-1.5 rounded-full border border-emerald-200/80 bg-gradient-to-r from-emerald-50/80 to-amber-50/70 px-2.5 py-1.5 text-xs font-semibold text-app-green hover:border-amber-300 sm:px-3.5"
+                  className="flex items-center gap-2 rounded-sm border border-zinc-800 bg-[#141816] px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:border-[#b8f927]/60 hover:text-white"
                 >
                   {currentUser.isAdmin ? (
-                    <Shield size={13} className="shrink-0 text-amber-600" />
+                    <Shield size={14} className="shrink-0 text-[#b8f927]" />
                   ) : (
-                    <UserCheck size={13} className="shrink-0 text-app-green" />
+                    <UserCheck size={14} className="shrink-0 text-[#b8f927]" />
                   )}
-                  <span className="max-w-20 truncate sm:max-w-28">{currentUser.name}</span>
+                  <span className="max-w-24 truncate sm:max-w-32">{currentUser.name}</span>
                   {currentUser.isAdmin && (
-                    <span className="rounded-full bg-amber-400 px-1.5 py-0.5 text-[9px] font-extrabold text-[#0f5132] sm:text-[10px]">
+                    <span className="rounded-xs bg-[#b8f927] px-1.5 py-0.5 text-[9px] font-black text-black">
                       ADMIN
                     </span>
                   )}
@@ -132,117 +197,73 @@ const AppLayout = () => {
                   type="button"
                   onClick={() => void logout()}
                   title="Đăng xuất"
-                  className="inline-flex items-center gap-1 rounded-full border border-transparent p-1.5 text-xs font-semibold text-app-text-light hover:border-red-100 hover:bg-red-50 hover:text-app-error sm:px-2.5"
+                  className="inline-flex items-center gap-1 rounded-sm p-1.5 text-xs font-medium text-zinc-400 hover:bg-red-500/10 hover:text-red-400"
                 >
                   <LogOut size={15} />
-                  <span className="hidden sm:inline">Đăng xuất</span>
                 </button>
               </div>
             ) : (
               <Link
                 to="/login"
-                className="rounded-full border border-emerald-200 bg-emerald-50/60 px-3 py-1.5 text-xs font-semibold text-app-green hover:border-amber-300 hover:bg-amber-50/60 sm:px-4 sm:py-2 sm:text-sm"
+                className="inline-flex items-center gap-2 text-xs font-medium text-zinc-200 transition hover:text-[#b8f927] sm:text-sm"
               >
-                Đăng nhập
+                <User size={16} className="text-zinc-300" />
+                <span>Đăng nhập</span>
               </Link>
             )}
 
+            {/* Giỏ hàng vuông viền tối + chấm tròn xanh neon */}
             <Link
               to="/cart"
               aria-label="Giỏ hàng"
-              className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#0f5132] to-[#16a34a] px-3 py-2 text-xs font-semibold text-white shadow-sm ring-1 ring-amber-300/40 hover:from-[#15803d] hover:to-[#16a34a] sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm"
+              className="relative flex size-10 items-center justify-center rounded-xs border border-zinc-800 bg-[#121514] text-zinc-200 transition hover:border-[#b8f927] hover:text-[#b8f927]"
             >
-              <ShoppingBag size={16} className="text-amber-200" />
-              <span className="hidden sm:inline">Giỏ hàng</span>
-              {itemCount > 0 && (
-                <span className="flex size-5 items-center justify-center rounded-full bg-amber-400 text-[11px] font-extrabold text-[#0f5132]">
-                  {itemCount}
-                </span>
-              )}
+              <ShoppingBag size={17} />
+              <span className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full bg-[#b8f927] text-[11px] font-extrabold text-black shadow-sm">
+                {itemCount}
+              </span>
             </Link>
           </div>
         </div>
-
-        <nav
-          aria-label="Điều hướng chính"
-          className="no-scrollbar border-t border-emerald-100/80 bg-white/90"
-        >
-          <div className="no-scrollbar mx-auto flex max-w-7xl items-center gap-1.5 overflow-x-auto px-3.5 py-2 sm:gap-2 sm:px-6 sm:py-2.5 lg:px-8">
-            <NavLink to="/" end className={navLinkClass}>
-              Trang chủ
-            </NavLink>
-            <NavLink to="/products" className={navLinkClass}>
-              Sản phẩm
-            </NavLink>
-            <NavLink to="/deals" className={navLinkClass}>
-              Ưu đãi xanh
-            </NavLink>
-            {currentUser && (
-              <>
-                <NavLink to="/orders" className={navLinkClass}>
-                  <PackageCheck size={14} />
-                  Đơn hàng
-                </NavLink>
-                <NavLink to="/addresses" className={navLinkClass}>
-                  <UserCheck size={14} />
-                  Tài khoản
-                </NavLink>
-              </>
-            )}
-            {currentUser?.isAdmin && (
-              <NavLink to="/admin" className={navLinkClass}>
-                <Shield size={14} className="text-[#16a34a]" />
-                <span>Quản trị</span>
-                {totalAlerts > 0 && (
-                  <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-800">
-                    {totalAlerts}
-                  </span>
-                )}
-              </NavLink>
-            )}
-          </div>
-        </nav>
       </header>
 
       <main className="flex-1">
         <Outlet />
       </main>
 
-      <footer className="mt-12 border-t border-emerald-100 bg-white px-4 py-8 text-sm text-app-text-light sm:mt-16 sm:py-10">
+      {/* FOOTER CHUẨN TỐI HIỆN ĐẠI */}
+      <footer className="border-t border-white/10 bg-[#090b0a] px-4 py-10 text-sm text-zinc-400">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
           <div className="flex items-center gap-3">
-            <img
-              src="/poppin-mart-logo.jpg"
-              alt="POPPIN MART"
-              className="size-11 rounded-2xl border border-emerald-200 bg-white object-contain p-0.5 shadow-2xs"
-            />
+            <span className="inline-flex h-8 w-8 -skew-x-12 items-center justify-center rounded-xs bg-[#b8f927] font-display text-base font-black text-black">
+              <span className="skew-x-12">//</span>
+            </span>
             <div className="text-left">
-              <p className="font-serif text-base font-extrabold tracking-tight sm:text-lg">
-                <span className="text-[#16a34a]">POPPIN</span>{" "}
-                <span className="text-[#0f5132]">MART</span>
+              <p className="font-display text-lg font-extrabold tracking-wider text-white uppercase">
+                FORM/FWD
               </p>
-              <p className="text-xs text-app-text-light">
-                Siêu thị thực phẩm tươi sạch, hiện đại & tận tâm.
+              <p className="text-xs text-zinc-500">
+                Hiệu Suất • Dinh Dưỡng • Kỷ Luật — Nền tảng mua sắm & dinh dưỡng hiện đại.
               </p>
             </div>
           </div>
-          <p className="text-xs text-app-text-light">
-            © {new Date().getFullYear()} POPPIN MART. Trải nghiệm mua sắm chuẩn xanh.
+          <p className="text-xs text-zinc-500">
+            © {new Date().getFullYear()} FORM/FWD. Đồng bộ dữ liệu thời gian thực trên Neon Cloud DB.
           </p>
         </div>
       </footer>
 
-      {/* THANH ĐIỀU HƯỚNG ĐÁY DÀNH RIÊNG CHO MÀN HÌNH ĐIỆN THOẠI 6.9 INCHES */}
+      {/* THANH ĐIỀU HƯỚNG ĐÁY CHO MÀN HÌNH ĐIỆN THOẠI 6.9 INCHES */}
       <nav
         aria-label="Điều hướng nhanh trên điện thoại"
-        className="pb-safe fixed inset-x-0 bottom-0 z-40 flex items-center justify-around border-t border-emerald-200/90 bg-white/95 px-1 backdrop-blur-lg shadow-[0_-4px_20px_-4px_rgba(15,81,50,0.12)] sm:hidden"
+        className="pb-safe fixed inset-x-0 bottom-0 z-40 flex items-center justify-around border-t border-white/10 bg-[#0d0f0e]/95 px-1 backdrop-blur-lg sm:hidden"
       >
         <NavLink to="/" end className={mobileBottomNavClass}>
           {({ isActive }) => (
             <>
               <span
-                className={`flex size-8 items-center justify-center rounded-xl transition ${
-                  isActive ? "bg-emerald-100/90 text-[#0f5132]" : ""
+                className={`flex size-8 items-center justify-center rounded-lg transition ${
+                  isActive ? "bg-[#b8f927]/15 text-[#b8f927]" : ""
                 }`}
               >
                 <Home size={18} />
@@ -256,8 +277,8 @@ const AppLayout = () => {
           {({ isActive }) => (
             <>
               <span
-                className={`flex size-8 items-center justify-center rounded-xl transition ${
-                  isActive ? "bg-emerald-100/90 text-[#0f5132]" : ""
+                className={`flex size-8 items-center justify-center rounded-lg transition ${
+                  isActive ? "bg-[#b8f927]/15 text-[#b8f927]" : ""
                 }`}
               >
                 <LayoutGrid size={18} />
@@ -271,13 +292,13 @@ const AppLayout = () => {
           {({ isActive }) => (
             <>
               <span
-                className={`flex size-8 items-center justify-center rounded-xl transition ${
-                  isActive ? "bg-amber-100 text-amber-700" : ""
+                className={`flex size-8 items-center justify-center rounded-lg transition ${
+                  isActive ? "bg-[#b8f927]/15 text-[#b8f927]" : ""
                 }`}
               >
                 <Flame size={18} />
               </span>
-              <span>Ưu đãi</span>
+              <span>Cá nhân hóa</span>
             </>
           )}
         </NavLink>
@@ -286,13 +307,13 @@ const AppLayout = () => {
           {({ isActive }) => (
             <>
               <span
-                className={`relative flex size-8 items-center justify-center rounded-xl transition ${
-                  isActive ? "bg-emerald-100/90 text-[#0f5132]" : ""
+                className={`relative flex size-8 items-center justify-center rounded-lg transition ${
+                  isActive ? "bg-[#b8f927]/15 text-[#b8f927]" : ""
                 }`}
               >
                 <ShoppingBag size={18} />
                 {itemCount > 0 && (
-                  <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-amber-400 text-[10px] font-extrabold text-[#0f5132] ring-1 ring-white">
+                  <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-[#b8f927] text-[10px] font-extrabold text-black">
                     {itemCount}
                   </span>
                 )}
@@ -315,8 +336,8 @@ const AppLayout = () => {
           {({ isActive }) => (
             <>
               <span
-                className={`flex size-8 items-center justify-center rounded-xl transition ${
-                  isActive ? "bg-emerald-100/90 text-[#0f5132]" : ""
+                className={`flex size-8 items-center justify-center rounded-lg transition ${
+                  isActive ? "bg-[#b8f927]/15 text-[#b8f927]" : ""
                 }`}
               >
                 {currentUser?.isAdmin ? (
