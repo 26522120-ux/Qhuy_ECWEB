@@ -111,13 +111,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       ]);
       const gymCategorySet = new Set([
         "whey-protein",
-        "pre-workout-energy",
-        "creatine-strength",
-        "bcaa-amino-recovery",
-        "fat-burner-shred",
-        "vitamins-health",
-        "healthy-bars-foods",
-        "gym-gear-accessories",
+        "pre-workout-creatine",
+        "weights-barbells",
+        "gym-machines",
+        "boxing-accessories",
       ]);
       const dbGymProducts = nextProducts.filter((item) =>
         gymCategorySet.has(item.category),

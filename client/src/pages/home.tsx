@@ -25,7 +25,7 @@ import {
 } from "../localization";
 import type { Product } from "../types";
 
-type FitnessGoalId = "muscle" | "shred" | "energy" | "recovery";
+type FitnessGoalId = "muscle" | "shred" | "energy" | "boxing";
 
 interface FitnessGoalPlan {
   id: FitnessGoalId;
@@ -41,57 +41,57 @@ const FITNESS_GOALS: FitnessGoalPlan[] = [
   {
     id: "muscle",
     badge: "HYPERTROPHY • HIGH PROTEIN",
-    title: "TĂNG CƠ & SỨC MẠNH",
+    title: "TĂNG CƠ & TĂNG CÂN",
     subtitle:
-      "Tối ưu tổng hợp protein cơ bắp với Whey Isolate thủy phân, Creatine Monohydrate tinh khiết và nguồn đạm chất lượng cao.",
-    macros: "40% Protein • 40% Carb phức • 20% Chất béo tốt",
-    categories: ["whey-protein", "creatine-strength", "meat-seafood", "dairy-eggs"],
+      "Tối ưu tổng hợp protein cơ bắp với các dòng Whey Isolate, Whey Blend tinh khiết và Mass Gainer hàm lượng calo cao.",
+    macros: "24–25g Protein/muỗng • Hấp thụ nhanh • Phục hồi tối đa",
+    categories: ["whey-protein"],
     highlights: [
-      "Iso-Hydro Whey 100% Isolate, Whey Gold Standard & Creapure® Đức",
-      "Micellar Casein nuôi cơ 8 tiếng ban đêm & Mass Gainer Pro tăng cân",
-      "Phục hồi sợi cơ siêu tốc và gia tăng mức tạ qua từng buổi tập",
+      "Dymatize Elite 100% Whey 2.3kg, OxyWhey Lean & 360°CUT Pro Whey",
+      "Nutrimuscle Massive Mass Gainer 1365 kcal tích hợp sẵn Creatine",
+      "Cung cấp đầy đủ BCAAs & L-Leucine phát triển sợi cơ nạc",
     ],
   },
   {
     id: "shred",
-    badge: "LEAN CUT • THERMOGENIC SHRED",
-    title: "SIẾT CƠ & GIẢM MỠ",
+    badge: "STRENGTH • ATP POWER",
+    title: "SỨC MẠNH & BƠM CƠ",
     subtitle:
-      "Đốt mỡ thừa chuyên sâu với L-Carnitine 3000, CLA, viên sinh nhiệt Thermo Shred kết hợp yến mạch và bánh Protein ít đường.",
-    macros: "45% Protein • 30% Chất xơ & Carb chậm • 25% Chất béo tốt",
-    categories: ["fat-burner-shred", "healthy-bars-foods", "fruits-vegetables"],
+      "Bùng nổ sức mạnh đẩy tạ và tập trung cao độ trước mỗi buổi tập nặng với Micronised Creatine & RAW BUM Pre-Workout.",
+    macros: "100% Creatine Monohydrate • 30–93 Servings • Năng lượng tức thì",
+    categories: ["pre-workout-creatine"],
     highlights: [
-      "L-Carnitine 3000 Liquid, CLA 1250mg & Thermo Shred đốt mỡ",
-      "Thanh bánh Protein Bar 20g đạm, Yến mạch cán dẹt & Bơ đậu phộng",
-      "Giảm tỷ lệ mỡ cơ thể (Body Fat) mà vẫn giữ nguyên khối lượng cơ nạc",
+      "Optimum Nutrition Micronised Creatine Powder 317g (93 lần dùng)",
+      "RAW BUM Essential Pre-Workout Sour Watermelon (30 lần dùng)",
+      "Tăng mức tạ Squat, Bench Press, Deadlift và kéo dài sức bền hiệp tập",
     ],
   },
   {
     id: "energy",
-    badge: "ENDURANCE • EXPLOSIVE PUMP",
-    title: "NĂNG LƯỢNG & BỀN BỈ",
+    badge: "HOME GYM • PRO EQUIPMENT",
+    title: "THIẾT BỊ & TẠ TẬP GYM",
     subtitle:
-      "Bùng nổ sức mạnh và độ tỉnh táo cực đại trước giờ tập với Pre-Workout, Citrulline Malate, Beta-Alanine và Gel năng lượng.",
-    macros: "6g Citrulline • 3.2g Beta-Alanine • 200mg Caffeine",
-    categories: ["pre-workout-energy", "gym-gear-accessories", "snacks"],
+      "Trang bị hệ thống phòng tập chuẩn chuyên nghiệp với khung Smith Machine, máy chạy bộ điện, bộ đòn tạ Olympic và Kettlebell.",
+    macros: "Thép công nghiệp • Bánh tạ chuẩn Olympic • Bảo hành chính hãng",
+    categories: ["gym-machines", "weights-barbells"],
     highlights: [
-      "Nitro Surge Pre-Workout, Stim-Free Pump & Beta-Alanine CarnoSyn®",
-      "Đai lưng cứng Squat/Deadlift 10mm, Straps kéo lưng & Quấn cổ tay",
-      "Kéo dài sức bền hiệp tập, bơm máu căng phồng cơ bắp tối đa",
+      "Khung gánh tạ đa năng Smith Machine Pro & Máy chạy bộ 4.0HP",
+      "Bộ đòn Olympic + Bumper Plates PT Essentials & Bánh tạ gang 45 LB",
+      "Tạ ấm Kettlebell gang đúc nguyên khối cho bài tập sức mạnh toàn thân",
     ],
   },
   {
-    id: "recovery",
-    badge: "INTRA-WORKOUT • JOINT & HEALTH",
-    title: "CHĂM SÓC & PHỤC HỒI",
+    id: "boxing",
+    badge: "BOXING • RECOVERY GEAR",
+    title: "BOXING & PHỤ KIỆN",
     subtitle:
-      "Chống dị hóa cơ, bù điện giải tức thì và bảo vệ hệ xương khớp, tim mạch với EAA, BCAA, ZMA, Omega-3 và Glucosamine.",
-    macros: "9g EAA • 7g BCAA 2:1:1 • 1000mg EPA/DHA Omega-3",
-    categories: ["bcaa-amino-recovery", "vitamins-health", "personal-care"],
+      "Rèn luyện phản xạ võ thuật, đốt mỡ Cardio với bao cát, bóng đấm Venum, dây nhảy tốc độ cao và con lăn giãn cơ.",
+    macros: "Cardio cường độ cao • Tăng lực nắm • Giãn cơ phục hồi",
+    categories: ["boxing-accessories"],
     highlights: [
-      "Hydro EAA + Electrolytes, BCAA 2:1:1, L-Glutamine & ZMA ngủ sâu",
-      "Dầu cá Omega-3 Triple Strength, Multivitamin & Glucosamine bảo vệ khớp",
-      "Giảm đau mỏi cơ (DOMS) và phục hồi toàn diện sau tập nặng",
+      "Bao cát Boxing 1.5m da PU & Bóng đấm phản xạ Venum Pro Boxing",
+      "Dây nhảy lõi thép Ballistic Speed Rope & Kìm tập lực tay 10–60kg",
+      "Con lăn massage Foam Roller giải tỏa căng cơ sau tập nặng",
     ],
   },
 ];
@@ -102,13 +102,12 @@ const Home = () => {
   const isAdmin = Boolean(currentUser?.isAdmin);
 
   const [selectedGoal, setSelectedGoal] = useState<FitnessGoalId>("muscle");
+  const [activeCatalogFilter, setActiveCatalogFilter] = useState<string>("all");
 
-  // Ưu tiên hiển thị bộ 40 sản phẩm Gym & Supplement Fitness mới trên giao diện
   const catalogProducts = useMemo(() => {
-    const hasGymProductsInStore = products.some((p) =>
-      p.category.includes("whey") || p.category.includes("creatine") || p._id.startsWith("gym_prod_"),
-    );
-    return hasGymProductsInStore ? products : [...gymSupplementProducts, ...products];
+    const validSlugs = new Set(categoriesData.map((c) => c.slug));
+    const filtered = products.filter((p) => validSlugs.has(p.category));
+    return filtered.length > 0 ? filtered : gymSupplementProducts;
   }, [products]);
 
   const activeGoal = useMemo(
@@ -123,15 +122,18 @@ const Home = () => {
     return (matched.length > 0 ? matched : catalogProducts).slice(0, 4);
   }, [activeGoal, catalogProducts]);
 
-  const featuredProducts: Product[] = useMemo(() => {
-    return catalogProducts.slice(0, 8);
-  }, [catalogProducts]);
+  const displayedCatalogProducts: Product[] = useMemo(() => {
+    const list =
+      activeCatalogFilter === "all"
+        ? catalogProducts
+        : catalogProducts.filter((p) => p.category === activeCatalogFilter);
+    return list.slice(0, 8);
+  }, [activeCatalogFilter, catalogProducts]);
 
   return (
     <div className="bg-[#0b0d0c] text-white">
       {/* ==================== HERO SECTION CHUẨN FORM/FWD ==================== */}
       <section className="relative min-h-[540px] w-full overflow-hidden border-b border-white/10 bg-[#0b0d0c] sm:min-h-[620px] lg:min-h-[680px]">
-        {/* Lưới kỹ thuật mờ bên trái (Technical Grid Overlay) */}
         <div
           className="pointer-events-none absolute inset-0 z-0 opacity-35"
           style={{
@@ -141,37 +143,30 @@ const Home = () => {
           }}
         />
 
-        {/* Hình nền vận động viên thể hình bên phải */}
         <div
           className="pointer-events-none absolute inset-0 z-0 bg-cover bg-position-[72%_top] bg-no-repeat opacity-85 sm:bg-position-[right_top] sm:opacity-100"
           style={{ backgroundImage: "url('/form-fwd-hero.jpg')" }}
         />
 
-        {/* Lớp chuyển sắc tối từ trái sang phải để nổi bật chữ tiếng Việt tuyệt đối */}
         <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-r from-[#0b0d0c] via-[#0b0d0c]/88 to-transparent sm:via-[#0b0d0c]/60" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-28 bg-gradient-to-t from-[#0b0d0c] to-transparent" />
 
-        {/* Nội dung chính của Hero */}
         <div className="relative z-10 mx-auto flex min-h-[540px] max-w-7xl items-center px-4 py-14 sm:min-h-[620px] sm:px-6 lg:min-h-[680px] lg:px-8">
           <div className="max-w-2xl">
-            {/* Dòng tiêu đề phụ phía trên */}
             <p className="font-sans text-[11px] font-semibold tracking-[0.26em] text-zinc-400 uppercase sm:text-xs">
               HIỆU SUẤT &bull; DINH DƯỠNG &bull; KỶ LUẬT
             </p>
 
-            {/* Tiêu đề chính: Font Barlow Condensed 900 hỗ trợ 100% dấu tiếng Việt đồng nhất */}
             <h1 className="mt-4 font-display text-6xl leading-[0.94] font-black tracking-tight uppercase sm:text-7xl lg:text-[92px]">
               <span className="block text-white">VƯỢT QUA</span>
               <span className="mt-1 block text-[#b8f927]">GIỚI HẠN.</span>
             </h1>
 
-            {/* Đoạn mô tả tiếng Việt chuẩn xác */}
             <p className="mt-6 max-w-xl font-sans text-sm leading-7 font-normal text-zinc-300/90 sm:text-base sm:leading-8">
               Kế hoạch tập luyện, dinh dưỡng và sản phẩm hiệu suất được thiết kế
               riêng để đưa bạn đến phiên bản mạnh mẽ nhất.
             </p>
 
-            {/* Cụm 2 nút hành động chuẩn thiết kế */}
             <div className="mt-8 flex flex-wrap items-center gap-3.5 sm:mt-10 sm:gap-4">
               <a
                 href="#ca-nhan-hoa"
@@ -204,8 +199,8 @@ const Home = () => {
           {[
             {
               icon: Zap,
-              metric: "100% CHUẨN SẠCH",
-              desc: "Dinh dưỡng & thực phẩm tuyển chọn",
+              metric: "100% CHÍNH HÃNG",
+              desc: "Supplement & Thiết bị Gym chuẩn quốc tế",
             },
             {
               icon: Target,
@@ -241,7 +236,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ==================== KHU VỰC CÁ NHÂN HÓA LỘ TRÌNH & DINH DƯỠNG ==================== */}
+      {/* ==================== KHU VỰC CÁ NHÂN HÓA MỤC TIÊU ==================== */}
       <section
         id="ca-nhan-hoa"
         className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8"
@@ -252,16 +247,15 @@ const Home = () => {
               // THIẾT KẾ LỘ TRÌNH RIÊNG CHO BẠN
             </p>
             <h2 className="mt-2 font-display text-3xl font-black tracking-tight text-white uppercase sm:text-5xl">
-              CÁ NHÂN HÓA MỤC TIÊU DINH DƯỠNG
+              CÁ NHÂN HÓA MỤC TIÊU TẬP LUYỆN
             </h2>
           </div>
           <p className="max-w-md text-xs leading-6 text-zinc-400 sm:text-sm">
-            Chọn mục tiêu tập luyện của bạn để hệ thống lọc ngay thực đơn và sản
-            phẩm phù hợp nhất từ Cơ sở dữ liệu Neon.
+            Chọn mục tiêu của bạn để lọc ngay bộ sản phẩm Whey, Pre-Workout,
+            Tạ tập và Phụ kiện Boxing phù hợp nhất.
           </p>
         </div>
 
-        {/* Bộ nút chọn mục tiêu */}
         <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3.5">
           {FITNESS_GOALS.map((goal) => {
             const isSelected = goal.id === selectedGoal;
@@ -291,9 +285,7 @@ const Home = () => {
           })}
         </div>
 
-        {/* Chi tiết mục tiêu + 4 sản phẩm gợi ý */}
         <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.45fr]">
-          {/* Bảng thông số mục tiêu */}
           <div className="flex flex-col justify-between rounded-xs border border-zinc-800 bg-[#111513] p-6 sm:p-8">
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-xs bg-[#b8f927]/15 px-3 py-1 text-[11px] font-bold tracking-wider text-[#b8f927] uppercase">
@@ -309,7 +301,7 @@ const Home = () => {
 
               <div className="mt-5 rounded-xs border border-zinc-800 bg-[#0b0d0c] p-3.5">
                 <p className="text-[11px] font-bold tracking-widest text-zinc-400 uppercase">
-                  TỶ LỆ DINH DƯỠNG KHUYẾN NGHỊ
+                  THÔNG SỐ CHUYÊN MÔN KHUYẾN NGHỊ
                 </p>
                 <p className="mt-1 text-xs font-semibold text-[#b8f927] sm:text-sm">
                   {activeGoal.macros}
@@ -340,20 +332,19 @@ const Home = () => {
             </div>
           </div>
 
-          {/* 4 sản phẩm gợi ý trực tiếp từ CSDL */}
           <div className="grid grid-cols-2 gap-3.5 sm:gap-4">
             {goalProducts.map((product) => (
               <div
                 key={product._id}
-                className="group flex min-w-0 flex-col justify-between rounded-xs border border-zinc-800 bg-[#121614] p-3.5 transition hover:border-[#b8f927]/60 sm:p-4"
+                className="group flex min-w-0 flex-col justify-between overflow-hidden rounded-xs border border-zinc-800 bg-[#121614] transition hover:border-[#b8f927]/70"
               >
                 <div>
                   <Link
                     to={`/products/${product._id}`}
-                    className="relative flex aspect-square items-center justify-center overflow-hidden rounded-xs bg-[#181d1b] p-4"
+                    className="relative flex aspect-square items-center justify-center bg-white p-4"
                   >
                     {product.discount > 0 && (
-                      <span className="absolute left-2.5 top-2.5 rounded-xs bg-[#b8f927] px-2 py-0.5 text-[10px] font-black text-black">
+                      <span className="absolute left-2.5 top-2.5 rounded-xs bg-[#b8f927] px-2 py-0.5 text-[10px] font-black text-black shadow-xs">
                         -{product.discount}%
                       </span>
                     )}
@@ -364,18 +355,20 @@ const Home = () => {
                       loading="lazy"
                     />
                   </Link>
-                  <p className="mt-3 truncate text-[10px] font-bold tracking-wider text-[#b8f927] uppercase">
-                    {getCategoryNameVi(product.category)}
-                  </p>
-                  <Link
-                    to={`/products/${product._id}`}
-                    className="mt-1 line-clamp-2 min-h-9 text-xs font-bold text-white transition group-hover:text-[#b8f927] sm:text-sm"
-                  >
-                    {getProductNameVi(product)}
-                  </Link>
+                  <div className="p-3.5">
+                    <p className="truncate text-[10px] font-bold tracking-wider text-[#b8f927] uppercase">
+                      {getCategoryNameVi(product.category)}
+                    </p>
+                    <Link
+                      to={`/products/${product._id}`}
+                      className="mt-1 line-clamp-2 min-h-9 text-xs font-bold text-white transition group-hover:text-[#b8f927] sm:text-sm"
+                    >
+                      {getProductNameVi(product)}
+                    </Link>
+                  </div>
                 </div>
 
-                <div className="mt-3 flex items-center justify-between gap-2 border-t border-zinc-800/90 pt-3">
+                <div className="flex items-center justify-between gap-2 border-t border-zinc-800/90 px-3.5 py-3">
                   <div className="min-w-0">
                     <p className="truncate font-display text-base font-extrabold text-white sm:text-lg">
                       {formatVnd(product.price)}
@@ -399,43 +392,43 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ==================== DANH MỤC SẢN PHẨM & DINH DƯỠNG ==================== */}
+      {/* ==================== 5 DANH MỤC CHUYÊN BIỆT ==================== */}
       <section className="border-t border-white/10 bg-[#0e1210] py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 flex items-end justify-between gap-4">
             <div>
               <p className="text-xs font-bold tracking-[0.22em] text-[#b8f927] uppercase">
-                // HỆ SINH THÁI DINH DƯỠNG
+                // HỆ SINH THÁI GYM &amp; SUPPLEMENT
               </p>
               <h2 className="mt-1.5 font-display text-3xl font-black text-white uppercase sm:text-5xl">
-                DANH MỤC CHUYÊN BIỆT
+                5 DANH MỤC CHUYÊN BIỆT
               </h2>
             </div>
             <Link
               to="/products"
               className="inline-flex shrink-0 items-center gap-1.5 border border-zinc-700 bg-[#141816] px-4 py-2.5 text-xs font-bold tracking-wider text-white uppercase transition hover:border-[#b8f927] hover:text-[#b8f927]"
             >
-              <span>TẤT CẢ</span>
+              <span>XEM TẤT CẢ</span>
               <ArrowRight size={14} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-5">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
             {categoriesData.map((category) => (
               <Link
                 key={category.slug}
                 to={`/products?category=${category.slug}`}
-                className="group relative overflow-hidden rounded-xs border border-zinc-800 bg-[#131816] p-3 transition hover:-translate-y-1 hover:border-[#b8f927]"
+                className="group relative flex flex-col overflow-hidden rounded-xs border border-zinc-800 bg-[#131816] transition hover:-translate-y-1 hover:border-[#b8f927]"
               >
-                <div className="overflow-hidden rounded-xs bg-[#1b221f]">
+                <div className="flex aspect-square items-center justify-center bg-white p-4">
                   <img
                     src={category.image}
                     alt={getCategoryNameVi(category.slug)}
-                    className="aspect-square w-full object-cover transition duration-300 group-hover:scale-105"
+                    className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
                 </div>
-                <div className="pt-3 pb-1 text-center">
+                <div className="p-3 text-center">
                   <h3 className="font-display text-sm font-bold tracking-wider text-white uppercase transition group-hover:text-[#b8f927] sm:text-base">
                     {getCategoryNameVi(category.slug)}
                   </h3>
@@ -446,10 +439,10 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ==================== SẢN PHẨM HIỆU SUẤT NỔI BẬT ==================== */}
+      {/* ==================== DANH SÁCH SẢN PHẨM KHOA HỌC CÓ TAB LỌC NHANH ==================== */}
       <section className="border-t border-white/10 bg-[#0b0d0c] py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-bold tracking-[0.22em] text-[#b8f927] uppercase">
                 // HIỆU SUẤT &amp; CHẤT LƯỢNG CAO NHẤT
@@ -462,19 +455,48 @@ const Home = () => {
               to="/products"
               className="inline-flex items-center gap-2 rounded-xs bg-[#b8f927] px-5 py-2.5 text-xs font-extrabold tracking-wider text-black uppercase transition hover:bg-[#c8ff47]"
             >
-              <span>KHÁM PHÁ TOÀN BỘ KHO HÀNG</span>
+              <span>XEM TOÀN BỘ {catalogProducts.length} SẢN PHẨM</span>
               <ArrowRight size={15} />
             </Link>
           </div>
 
+          {/* Thanh Tab lọc nhanh theo 5 danh mục */}
+          <div className="no-scrollbar mb-6 flex gap-2 overflow-x-auto pb-2">
+            <button
+              type="button"
+              onClick={() => setActiveCatalogFilter("all")}
+              className={`shrink-0 rounded-xs px-4 py-2 text-xs font-extrabold uppercase transition ${
+                activeCatalogFilter === "all"
+                  ? "bg-[#b8f927] text-black"
+                  : "border border-zinc-800 bg-[#121614] text-zinc-300 hover:border-zinc-600 hover:text-white"
+              }`}
+            >
+              Tất cả
+            </button>
+            {categoriesData.map((category) => (
+              <button
+                key={category.slug}
+                type="button"
+                onClick={() => setActiveCatalogFilter(category.slug)}
+                className={`shrink-0 rounded-xs px-4 py-2 text-xs font-bold uppercase transition ${
+                  activeCatalogFilter === category.slug
+                    ? "bg-[#b8f927] text-black"
+                    : "border border-zinc-800 bg-[#121614] text-zinc-300 hover:border-zinc-600 hover:text-white"
+                }`}
+              >
+                {getCategoryNameVi(category.slug)}
+              </button>
+            ))}
+          </div>
+
           <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-            {featuredProducts.map((product) => (
+            {displayedCatalogProducts.map((product) => (
               <div
                 key={product._id}
                 className="group relative flex min-w-0 flex-col justify-between overflow-hidden rounded-xs border border-zinc-800 bg-[#121614] transition hover:-translate-y-1 hover:border-[#b8f927]/70"
               >
                 {product.discount > 0 && (
-                  <span className="absolute left-3 top-3 z-10 rounded-xs bg-[#b8f927] px-2.5 py-0.5 text-[10px] font-black text-black">
+                  <span className="absolute left-3 top-3 z-10 rounded-xs bg-[#b8f927] px-2.5 py-0.5 text-[10px] font-black text-black shadow-xs">
                     -{product.discount}%
                   </span>
                 )}
@@ -484,7 +506,7 @@ const Home = () => {
                       product.stock <= 0
                         ? "bg-red-600 text-white"
                         : product.stock <= 10
-                          ? "bg-amber-500 text-black"
+                          ? "bg-amber-400 text-black"
                           : "bg-zinc-900/90 text-[#b8f927] ring-1 ring-[#b8f927]/40"
                     }`}
                   >
@@ -499,7 +521,7 @@ const Home = () => {
                 <div>
                   <Link
                     to={`/products/${product._id}`}
-                    className="flex aspect-square items-center justify-center bg-[#181e1b] p-5 sm:p-6"
+                    className="flex aspect-square items-center justify-center bg-white p-4 sm:p-6"
                   >
                     <img
                       src={product.image}

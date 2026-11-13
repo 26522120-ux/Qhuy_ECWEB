@@ -112,7 +112,9 @@ const Admin = () => {
       setUsersList(list);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Không thể tải danh sách người dùng.",
+        error instanceof Error
+          ? error.message
+          : "Không thể tải danh sách người dùng.",
       );
     } finally {
       setIsLoadingUsers(false);
@@ -164,13 +166,20 @@ const Admin = () => {
     }
   };
 
-  const handleQuickStockChange = async (product: Product, nextStock: number) => {
+  const handleQuickStockChange = async (
+    product: Product,
+    nextStock: number,
+  ) => {
     const safeStock = Math.max(0, nextStock);
     try {
       await quickUpdateStock(product._id, safeStock);
       toast.success(
         `Đã cập nhật tồn kho "${getProductNameVi(product)}": ${safeStock} (${
-          safeStock === 0 ? "Hết hàng" : safeStock <= 10 ? "Sắp hết hàng" : "Còn hàng"
+          safeStock === 0
+            ? "Hết hàng"
+            : safeStock <= 10
+              ? "Sắp hết hàng"
+              : "Còn hàng"
         })`,
       );
     } catch (error) {
@@ -183,7 +192,9 @@ const Admin = () => {
   const handleDeleteProduct = async (product: Product) => {
     try {
       await removeProduct(product._id);
-      toast.success(`Đã xóa sản phẩm "${getProductNameVi(product)}" khỏi CSDL.`);
+      toast.success(
+        `Đã xóa sản phẩm "${getProductNameVi(product)}" khỏi CSDL.`,
+      );
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Không thể xóa sản phẩm.",
@@ -204,12 +215,16 @@ const Admin = () => {
       );
       toast.success(
         `Đã cập nhật quyền của ${targetUser.name} thành ${
-          nextRole === "ADMIN" ? "Quản trị viên (ADMIN)" : "Khách hàng (CUSTOMER)"
+          nextRole === "ADMIN"
+            ? "Quản trị viên (ADMIN)"
+            : "Khách hàng (CUSTOMER)"
         } trên CSDL Neon.`,
       );
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Không thể cập nhật quyền tài khoản.",
+        error instanceof Error
+          ? error.message
+          : "Không thể cập nhật quyền tài khoản.",
       );
     }
   };
@@ -221,7 +236,10 @@ const Admin = () => {
   const lowStockProducts = products.filter(
     (product) => product.stock > 0 && product.stock <= 10,
   );
-  const totalStockUnits = products.reduce((sum, product) => sum + product.stock, 0);
+  const totalStockUnits = products.reduce(
+    (sum, product) => sum + product.stock,
+    0,
+  );
   const pendingOrders = orders.filter(
     (order) => order.status === "Chờ xử lý",
   ).length;
@@ -404,7 +422,9 @@ const Admin = () => {
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold text-app-orange">Quản trị cửa hàng</p>
+          <p className="text-sm font-semibold text-app-orange">
+            Quản trị cửa hàng
+          </p>
           <h1 className="mt-1 font-serif text-3xl text-app-green">
             Bảng điều khiển — {adminUserName}
           </h1>
@@ -418,8 +438,8 @@ const Admin = () => {
             <div className="flex items-center gap-2.5">
               <AlertTriangle size={20} className="shrink-0 text-amber-700" />
               <h2 className="font-semibold text-amber-950">
-                Thông báo tồn kho cần chú ý ({outOfStockProducts.length} hết hàng,{" "}
-                {lowStockProducts.length} sắp hết hàng)
+                Thông báo tồn kho cần chú ý ({outOfStockProducts.length} hết
+                hàng, {lowStockProducts.length} sắp hết hàng)
               </h2>
             </div>
             <button
@@ -431,36 +451,40 @@ const Admin = () => {
             </button>
           </div>
           <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {[...outOfStockProducts, ...lowStockProducts].slice(0, 6).map((item) => (
-              <div
-                key={item._id}
-                className="flex items-center justify-between gap-2 rounded-xl border border-amber-200 bg-white px-3 py-2 text-xs"
-              >
-                <div className="min-w-0">
-                  <p className="truncate font-semibold text-app-green">
-                    {getProductNameVi(item)}
-                  </p>
-                  <p
-                    className={
-                      item.stock <= 0
-                        ? "font-bold text-red-600"
-                        : "font-medium text-amber-700"
-                    }
-                  >
-                    {item.stock <= 0
-                      ? "Hết hàng (0 sản phẩm)"
-                      : `Sắp hết: chỉ còn ${item.stock} ${item.unit}`}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => void handleQuickStockChange(item, item.stock + 50)}
-                  className="shrink-0 rounded-lg bg-app-green px-2.5 py-1.5 font-semibold text-white hover:bg-app-green-light"
+            {[...outOfStockProducts, ...lowStockProducts]
+              .slice(0, 6)
+              .map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center justify-between gap-2 rounded-xl border border-amber-200 bg-white px-3 py-2 text-xs"
                 >
-                  + Nhập 50
-                </button>
-              </div>
-            ))}
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold text-app-green">
+                      {getProductNameVi(item)}
+                    </p>
+                    <p
+                      className={
+                        item.stock <= 0
+                          ? "font-bold text-red-600"
+                          : "font-medium text-amber-700"
+                      }
+                    >
+                      {item.stock <= 0
+                        ? "Hết hàng (0 sản phẩm)"
+                        : `Sắp hết: chỉ còn ${item.stock} ${item.unit}`}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      void handleQuickStockChange(item, item.stock + 50)
+                    }
+                    className="shrink-0 rounded-lg bg-app-green px-2.5 py-1.5 font-semibold text-white hover:bg-app-green-light"
+                  >
+                    + Nhập 50
+                  </button>
+                </div>
+              ))}
           </div>
         </section>
       )}
@@ -472,8 +496,12 @@ const Admin = () => {
               <Shield size={20} />
             </span>
             <div className="min-w-0">
-              <p className="truncate font-semibold text-app-green">{adminUserName}</p>
-              <p className="text-xs font-medium text-app-orange">Quyền: ADMIN</p>
+              <p className="truncate font-semibold text-app-green">
+                {adminUserName}
+              </p>
+              <p className="text-xs font-medium text-app-orange">
+                Quyền: ADMIN
+              </p>
             </div>
           </div>
           <nav
@@ -589,7 +617,8 @@ const Admin = () => {
                     Tác vụ nhanh Admin
                   </h2>
                   <p className="mt-1 text-xs text-app-text-light">
-                    Tổng đơn vị hàng trong kho: <strong>{totalStockUnits}</strong>
+                    Tổng đơn vị hàng trong kho:{" "}
+                    <strong>{totalStockUnits}</strong>
                   </p>
                   <button
                     type="button"
@@ -619,7 +648,8 @@ const Admin = () => {
                   </div>
                   <div className="mt-4 border-t border-app-border pt-4">
                     <p className="text-sm text-app-text-light">
-                      Thuế đang áp dụng: <strong className="text-app-green">{taxRate}%</strong>
+                      Thuế đang áp dụng:{" "}
+                      <strong className="text-app-green">{taxRate}%</strong>
                     </p>
                     <button
                       type="button"
@@ -648,7 +678,8 @@ const Admin = () => {
                     Quản lý sản phẩm & Tồn kho (Chỉ dành cho Admin)
                   </h2>
                   <p className="mt-1 text-sm text-app-text-light">
-                    {products.length} sản phẩm hiện hữu • Tổng kho: {totalStockUnits} sản phẩm •{" "}
+                    {products.length} sản phẩm hiện hữu • Tổng kho:{" "}
+                    {totalStockUnits} sản phẩm •{" "}
                     <span className="font-medium text-amber-700">
                       {lowStockProducts.length} sắp hết
                     </span>{" "}
@@ -676,7 +707,9 @@ const Admin = () => {
                       <th className="px-5 py-3 font-medium">Sản phẩm</th>
                       <th className="px-5 py-3 font-medium">Danh mục</th>
                       <th className="px-5 py-3 font-medium">Giá bán</th>
-                      <th className="px-5 py-3 font-medium">Số lượng tồn kho</th>
+                      <th className="px-5 py-3 font-medium">
+                        Số lượng tồn kho
+                      </th>
                       <th className="px-5 py-3 font-medium">Trạng thái kho</th>
                       <th className="px-5 py-3 font-medium">Giảm giá</th>
                       <th className="px-5 py-3 font-medium">Thao tác</th>
@@ -708,7 +741,10 @@ const Admin = () => {
                             <button
                               type="button"
                               onClick={() =>
-                                void handleQuickStockChange(product, product.stock - 10)
+                                void handleQuickStockChange(
+                                  product,
+                                  product.stock - 10,
+                                )
                               }
                               className="rounded border border-app-border px-2 py-0.5 text-xs font-bold text-app-text hover:bg-app-cream"
                               title="Giảm 10"
@@ -721,7 +757,10 @@ const Admin = () => {
                             <button
                               type="button"
                               onClick={() =>
-                                void handleQuickStockChange(product, product.stock + 10)
+                                void handleQuickStockChange(
+                                  product,
+                                  product.stock + 10,
+                                )
                               }
                               className="rounded border border-app-border px-2 py-0.5 text-xs font-bold text-app-green hover:bg-app-cream"
                               title="Tăng 10"
@@ -737,7 +776,8 @@ const Admin = () => {
                             </span>
                           ) : product.stock <= 10 ? (
                             <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800">
-                              <AlertTriangle size={12} /> Sắp hết ({product.stock})
+                              <AlertTriangle size={12} /> Sắp hết (
+                              {product.stock})
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800">
@@ -782,7 +822,8 @@ const Admin = () => {
                   Quản lý đơn hàng
                 </h2>
                 <p className="mt-1 text-sm text-app-text-light">
-                  Danh sách tự động cập nhật khi khách hàng hoàn tất thanh toán OTP hoặc COD.
+                  Danh sách tự động cập nhật khi khách hàng hoàn tất thanh toán
+                  OTP hoặc COD.
                 </p>
               </div>
               <OrdersTable
@@ -806,7 +847,10 @@ const Admin = () => {
                   disabled={isLoadingUsers}
                   className="inline-flex items-center gap-1.5 rounded-xl border border-app-border px-3.5 py-2 text-xs font-semibold text-app-green hover:bg-app-cream"
                 >
-                  <RefreshCw size={14} className={isLoadingUsers ? "animate-spin" : ""} />
+                  <RefreshCw
+                    size={14}
+                    className={isLoadingUsers ? "animate-spin" : ""}
+                  />
                   Làm mới
                 </button>
               </div>
@@ -818,7 +862,9 @@ const Admin = () => {
                       <th className="px-5 py-3 font-medium">Họ và tên</th>
                       <th className="px-5 py-3 font-medium">Email duy nhất</th>
                       <th className="px-5 py-3 font-medium">SĐT duy nhất</th>
-                      <th className="px-5 py-3 font-medium">Vai trò hiện tại</th>
+                      <th className="px-5 py-3 font-medium">
+                        Vai trò hiện tại
+                      </th>
                       <th className="px-5 py-3 font-medium">Số đơn đã đặt</th>
                       <th className="px-5 py-3 font-medium">Ngày tạo</th>
                       <th className="px-5 py-3 font-medium">Phân quyền</th>
@@ -865,7 +911,9 @@ const Admin = () => {
                                 : "bg-app-green text-white hover:bg-app-green-light"
                             }`}
                           >
-                            {u.isAdmin ? "Chuyển về Khách hàng" : "Cấp quyền Admin"}
+                            {u.isAdmin
+                              ? "Chuyển về Khách hàng"
+                              : "Cấp quyền Admin"}
                           </button>
                         </td>
                       </tr>
@@ -945,7 +993,8 @@ const Admin = () => {
                   {editingProduct ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm"}
                 </h2>
                 <p className="mt-1 text-sm text-app-text-light">
-                  Giá nhập bằng VND; ảnh dùng đường dẫn URL. Tự động cập nhật lên CSDL Neon & Web.
+                  Giá nhập bằng VND; ảnh dùng đường dẫn URL. Tự động cập nhật
+                  lên CSDL Neon & Web.
                 </p>
               </div>
               <button
@@ -1131,8 +1180,8 @@ function OrdersTable({
       </div>
       {orders.length === 0 ? (
         <p className="px-5 py-12 text-center text-sm text-app-text-light">
-          Chưa có đơn hàng. Đơn hoàn tất thanh toán OTP hoặc COD sẽ xuất hiện tại
-          đây.
+          Chưa có đơn hàng. Đơn hoàn tất thanh toán OTP hoặc COD sẽ xuất hiện
+          tại đây.
         </p>
       ) : (
         <div className="overflow-x-auto">

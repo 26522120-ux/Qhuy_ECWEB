@@ -3,14 +3,11 @@ import type { Product } from "./types";
 export const INR_TO_VND = 300;
 
 const categoryNames: Record<string, string> = {
-  "whey-protein": "Whey & Protein Tăng Cơ",
-  "pre-workout-energy": "Pre-Workout & Tăng Sức Bền",
-  "creatine-strength": "Creatine & Sức Mạnh",
-  "bcaa-amino-recovery": "BCAA, EAA & Phục Hồi",
-  "fat-burner-shred": "Giảm Mỡ & Siết Cơ",
-  "vitamins-health": "Vitamin, Dầu Cá & Khớp",
-  "healthy-bars-foods": "Bánh Protein & Ăn Kiêng",
-  "gym-gear-accessories": "Phụ Kiện & Dụng Cụ Gym",
+  "whey-protein": "Whey & Mass Gainer",
+  "pre-workout-creatine": "Pre-Workout & Creatine",
+  "weights-barbells": "Tạ Đòn, Bánh Tạ & Tạ Ấm",
+  "gym-machines": "Máy Tập & Khung Gánh Tạ",
+  "boxing-accessories": "Boxing & Phụ Kiện Gym",
 };
 
 export const getCategoryNameVi = (slug: string) => categoryNames[slug] ?? slug;
