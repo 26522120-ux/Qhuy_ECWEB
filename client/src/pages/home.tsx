@@ -132,7 +132,7 @@ const Home = () => {
 
   return (
     <div className="bg-[#0b0d0c] text-white">
-      {/* ==================== HERO SECTION CHUẨN FORM/FWD ==================== */}
+      {/* ==================== HERO SECTION CHUẨN nutraGO ==================== */}
       <section className="relative min-h-[540px] w-full overflow-hidden border-b border-white/10 bg-[#0b0d0c] sm:min-h-[620px] lg:min-h-[680px]">
         <div
           className="pointer-events-none absolute inset-0 z-0 opacity-35"
@@ -143,10 +143,17 @@ const Home = () => {
           }}
         />
 
-        <div
-          className="pointer-events-none absolute inset-0 z-0 bg-cover bg-position-[72%_top] bg-no-repeat opacity-85 sm:bg-position-[right_top] sm:opacity-100"
-          style={{ backgroundImage: "url('/form-fwd-hero.jpg')" }}
-        />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/form-fwd-hero.jpg"
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center opacity-80 sm:opacity-90"
+        >
+          <source src="/hero-gym.mp4" type="video/mp4" />
+        </video>
 
         <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-r from-[#0b0d0c] via-[#0b0d0c]/88 to-transparent sm:via-[#0b0d0c]/60" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-28 bg-gradient-to-t from-[#0b0d0c] to-transparent" />
