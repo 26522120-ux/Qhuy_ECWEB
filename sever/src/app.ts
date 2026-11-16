@@ -80,7 +80,7 @@ if (fs.existsSync(clientIndexHtml)) {
   });
 } else {
   app.get("/", (_request, response) => {
-    response.json({ name: "POPPIN MART API", health: "/api/health" });
+    response.json({ name: "nutraGO API", health: "/api/health" });
   });
 }
 

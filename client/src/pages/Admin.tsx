@@ -31,8 +31,10 @@ import {
   getCategoryNameVi,
   getProductDescriptionVi,
   getProductNameVi,
-  INR_TO_VND,
+  toPriceUnit,
+  toVndAmount,
 } from "../localization";
+import { FormField, OrdersTable } from "../components/admin/AdminWidgets";
 import type { Product } from "../types";
 
 type AdminTab = "dashboard" | "products" | "orders" | "users" | "settings";
@@ -46,6 +48,10 @@ interface ProductForm {
   originalPrice: string;
   stock: string;
   discount: string;
+  calories: string;
+  proteinG: string;
+  carbsG: string;
+  fatG: string;
 }
 
 const emptyProductForm: ProductForm = {
@@ -57,6 +63,10 @@ const emptyProductForm: ProductForm = {
   originalPrice: "",
   stock: "25",
   discount: "10",
+  calories: "0",
+  proteinG: "0",
+  carbsG: "0",
+  fatG: "0",
 };
 
 const tabs: Array<{
@@ -69,13 +79,6 @@ const tabs: Array<{
   { id: "orders", label: "Đơn hàng", icon: ClipboardList },
   { id: "users", label: "Phân quyền Admin", icon: Users },
   { id: "settings", label: "Cài đặt", icon: Settings },
-];
-
-const statusOptions: DemoOrder["status"][] = [
-  "Chờ xử lý",
-  "Đang giao",
-  "Đã giao",
-  "Đã hủy",
 ];
 
 const Admin = () => {
@@ -284,10 +287,14 @@ const Admin = () => {
       description: getProductDescriptionVi(product),
       category: product.category,
       image: product.image,
-      price: String(Math.round(product.price * INR_TO_VND)),
-      originalPrice: String(Math.round(product.originalPrice * INR_TO_VND)),
+      price: String(toVndAmount(product.price)),
+      originalPrice: String(toVndAmount(product.originalPrice)),
       stock: String(product.stock),
       discount: String(product.discount),
+      calories: String(product.calories ?? 0),
+      proteinG: String(product.proteinG ?? 0),
+      carbsG: String(product.carbsG ?? 0),
+      fatG: String(product.fatG ?? 0),
     });
     setIsAddingProduct(true);
   };
@@ -320,10 +327,14 @@ const Admin = () => {
       description: productForm.description.trim(),
       category: productForm.category,
       image: productForm.image.trim(),
-      price: Math.max(1, Math.round(priceVnd / INR_TO_VND)),
-      originalPrice: Math.max(1, Math.round(originalPriceVnd / INR_TO_VND)),
+      price: toPriceUnit(priceVnd),
+      originalPrice: toPriceUnit(originalPriceVnd),
       stock,
       discount,
+      calories: Math.max(0, Math.round(Number(productForm.calories) || 0)),
+      proteinG: Math.max(0, Math.round(Number(productForm.proteinG) || 0)),
+      carbsG: Math.max(0, Math.round(Number(productForm.carbsG) || 0)),
+      fatG: Math.max(0, Math.round(Number(productForm.fatG) || 0)),
       isOrganic: editingProduct?.isOrganic ?? false,
       rating: editingProduct?.rating ?? 4.5,
       reviewCount: editingProduct?.reviewCount ?? 12,
@@ -1110,6 +1121,42 @@ const Admin = () => {
                   max="100"
                   required
                 />
+                <FormField
+                  label="Calories (kcal)"
+                  value={productForm.calories}
+                  onChange={(value) =>
+                    setProductForm((form) => ({ ...form, calories: value }))
+                  }
+                  type="number"
+                  min="0"
+                />
+                <FormField
+                  label="Protein (g)"
+                  value={productForm.proteinG}
+                  onChange={(value) =>
+                    setProductForm((form) => ({ ...form, proteinG: value }))
+                  }
+                  type="number"
+                  min="0"
+                />
+                <FormField
+                  label="Carbs (g)"
+                  value={productForm.carbsG}
+                  onChange={(value) =>
+                    setProductForm((form) => ({ ...form, carbsG: value }))
+                  }
+                  type="number"
+                  min="0"
+                />
+                <FormField
+                  label="Fat (g)"
+                  value={productForm.fatG}
+                  onChange={(value) =>
+                    setProductForm((form) => ({ ...form, fatG: value }))
+                  }
+                  type="number"
+                  min="0"
+                />
                 <div className="sm:col-span-2">
                   <FormField
                     label="Đường dẫn hình ảnh"
@@ -1159,128 +1206,5 @@ const Admin = () => {
     </main>
   );
 };
-
-function FormField({
-  label,
-  value,
-  onChange,
-  type = "text",
-  min,
-  max,
-  required = false,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  type?: string;
-  min?: string;
-  max?: string;
-  required?: boolean;
-}) {
-  return (
-    <label className="block text-xs font-bold tracking-wider text-zinc-300 uppercase">
-      {label}
-      <input
-        type={type}
-        min={min}
-        max={max}
-        required={required}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="mt-1.5 w-full rounded-xs border border-zinc-700 bg-[#0b0d0c] px-3 py-2.5 text-sm font-normal text-white outline-none focus:border-[#b8f927]"
-      />
-    </label>
-  );
-}
-
-function OrdersTable({
-  orders,
-  onStatusChange,
-  compact = false,
-}: {
-  orders: DemoOrder[];
-  onStatusChange: (orderId: string, status: DemoOrder["status"]) => void;
-  compact?: boolean;
-}) {
-  return (
-    <section
-      className={`overflow-hidden rounded-xs border border-zinc-800 bg-[#111513] ${compact ? "mt-5" : ""}`}
-    >
-      <div className="border-b border-zinc-800 p-5">
-        <h2 className="font-display text-xl font-bold tracking-wide text-white uppercase">
-          {compact ? "Đơn hàng gần đây" : "Tất cả đơn hàng"}
-        </h2>
-      </div>
-      {orders.length === 0 ? (
-        <p className="px-5 py-12 text-center text-sm text-zinc-400">
-          Chưa có đơn hàng. Đơn hoàn tất thanh toán OTP hoặc COD sẽ xuất hiện
-          tại đây.
-        </p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[760px] text-left text-sm">
-            <thead className="border-b border-zinc-800 bg-[#0b0d0c] text-xs text-zinc-400 uppercase">
-              <tr>
-                <th className="px-5 py-3.5 font-bold">Mã đơn</th>
-                <th className="px-5 py-3.5 font-bold">Khách hàng</th>
-                <th className="px-5 py-3.5 font-bold">Sản phẩm</th>
-                <th className="px-5 py-3.5 font-bold">Tổng tiền</th>
-                <th className="px-5 py-3.5 font-bold">Trạng thái</th>
-                <th className="px-5 py-3.5 font-bold">Ngày đặt</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/80">
-              {orders.map((order) => (
-                <tr
-                  key={order.id}
-                  className="transition hover:bg-zinc-900/50"
-                >
-                  <td className="px-5 py-4 font-mono font-bold whitespace-nowrap text-[#b8f927]">
-                    {order.id}
-                  </td>
-                  <td className="px-5 py-4">
-                    <p className="font-semibold text-white">
-                      {order.customerName}
-                    </p>
-                    <p className="text-xs text-zinc-400">{order.phone}</p>
-                  </td>
-                  <td className="px-5 py-4 text-zinc-400">
-                    {order.items.reduce((sum, item) => sum + item.quantity, 0)}{" "}
-                    sản phẩm
-                  </td>
-                  <td className="px-5 py-4 font-display text-base font-bold whitespace-nowrap text-white">
-                    {formatVndAmount(order.total)}
-                  </td>
-                  <td className="px-5 py-4">
-                    <select
-                      aria-label={`Trạng thái đơn ${order.id}`}
-                      value={order.status}
-                      onChange={(event) =>
-                        onStatusChange(
-                          order.id,
-                          event.target.value as DemoOrder["status"],
-                        )
-                      }
-                      className="rounded-xs border border-zinc-700 bg-[#0b0d0c] px-2.5 py-1.5 text-xs font-semibold text-white outline-none focus:border-[#b8f927]"
-                    >
-                      {statusOptions.map((status) => (
-                        <option key={status} value={status}>
-                          {status}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td className="px-5 py-4 whitespace-nowrap text-zinc-400">
-                    {new Date(order.createdAt).toLocaleDateString("vi-VN")}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </section>
-  );
-}
 
 export default Admin;

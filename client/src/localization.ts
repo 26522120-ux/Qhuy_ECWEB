@@ -1,6 +1,14 @@
 import type { Product } from "./types";
 
-export const INR_TO_VND = 300;
+export const VND_PER_PRICE_UNIT = 300;
+/** @deprecated Dùng VND_PER_PRICE_UNIT hoặc toVndAmount / toPriceUnit */
+export const INR_TO_VND = VND_PER_PRICE_UNIT;
+
+export const toVndAmount = (priceUnit: number) =>
+  Math.round(priceUnit * VND_PER_PRICE_UNIT);
+
+export const toPriceUnit = (vndAmount: number) =>
+  Math.max(1, Math.round(vndAmount / VND_PER_PRICE_UNIT));
 
 const categoryNames: Record<string, string> = {
   "whey-protein": "Whey & Mass Gainer",
@@ -21,8 +29,8 @@ export const formatVndAmount = (vndAmount: number) =>
     maximumFractionDigits: 0,
   }).format(Math.round(vndAmount));
 
-export const formatVnd = (inrAmount: number) =>
-  formatVndAmount(inrAmount * INR_TO_VND);
+export const formatVnd = (priceUnit: number) =>
+  formatVndAmount(toVndAmount(priceUnit));
 
 export const formatUnitVi = (unit: string) =>
   unit.replace(/(\d+)\s*pcs\b/i, "$1 cái");

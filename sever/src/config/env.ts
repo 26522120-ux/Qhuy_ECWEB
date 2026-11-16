@@ -8,6 +8,7 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().min(1).max(65535).default(4000),
   CLIENT_URL: z.string().url().default("http://localhost:5173"),
+  JWT_SECRET: z.string().min(16).optional(),
   ADMIN_AUTH_SUBJECT: z.string().optional(),
   DATABASE_URL: z.string().url().optional(),
   DATABASE_URL_UNPOOLED: z.string().url().optional(),

@@ -12,6 +12,7 @@ import {
   signLocalToken,
   syncUserToDatabase,
 } from "../middleware/auth.js";
+import { macroRouter } from "./macro.routes.js";
 
 const INR_TO_VND = 300;
 const DELIVERY_FEE = 15_000;
@@ -49,6 +50,10 @@ const productSchema = z.object({
   rating: z.number().min(0).max(5).default(0),
   reviewCount: z.number().int().min(0).default(0),
   discount: z.number().int().min(0).max(100).default(0),
+  calories: z.coerce.number().int().min(0).max(5000).default(0),
+  proteinG: z.coerce.number().int().min(0).max(500).default(0),
+  carbsG: z.coerce.number().int().min(0).max(500).default(0),
+  fatG: z.coerce.number().int().min(0).max(500).default(0),
   createdAt: z.string().datetime().optional(),
 });
 
@@ -184,11 +189,34 @@ function generateSixDigitOtp(): string {
 
 function generateOrderCode(): string {
   const suffix = crypto.randomBytes(2).toString("hex").toUpperCase();
-  return `IM${Date.now().toString().slice(-6)}${suffix}`;
+  return `NG${Date.now().toString().slice(-6)}${suffix}`;
 }
 
 function hashPassword(password: string): string {
-  return crypto.createHash("sha256").update(`instantmart:${password}`).digest("hex");
+  const salt = crypto.randomBytes(16).toString("hex");
+  const derivedKey = crypto.scryptSync(password, salt, 64).toString("hex");
+  return `scrypt:${salt}:${derivedKey}`;
+}
+
+function verifyPassword(password: string, storedHash: string): boolean {
+  if (storedHash.startsWith("scrypt:")) {
+    const [, salt, keyHex] = storedHash.split(":");
+    if (!salt || !keyHex) return false;
+    const derivedBuffer = crypto.scryptSync(password, salt, 64);
+    const storedBuffer = Buffer.from(keyHex, "hex");
+    if (derivedBuffer.length !== storedBuffer.length) return false;
+    return crypto.timingSafeEqual(derivedBuffer, storedBuffer);
+  }
+
+  // Tương thích ngược với mã băm SHA-256 cũ và tự nâng cấp lên scrypt khi đăng nhập
+  const legacyHash = crypto
+    .createHash("sha256")
+    .update(`instantmart:${password}`)
+    .digest("hex");
+  const a = Buffer.from(legacyHash, "utf8");
+  const b = Buffer.from(storedHash, "utf8");
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
 }
 
 function getStockStatus(stock: number): {
@@ -224,11 +252,19 @@ function productDto(product: {
   rating: number;
   reviewCount: number;
   discount: number;
+  calories?: number;
+  proteinG?: number;
+  carbsG?: number;
+  fatG?: number;
   createdAt: Date;
 }) {
   const { stockStatus, stockLabel } = getStockStatus(product.stock);
   return {
     ...product,
+    calories: product.calories ?? 0,
+    proteinG: product.proteinG ?? 0,
+    carbsG: product.carbsG ?? 0,
+    fatG: product.fatG ?? 0,
     _id: product.id,
     stockStatus,
     stockLabel,
@@ -538,11 +574,25 @@ storeRouter.post("/auth/login", async (request, response) => {
     .catch(() => []);
 
   const existingPublic = await db.user.findUnique({ where: { email } });
-  const passwordHash = hashPassword(input.password);
+  const newPasswordHash = hashPassword(input.password);
 
-  if (existingPublic && existingPublic.passwordHash && existingPublic.passwordHash !== "NEON_AUTH_MANAGED") {
-    if (existingPublic.passwordHash !== passwordHash && !neonUsers[0]) {
+  if (
+    existingPublic &&
+    existingPublic.passwordHash &&
+    existingPublic.passwordHash !== "NEON_AUTH_MANAGED"
+  ) {
+    const isPasswordValid = verifyPassword(input.password, existingPublic.passwordHash);
+    if (!isPasswordValid && !neonUsers[0]) {
       throw new HttpError(401, "Email hoặc mật khẩu không chính xác.");
+    }
+    // Tự động nâng cấp mật khẩu SHA-256 cũ lên chuẩn scrypt có salt riêng
+    if (isPasswordValid && !existingPublic.passwordHash.startsWith("scrypt:")) {
+      await db.user
+        .update({
+          where: { id: existingPublic.id },
+          data: { passwordHash: newPasswordHash },
+        })
+        .catch(() => undefined);
     }
   }
 
@@ -552,7 +602,7 @@ storeRouter.post("/auth/login", async (request, response) => {
     email,
     phone: input.phone ?? existingPublic?.phone ?? null,
     neonRole: neonUsers[0]?.role ?? (existingPublic?.role === UserRole.ADMIN ? "admin" : "user"),
-    passwordHash: neonUsers[0]?.password ?? passwordHash,
+    passwordHash: neonUsers[0]?.password ?? newPasswordHash,
     strictDuplicateCheck: true,
   });
 
@@ -730,6 +780,13 @@ storeRouter.post("/checkout/otp", optionalAuth, async (request, response) => {
   });
 });
 
+function isOtpCodeEqual(expected: string, actual: string): boolean {
+  const a = Buffer.from(expected.trim(), "utf8");
+  const b = Buffer.from(actual.trim(), "utf8");
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
+
 storeRouter.post("/checkout/verify-otp", optionalAuth, async (request, response) => {
   const db = getDatabase();
   const input = verifyOtpSchema.parse(request.body);
@@ -763,7 +820,7 @@ storeRouter.post("/checkout/verify-otp", optionalAuth, async (request, response)
     );
   }
 
-  if (record.otpCode !== input.otpCode) {
+  if (!isOtpCodeEqual(record.otpCode, input.otpCode)) {
     const updated = await db.paymentOtp.update({
       where: { id: record.id },
       data: { attempts: { increment: 1 } },
@@ -879,54 +936,63 @@ storeRouter.post("/orders", optionalAuth, async (request, response) => {
   let otpRecordId: string | null = null;
   let resolvedOrderCode = input.orderCode ?? generateOrderCode();
 
-  if (input.paymentMethod === "QR_OTP" || input.otpId || input.otpCode) {
-    const otpRecord = await db.paymentOtp.findFirst({
-      where: input.otpId
-        ? { id: input.otpId }
-        : input.orderCode
-          ? { orderCode: input.orderCode }
-          : undefined,
-    });
-
-    if (otpRecord) {
-      if (otpRecord.usedForOrderId) {
-        const existingOrder = await db.order.findUnique({
-          where: { id: otpRecord.usedForOrderId },
-          include: { items: true },
-        });
-        if (existingOrder) {
-          response.status(200).json(orderDto(existingOrder));
-          return;
-        }
-      }
-
-      if (otpRecord.expiresAt.getTime() <= Date.now()) {
-        throw new HttpError(410, "Mã OTP thanh toán đã hết hạn. Vui lòng tạo mã OTP mới.");
-      }
-
-      if (otpRecord.attempts >= MAX_OTP_ATTEMPTS) {
-        throw new HttpError(429, "Mã OTP đã bị khóa do nhập sai quá 5 lần. Vui lòng tạo mã mới.");
-      }
-
-      if (!input.otpCode || otpRecord.otpCode !== input.otpCode) {
-        const updated = await db.paymentOtp.update({
-          where: { id: otpRecord.id },
-          data: { attempts: { increment: 1 } },
-        });
-        const remaining = Math.max(0, MAX_OTP_ATTEMPTS - updated.attempts);
-        throw new HttpError(
-          400,
-          remaining > 0
-            ? `Mã OTP xác nhận thanh toán không đúng (còn ${remaining} lần thử).`
-            : "Mã OTP đã bị khóa. Vui lòng tạo mã OTP mới.",
-        );
-      }
-
-      otpRecordId = otpRecord.id;
-      resolvedOrderCode = otpRecord.orderCode;
-    } else if (input.paymentMethod === "QR_OTP" && !input.otpCode) {
+  if (input.paymentMethod === "QR_OTP") {
+    if (!input.otpId && !input.orderCode) {
+      throw new HttpError(
+        400,
+        "Thiếu phiên giao dịch OTP từ máy chủ. Vui lòng tạo mã OTP mới trước khi thanh toán.",
+      );
+    }
+    if (!input.otpCode) {
       throw new HttpError(400, "Vui lòng nhập mã OTP 6 chữ số để xác nhận thanh toán.");
     }
+
+    const otpRecord = await db.paymentOtp.findFirst({
+      where: input.otpId ? { id: input.otpId } : { orderCode: input.orderCode },
+    });
+
+    if (!otpRecord) {
+      throw new HttpError(
+        404,
+        "Phiên thanh toán OTP không tồn tại trên máy chủ (không chấp nhận OTP ngoại tuyến). Vui lòng tạo mã OTP mới.",
+      );
+    }
+
+    if (otpRecord.usedForOrderId) {
+      const existingOrder = await db.order.findUnique({
+        where: { id: otpRecord.usedForOrderId },
+        include: { items: true },
+      });
+      if (existingOrder) {
+        response.status(200).json(orderDto(existingOrder));
+        return;
+      }
+    }
+
+    if (otpRecord.expiresAt.getTime() <= Date.now()) {
+      throw new HttpError(410, "Mã OTP thanh toán đã hết hạn. Vui lòng tạo mã OTP mới.");
+    }
+
+    if (otpRecord.attempts >= MAX_OTP_ATTEMPTS) {
+      throw new HttpError(429, "Mã OTP đã bị khóa do nhập sai quá 5 lần. Vui lòng tạo mã mới.");
+    }
+
+    if (!isOtpCodeEqual(otpRecord.otpCode, input.otpCode)) {
+      const updated = await db.paymentOtp.update({
+        where: { id: otpRecord.id },
+        data: { attempts: { increment: 1 } },
+      });
+      const remaining = Math.max(0, MAX_OTP_ATTEMPTS - updated.attempts);
+      throw new HttpError(
+        400,
+        remaining > 0
+          ? `Mã OTP xác nhận thanh toán không đúng (còn ${remaining} lần thử).`
+          : "Mã OTP đã bị khóa. Vui lòng tạo mã OTP mới.",
+      );
+    }
+
+    otpRecordId = otpRecord.id;
+    resolvedOrderCode = otpRecord.orderCode;
   }
 
   // 3. Giao dịch nguyên tử (Atomic Transaction): kiểm tra & trừ tồn kho chống xung đột (race condition)
@@ -1136,6 +1202,10 @@ storeRouter.post("/admin/products", requireAuth, requireAdmin, async (request, r
       rating: input.rating,
       reviewCount: input.reviewCount,
       discount: input.discount,
+      calories: input.calories,
+      proteinG: input.proteinG,
+      carbsG: input.carbsG,
+      fatG: input.fatG,
     },
   });
   response.status(201).json(productDto(product));
@@ -1339,6 +1409,10 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
     rating: 4.9,
     reviewCount: 142,
     discount: 0,
+    calories: 560,
+    proteinG: 48,
+    carbsG: 14,
+    fatG: 34,
   },
   {
     id: "meal_prod_02",
@@ -1355,6 +1429,10 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
     rating: 4.9,
     reviewCount: 168,
     discount: 0,
+    calories: 640,
+    proteinG: 52,
+    carbsG: 16,
+    fatG: 39,
   },
   {
     id: "meal_prod_03",
@@ -1371,6 +1449,10 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
     rating: 4.8,
     reviewCount: 115,
     discount: 0,
+    calories: 380,
+    proteinG: 22,
+    carbsG: 46,
+    fatG: 11,
   },
   {
     id: "meal_prod_04",
@@ -1387,6 +1469,10 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
     rating: 5.0,
     reviewCount: 129,
     discount: 0,
+    calories: 660,
+    proteinG: 56,
+    carbsG: 15,
+    fatG: 40,
   },
   {
     id: "meal_prod_05",
@@ -1403,6 +1489,10 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
     rating: 4.9,
     reviewCount: 154,
     discount: 0,
+    calories: 490,
+    proteinG: 42,
+    carbsG: 20,
+    fatG: 26,
   },
   {
     id: "meal_prod_06",
@@ -1419,6 +1509,10 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
     rating: 4.8,
     reviewCount: 98,
     discount: 0,
+    calories: 330,
+    proteinG: 24,
+    carbsG: 28,
+    fatG: 13,
   },
   {
     id: "meal_prod_07",
@@ -1435,6 +1529,10 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
     rating: 4.8,
     reviewCount: 136,
     discount: 0,
+    calories: 420,
+    proteinG: 44,
+    carbsG: 36,
+    fatG: 10,
   },
   {
     id: "meal_prod_08",
@@ -1451,6 +1549,10 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
     rating: 4.7,
     reviewCount: 91,
     discount: 0,
+    calories: 290,
+    proteinG: 26,
+    carbsG: 3,
+    fatG: 19,
   },
   {
     id: "meal_prod_09",
@@ -1467,11 +1569,25 @@ export const NUTRAGO_CATALOG_PRODUCTS = [
     rating: 4.9,
     reviewCount: 175,
     discount: 0,
+    calories: 530,
+    proteinG: 50,
+    carbsG: 42,
+    fatG: 17,
   },
-] as const;
+];
 
 export async function syncNutragoCatalogProducts(replaceLegacy = false) {
   const db = getDatabase();
+  await db
+    .$executeRaw`
+      ALTER TABLE "Product"
+      ADD COLUMN IF NOT EXISTS "calories" INTEGER NOT NULL DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS "proteinG" INTEGER NOT NULL DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS "carbsG" INTEGER NOT NULL DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS "fatG" INTEGER NOT NULL DEFAULT 0
+    `
+    .catch(() => undefined);
+
   const validCategories = NUTRAGO_CATEGORIES.map((c) => c.slug);
 
   let deletedLegacyCount = 0;
@@ -1485,6 +1601,10 @@ export async function syncNutragoCatalogProducts(replaceLegacy = false) {
   }
 
   for (const item of NUTRAGO_CATALOG_PRODUCTS) {
+    const calories = "calories" in item ? item.calories : 0;
+    const proteinG = "proteinG" in item ? item.proteinG : 0;
+    const carbsG = "carbsG" in item ? item.carbsG : 0;
+    const fatG = "fatG" in item ? item.fatG : 0;
     await db.product.upsert({
       where: { id: item.id },
       create: {
@@ -1501,6 +1621,10 @@ export async function syncNutragoCatalogProducts(replaceLegacy = false) {
         rating: item.rating,
         reviewCount: item.reviewCount,
         discount: item.discount,
+        calories,
+        proteinG,
+        carbsG,
+        fatG,
       },
       update: {
         name: item.name,
@@ -1512,6 +1636,10 @@ export async function syncNutragoCatalogProducts(replaceLegacy = false) {
         unit: item.unit,
         isOrganic: item.isOrganic,
         discount: item.discount,
+        calories,
+        proteinG,
+        carbsG,
+        fatG,
       },
     });
   }
@@ -1697,158 +1825,4 @@ storeRouter.patch("/admin/settings/tax", requireAuth, requireAdmin, async (reque
   response.json({ taxRate: setting.taxRate });
 });
 
-const macroRecommendSchema = z.object({
-  gender: z.enum(["male", "female"]).default("male"),
-  age: z.coerce.number().int().min(14).max(90),
-  weightKg: z.coerce.number().min(30).max(250),
-  heightCm: z.coerce.number().min(120).max(230),
-  activityLevel: z
-    .enum(["sedentary", "light", "moderate", "active", "very_active"])
-    .default("moderate"),
-  goal: z.enum(["cut", "maintain", "bulk"]).default("maintain"),
-  mealsPerDay: z.coerce.number().int().min(2).max(6).default(3),
-});
-
-const ACTIVITY_MULTIPLIERS = {
-  sedentary: 1.2,
-  light: 1.375,
-  moderate: 1.55,
-  active: 1.725,
-  very_active: 1.9,
-} as const;
-
-interface MealMacroProfile {
-  calories: number;
-  proteinG: number;
-  carbsG: number;
-  fatG: number;
-  tags: string[];
-}
-
-const HEALTHY_MEAL_MACROS: Record<string, MealMacroProfile> = {
-  meal_prod_01: { calories: 560, proteinG: 48, carbsG: 14, fatG: 34, tags: ["Keto", "Ít tinh bột", "Giàu đạm"] },
-  meal_prod_02: { calories: 640, proteinG: 52, carbsG: 16, fatG: 39, tags: ["High-Protein", "Phục hồi cơ"] },
-  meal_prod_03: { calories: 380, proteinG: 22, carbsG: 46, fatG: 11, tags: ["Bữa phụ", "Granola", "Ít béo"] },
-  meal_prod_04: { calories: 660, proteinG: 56, carbsG: 15, fatG: 40, tags: ["High-Protein", "Tăng cơ"] },
-  meal_prod_05: { calories: 490, proteinG: 42, carbsG: 20, fatG: 26, tags: ["Omega-3", "Eat Clean"] },
-  meal_prod_06: { calories: 330, proteinG: 24, carbsG: 28, fatG: 13, tags: ["Clean Eating", "Bữa nhẹ"] },
-  meal_prod_07: { calories: 420, proteinG: 44, carbsG: 36, fatG: 10, tags: ["Ít dầu mỡ", "Siết mỡ"] },
-  meal_prod_08: { calories: 290, proteinG: 26, carbsG: 3, fatG: 19, tags: ["Nạp đạm nhanh", "Low-Carb"] },
-  meal_prod_09: { calories: 530, proteinG: 50, carbsG: 42, fatG: 17, tags: ["Cân bằng Macro", "Eat Clean"] },
-};
-
-function inferMealMacros(id: string, description: string): MealMacroProfile {
-  const preset = HEALTHY_MEAL_MACROS[id];
-  if (preset) return preset;
-
-  const proteinMatch = description.match(/(\d+)\s*g\s*protein/i);
-  const proteinG = proteinMatch ? Number(proteinMatch[1]) : 35;
-  const carbsG = 30;
-  const fatG = 16;
-  return {
-    calories: proteinG * 4 + carbsG * 4 + fatG * 9,
-    proteinG,
-    carbsG,
-    fatG,
-    tags: ["Healthy Meal"],
-  };
-}
-
-storeRouter.post("/macros/recommend", async (request, response) => {
-  const input = macroRecommendSchema.parse(request.body);
-
-  const bmrRaw =
-    10 * input.weightKg +
-    6.25 * input.heightCm -
-    5 * input.age +
-    (input.gender === "male" ? 5 : -161);
-  const bmr = Math.round(bmrRaw);
-  const tdee = Math.round(bmr * ACTIVITY_MULTIPLIERS[input.activityLevel]);
-
-  const targetCalories =
-    input.goal === "cut"
-      ? Math.max(1200, tdee - 450)
-      : input.goal === "bulk"
-        ? tdee + 350
-        : tdee;
-
-  const proteinPerKg = input.goal === "cut" ? 2.2 : input.goal === "bulk" ? 2.0 : 1.8;
-  const fatRatio = input.goal === "cut" ? 0.25 : 0.28;
-
-  const proteinG = Math.round(input.weightKg * proteinPerKg);
-  const fatG = Math.round((targetCalories * fatRatio) / 9);
-  const carbsG = Math.max(30, Math.round((targetCalories - proteinG * 4 - fatG * 9) / 4));
-
-  const perMeal = {
-    calories: Math.round(targetCalories / input.mealsPerDay),
-    proteinG: Math.round(proteinG / input.mealsPerDay),
-    carbsG: Math.round(carbsG / input.mealsPerDay),
-    fatG: Math.round(fatG / input.mealsPerDay),
-  };
-
-  const healthyMeals = await getDatabase().product.findMany({
-    where: { category: "healthy-meal", stock: { gt: 0 } },
-    orderBy: [{ rating: "desc" }, { createdAt: "desc" }],
-  });
-
-  const recommendations = healthyMeals
-    .map((product) => {
-      const macros = inferMealMacros(product.id, product.description);
-
-      const calDiffRatio =
-        Math.abs(macros.calories - perMeal.calories) / Math.max(perMeal.calories, 1);
-      const proteinDiffRatio =
-        Math.abs(macros.proteinG - perMeal.proteinG) / Math.max(perMeal.proteinG, 1);
-
-      let goalBonus = 0;
-      if (input.goal === "cut") {
-        if (macros.calories <= perMeal.calories + 60) goalBonus += 8;
-        if (macros.proteinG >= 38) goalBonus += 6;
-      } else if (input.goal === "bulk") {
-        if (macros.proteinG >= 42) goalBonus += 8;
-        if (macros.calories >= perMeal.calories - 80) goalBonus += 6;
-      } else {
-        if (calDiffRatio <= 0.25) goalBonus += 8;
-      }
-
-      const rawScore = 92 - calDiffRatio * 34 - proteinDiffRatio * 24 + goalBonus;
-      const matchScore = Math.max(55, Math.min(99, Math.round(rawScore)));
-
-      const reasons: string[] = [];
-      if (macros.proteinG >= perMeal.proteinG) {
-        reasons.push(`Đáp ứng tốt ${macros.proteinG}g đạm/bữa`);
-      } else {
-        reasons.push(`Bổ sung ${macros.proteinG}g đạm sạch`);
-      }
-      if (input.goal === "cut" && macros.calories <= perMeal.calories + 50) {
-        reasons.push("Phù hợp mức calo siết mỡ");
-      } else if (input.goal === "bulk" && macros.calories >= 480) {
-        reasons.push("Giàu năng lượng phục hồi & tăng cơ");
-      } else {
-        reasons.push(`Cân đối ~${macros.calories} kcal mỗi khẩu phần`);
-      }
-
-      return {
-        product: productDto(product),
-        macros,
-        matchScore,
-        reason: reasons.join(" • "),
-      };
-    })
-    .sort((a, b) => b.matchScore - a.matchScore);
-
-  response.json({
-    summary: {
-      bmr,
-      tdee,
-      targetCalories,
-      proteinG,
-      carbsG,
-      fatG,
-      mealsPerDay: input.mealsPerDay,
-      goal: input.goal,
-      perMeal,
-    },
-    recommendations,
-  });
-});
+storeRouter.use(macroRouter);

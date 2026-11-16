@@ -44,6 +44,10 @@ export interface Product {
     rating: number;
     reviewCount: number;
     discount: number;
+    calories?: number;
+    proteinG?: number;
+    carbsG?: number;
+    fatG?: number;
     createdAt: string;
 }
 

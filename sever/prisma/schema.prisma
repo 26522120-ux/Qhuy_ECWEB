@@ -46,6 +46,10 @@ model Product {
   rating        Float       @default(0)
   reviewCount   Int         @default(0)
   discount      Int         @default(0)
+  calories      Int         @default(0)
+  proteinG      Int         @default(0)
+  carbsG        Int         @default(0)
+  fatG          Int         @default(0)
   orderItems    OrderItem[]
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt

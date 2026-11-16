@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { createRemoteJWKSet, jwtVerify, SignJWT } from "jose";
 import type { RequestHandler } from "express";
 import { UserRole } from "../generated/prisma/client.js";
@@ -30,9 +31,26 @@ const issuer = env.NEON_AUTH_BASE_URL
   ? new URL(env.NEON_AUTH_BASE_URL).origin
   : null;
 
-const localJwtSecret = new TextEncoder().encode(
-  env.NEON_REALTIME_SECRET || env.DATABASE_URL || "instantmart-local-jwt-secret-key-2026",
-);
+function resolveJwtSecretBytes(): Uint8Array {
+  if (env.JWT_SECRET) {
+    return new TextEncoder().encode(env.JWT_SECRET);
+  }
+  const seed = env.NEON_REALTIME_SECRET || env.DATABASE_URL;
+  if (seed) {
+    return crypto.createHmac("sha256", "nutrago-jwt-signing-key-v1").update(seed).digest();
+  }
+  if (env.NODE_ENV === "production") {
+    console.warn(
+      "[SECURITY] Cảnh báo: Hãy cấu hình biến môi trường JWT_SECRET (tối thiểu 16 ký tự) trên môi trường Production.",
+    );
+  }
+  return crypto
+    .createHmac("sha256", "nutrago-dev-jwt-key")
+    .update("nutrago-local-development-secret")
+    .digest();
+}
+
+const localJwtSecret = resolveJwtSecretBytes();
 
 export async function signLocalToken(user: {
   id: string;
